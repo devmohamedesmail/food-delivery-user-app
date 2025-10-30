@@ -1,0 +1,20 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+
+
+.arabic-font {
+  font-family: 'Cairo_400Regular';
+}
+
+.arabic-font-semibold {
+  font-family: 'Cairo_600SemiBold';
+}
+
+.arabic-font-bold {
+  font-family: 'Cairo_700Bold';
+}
