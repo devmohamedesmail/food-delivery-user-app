@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, Alert } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TouchableOpacity, FlatList } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useLocalSearchParams } from "expo-router";
-import axios from 'axios';
 import MenuItem from '../../items/MenuItem';
 import BottomNavigation from '@/components/BottomNavigation';
-import { config } from '@/constants/config';
+import useFetch from '@/hooks/useFetch';
 
 interface MenuItem {
   id: string;
@@ -26,36 +25,60 @@ interface CartItem extends MenuItem {
 export default function Menu() {
   const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
-  const { id , name } = useLocalSearchParams();
-  const [menuRestaurant, setMenuRestaurant] = useState<any[]>([]);
+  const { id, name } = useLocalSearchParams();
 
   // Ensure id is a string
   const restaurantId = Array.isArray(id) ? id[0] : id || '';
+  
+  // Fetch menu data using the custom hook
+  const { data: menuRestaurant, loading, error } = useFetch(`/menu/restaurant/${restaurantId}`);
 
   const getTotalItems = () => {
     return cart.reduce((sum, item) => sum + item.quantity, 0);
   };
 
-  const fetchMneuRestaurant = async () => {
-    try {
-      const response = await axios.get(`${config.URL}/menu/restaurant/${restaurantId}`);
-      setMenuRestaurant(response.data.data || []);
-    } catch (error) {
-      console.log('Error fetching menu data:', error);
-      setMenuRestaurant([]);
-    }
-  };
+  // Ensure name is a string
+  const restaurantName = Array.isArray(name) ? name[0] : name || '';
 
-  useEffect(() => {
-    fetchMneuRestaurant();
-  }, [restaurantId]);
+  // Loading state
+  if (loading) {
+    return (
+      <View className="flex-1 bg-gray-50 items-center justify-center">
+        <View className="bg-white p-6 rounded-xl shadow-lg">
+          <Text className="text-gray-600 text-center">Loading menu...</Text>
+        </View>
+      </View>
+    );
+  }
 
-
-
-
-
-
-
+  // Error state
+  if (error) {
+    return (
+      <View className="flex-1 bg-gray-50">
+        <View className="bg-white pt-12 pb-4 shadow-sm">
+          <View className="flex-row items-center justify-between px-4 mb-4">
+            <TouchableOpacity 
+              onPress={() => router.back()}
+              className="bg-gray-100 p-2 rounded-full"
+            >
+              <Ionicons name="arrow-back" size={24} color="#374151" />
+            </TouchableOpacity>
+          </View>
+        </View>
+        <View className="flex-1 items-center justify-center px-8">
+          <View className="w-20 h-20 rounded-full bg-red-100 items-center justify-center mb-4">
+            <Ionicons name="alert-circle-outline" size={40} color="#EF4444" />
+          </View>
+          <Text className="text-gray-900 text-xl font-bold mb-2 text-center">
+            Failed to load menu
+          </Text>
+          <Text className="text-gray-500 text-center leading-6">
+            Unable to load the menu. Please check your connection and try again.
+          </Text>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View className="flex-1 bg-gray-50">
@@ -101,8 +124,8 @@ export default function Menu() {
 
       {/* Menu Items */}
       <FlatList
-        data={menuRestaurant}
-        renderItem={({ item }) => <MenuItem item={item} restaurantId={restaurantId} restaurantName={name} />}
+        data={menuRestaurant || []}
+        renderItem={({ item }) => <MenuItem item={item} restaurantId={restaurantId} restaurantName={restaurantName} />}
         keyExtractor={(item) => item.id}
         className="flex-1"
         contentContainerStyle={{ paddingVertical: 16, paddingBottom: getTotalItems() > 0 ? 120 : 20 }}

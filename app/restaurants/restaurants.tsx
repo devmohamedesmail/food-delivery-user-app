@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { View,Text,FlatList,TextInput,TouchableOpacity,Alert} from 'react-native';
+import { View,Text,FlatList,TextInput,TouchableOpacity} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
-import axios from 'axios';
 import CustomHeader from '../../components/custom/customheader';
 import Loading from '../../components/Loading';
 import RestaurantItem from '../../items/RestaurantItem';
 import BottomNavigation from '@/components/BottomNavigation';
+import useFetch from '@/hooks/useFetch';
+import CustomLoading from '@/components/custom/customloading';
 
 interface Restaurant {
   id: number;
@@ -27,39 +28,30 @@ interface Restaurant {
 export default function Restaurants() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { data: restaurants, loading, error } = useFetch('/restaurants');
   
   // State management
-  const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
   const [filteredRestaurants, setFilteredRestaurants] = useState<Restaurant[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [refreshing, setRefreshing] = useState(false);
 
-  // Fetch restaurants from API
-  const fetchRestaurants = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.get('https://uber-express-project.onrender.com/api/resturants');
-      
-      if (response.data.success && response.data.data.restaurants) {
-        setRestaurants(response.data.data.restaurants);
-        setFilteredRestaurants(response.data.data.restaurants);
-      }
-    } catch (error) {
-      Alert.alert('Error', 'Failed to load restaurants. Please try again.');
-    } finally {
-      setLoading(false);
+  // Update filtered restaurants when data changes
+  useEffect(() => {
+    if (restaurants) {
+      setFilteredRestaurants(restaurants);
     }
-  };
+  }, [restaurants]);
 
   // Search functionality
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     
+    if (!restaurants) return;
+    
     if (query.trim() === '') {
       setFilteredRestaurants(restaurants);
     } else {
-      const filtered = restaurants.filter(restaurant =>
+      const filtered = restaurants.filter((restaurant: Restaurant) =>
         restaurant.name.toLowerCase().includes(query.toLowerCase()) ||
         restaurant.address.toLowerCase().includes(query.toLowerCase())
       );
@@ -70,29 +62,46 @@ export default function Restaurants() {
   // Refresh functionality
   const onRefresh = async () => {
     setRefreshing(true);
-    await fetchRestaurants();
-    setRefreshing(false);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 1000);
   };
-
-  
-
-  // Load data on component mount
-  useEffect(() => {
-    fetchRestaurants();
-  }, []);
 
 
 
   // Loading state
   if (loading) {
     return (
+      <CustomLoading />
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
       <View className="flex-1 bg-gray-50">
         <CustomHeader 
           title={t('restaurants.restaurants')} 
           onBackPress={() => router.back()}
         />
-        <View className="flex-1 items-center justify-center">
-          <Loading message={t('restaurants.loading')} />
+        <View className="flex-1 items-center justify-center px-8">
+          <View className="w-20 h-20 rounded-full bg-red-100 items-center justify-center mb-4">
+            <Ionicons name="alert-circle-outline" size={40} color="#EF4444" />
+          </View>
+          <Text className="text-gray-900 text-xl font-bold mb-2" style={{ fontFamily: 'Cairo_700Bold' }}>
+            Failed to load restaurants
+          </Text>
+          <Text className="text-gray-500 text-center leading-6" style={{ fontFamily: 'Cairo_400Regular' }}>
+            Please check your internet connection and try again.
+          </Text>
+          <TouchableOpacity 
+            onPress={onRefresh}
+            className="bg-gray-900 px-6 py-3 rounded-xl mt-4"
+          >
+            <Text className="text-white font-semibold" style={{ fontFamily: 'Cairo_600SemiBold' }}>
+              Try Again
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
     );

@@ -14,6 +14,9 @@ import CartItem from '@/items/CartItem';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import axios from 'axios';
 import { AuthContext } from '@/context/auth_context';
+import { Toast } from 'toastify-react-native';
+import CustomHeader from '@/components/custom/customheader';
+import BottomNavigation from '@/components/BottomNavigation';
 
 export default function Order() {
     const router = useRouter();
@@ -21,36 +24,66 @@ export default function Order() {
     const cartItems = useAppSelector(selectCartItems);
     const totalPrice = useAppSelector(selectCartTotalPrice);
     const totalItems = useAppSelector(selectCartTotalItems);
-    const { t , i18n } = useTranslation();
+    const { t, i18n } = useTranslation();
 
-const {auth} = useContext(AuthContext);
-console.log("Auth Context in Order Screen:", auth);
+    const { auth } = useContext(AuthContext);
+    console.log("Auth Context in Order Screen:", auth);
 
     const formik = useFormik({
         initialValues: {
             name: '',
-            phone: ''
+            phone: '',
+            address: '',
         },
 
         onSubmit: async (values) => {
             try {
-                const response = await axios.post(`https://uber-express-project.onrender.com/api/orders`,{
-                    user_id:'1',
-                     restaurant_id:'1',
-                     items: cartItems.map(item => ({
-                        menu_item_id: item.id,
-                        name: item.name,
-                        quantity: item.quantity,
-                        price: item.price,
-                        total: (item.price * item.quantity).toFixed(2)
-                    })),
-                     total:'333',
-                     delivery_address:'test address',
+                // Validate required fields
+                if (!values.name || !values.phone || !values.address) {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Please fill in all required fields',
+                        position: 'bottom',
+                    });
+                    return;
+                }
 
+                if (cartItems.length === 0) {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Your cart is empty',
+                        position: 'bottom',
+                    });
+                    return;
+                }
+                
+                const response = await axios.post(`${config.URL}/orders/create`, {
+                    user_id: auth?.user?.id || 1,
+                    restaurant_id: 54, // You may want to get this from cart items or pass it as prop
+                    order: {
+                        items: cartItems.map(item => ({
+                            id: parseInt(item.id),
+                            name: item.name,
+                            quantity: item.quantity,
+                            price: item.price
+                        }))
+                    },
+                    total_price: totalWithDelivery,
+                    delivery_address: values.address
                 })
                 console.log("Order Response:", response.data);
+                Toast.show({
+                    type: 'success',
+                    text1: t('order.orderSuccesscreate'),
+                    position: 'bottom',
+                })
             } catch (error) {
                 console.log("Order Error:", error);
+                Toast.show({
+                    type: 'error',
+                    text1: t('order.orderErrorcreate'),
+                    position: 'bottom',
+                })
             }
         }
     })
@@ -70,9 +103,9 @@ console.log("Auth Context in Order Screen:", auth);
     const totalWithDelivery = totalPrice + deliveryFee;
 
     return (
-        <SafeAreaView className="flex-1 bg-gray-50">
+        <View className="flex-1 bg-gray-50">
             {/* Header */}
-            <View className="bg-white px-4 py-3 shadow-sm">
+            {/* <View className="bg-white px-4 py-3 shadow-sm">
                 <View className="flex-row items-center">
                     <TouchableOpacity onPress={() => router.back()} className="mr-3">
                         <Ionicons name="arrow-back" size={24} color="#374151" />
@@ -81,7 +114,11 @@ console.log("Auth Context in Order Screen:", auth);
                         {t('order.title')}
                     </Text>
                 </View>
-            </View>
+            </View> */}
+            <CustomHeader
+                title={t('order.title')}
+                 onBackPress={() => router.back()}
+            />
             {/* <CustomHeader title={t('order.title')} /> */}
 
             <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
@@ -123,7 +160,13 @@ console.log("Auth Context in Order Screen:", auth);
                         error={formik.touched.phone && formik.errors.phone ? formik.errors.phone : undefined}
                     />
 
-
+                    <CustomInput
+                        label={t('order.deliveryAddress')}
+                        placeholder={t('order.enterDeliveryAddress')}
+                        value={formik.values.address}
+                        onChangeText={formik.handleChange('address')}
+                        error={formik.touched.address && formik.errors.address ? formik.errors.address : undefined}
+                    />
                 </View>
 
                 {/* Delivery Information */}
@@ -138,7 +181,9 @@ console.log("Auth Context in Order Screen:", auth);
                             <Text className="text-sm font-medium text-gray-700">
                                 {t('order.deliveryAddress')}
                             </Text>
-                            <Text className="text-gray-600">Your current location</Text>
+                            <Text className="text-gray-600">
+                                {formik.values.address}
+                            </Text>
                         </View>
                     </View>
 
@@ -199,6 +244,7 @@ console.log("Auth Context in Order Screen:", auth);
                 {/* Bottom spacing */}
                 <View className="h-8" />
             </ScrollView>
-        </SafeAreaView>
+            <BottomNavigation />
+        </View>
     );
 }

@@ -154,7 +154,10 @@
     "required": "Required",
     "orderPlaced": "Order placed successfully!",
     "fillAllFields": "Please fill in all required fields",
-    "invalidPhone": "Please enter a valid phone number"
+    "invalidPhone": "Please enter a valid phone number",
+    "orderErrorcreate": "There was an error creating your order. Please try again.",
+    "orderSuccesscreate": "Your order has been placed successfully!",
+    "enterDeliveryAddress": "Enter your delivery address"
   }
 
 }

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import AccountItem from '@/items/AccountItem';
 import { Toast } from 'toastify-react-native';
 import CustomHeader from '@/components/custom/customheader';
+import BottomNavigation from '@/components/BottomNavigation';
 
 
 
@@ -130,9 +131,11 @@ const handle_switchLanguage = () => {
 
 
   return (
-    <ScrollView className="flex-1 bg-gray-50">
-      {/* Header */}
+  <View className='flex-1'>
       <CustomHeader title={t('account.myAccount')} />
+      <ScrollView className="flex-1 bg-gray-50">
+      {/* Header */}
+    
       <View className="bg-gradient-to-r from-blue-500 to-purple-600 pt-12 pb-8 px-4">
         <View className="flex-row justify-between items-center mb-6">
           <Text className="text-white text-2xl font-bold">My Account</Text>
@@ -227,7 +230,10 @@ const handle_switchLanguage = () => {
       <View className="items-center mb-6">
         <Text className="text-gray-500 text-sm">App Version 1.0.0</Text>
       </View>
+     
     </ScrollView>
+     <BottomNavigation />
+  </View>
   );
 };
 
