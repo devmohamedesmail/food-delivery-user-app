@@ -18,19 +18,23 @@ const resources = {
 // Get device language
 const deviceLanguage = getLocales()[0]?.languageCode || 'ar';
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources,
-    lng: 'ar',
-    fallbackLng: 'ar',
-    debug: false,
-    interpolation: {
-      escapeValue: false,
-    },
-    react: {
-      useSuspense: false,
-    },
-  });
+// Initialize i18next SYNCHRONOUSLY
+if (!i18n.isInitialized) {
+  i18n
+    .use(initReactI18next)
+    .init({
+      compatibilityJSON: 'v4',
+      resources,
+      lng:'ar',
+      fallbackLng: 'ar',
+      debug: false,
+      interpolation: {
+        escapeValue: false,
+      },
+      react: {
+        useSuspense: false,
+      },
+    });
+}
 
 export default i18n;

@@ -6,10 +6,14 @@ import { View, Text, TouchableOpacity } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useAuth } from '@/context/auth_context';
+import { useAppSelector, selectCartTotalItems } from '@/store/hooks';
 
 export default function Home() {
   const { t } = useTranslation();
   const router = useRouter();
+  const { auth } = useAuth();
+  const totalItems = useAppSelector(selectCartTotalItems);
 
   const handleNavigation = (route: string) => {
     router.push(route as any);
@@ -48,10 +52,35 @@ export default function Home() {
 
   return (
     <View className='flex-1 bg-gray-50'>
-      {/* Header */}
-      <View className='pt-12 pb-6 px-6 bg-white'>
-        <Text className='text-3xl arabic-font text-gray-900 mb-2'>{t('home.welcome')}</Text>
-        <Text className='text-gray-600 text-lg arabic-font'>{t('home.whatDoYouNeed')}</Text>
+      
+      <View className="px-6 py-3  pt-20">
+        <View className="flex-row items-center justify-between">
+          <View className="flex-row items-center">
+            <TouchableOpacity onPress={() => router.push('/notifications/notifications')} className="mr-3 p-2">
+              <Ionicons name="notifications-outline" size={22} color="#374151" />
+            </TouchableOpacity>
+
+            <View>
+              <Text className="text-base text-gray-900 font-semibold arabic-font">
+                {t('home.welcome')}
+              </Text>
+              <Text className="text-sm text-gray-600 arabic-font">
+                { auth?.user?.name || auth?.name || t('home.guest') }
+              </Text>
+            </View>
+          </View>
+
+          <TouchableOpacity onPress={() => router.push('/cart/cart')} className="p-2">
+            <View className="relative">
+              <Ionicons name="cart-outline" size={24} color="#374151" />
+              {totalItems > 0 && (
+                <View className="absolute -top-2 -right-2 bg-red-600 rounded-full px-2 py-0.5">
+                  <Text className="text-xs text-white">{totalItems}</Text>
+                </View>
+              )}
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
 
       <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
@@ -81,10 +110,10 @@ export default function Home() {
                   <View className='flex-1 justify-between'>
                     <View className='items-center'>
                       <View className='bg-white/20 p-3 rounded-xl mb-3'>
-                        <Ionicons 
-                          name={service.icon as any} 
-                          size={28} 
-                          color="white" 
+                        <Ionicons
+                          name={service.icon as any}
+                          size={28}
+                          color="white"
                         />
                       </View>
                     </View>

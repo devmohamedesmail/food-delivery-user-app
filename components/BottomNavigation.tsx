@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import AntDesign from '@expo/vector-icons/AntDesign';
 import NavigationItem from '@/items/NavigationItem';
@@ -8,11 +8,13 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import Fontisto from '@expo/vector-icons/Fontisto';
 import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { AuthContext } from '@/context/auth_context';
 
 export default function BottomNavigation() {
   const { t } = useTranslation();
-
   const router = useRouter();
+  const {auth} = useContext(AuthContext)
+
 
   return (
     <View className='container m-auto px-10 py-4 flex-row justify-between bg-white border-t border-gray-200'>
@@ -45,7 +47,7 @@ export default function BottomNavigation() {
       <NavigationItem
         icon={<FontAwesome name="user-o" size={24} color="black" />}
         label={t('navigation.account')}
-        onPress={() => router.push('/account/account')} />
+        onPress={() => router.push(`${auth ? '/account/account' : '/auth/login'}`)} />
 
     </View>
   )

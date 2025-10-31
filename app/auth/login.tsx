@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, StatusBar, KeyboardAvoidingView, Platform, Button } from 'react-native'
 import { useTranslation } from 'react-i18next'
-import { Formik, useFormik } from 'formik'
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
@@ -11,7 +11,7 @@ import CustomButton from '@/components/custom/custombutton'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { AuthContext } from '@/context/auth_context'
 import Logo from '@/components/logo'
-import ToastManager, { Toast } from 'toastify-react-native'
+import { Toast } from 'toastify-react-native'
 
 
 
@@ -84,7 +84,7 @@ export default function Login() {
         >
           {/* Header */}
           <View className="pt-10 pb-8 px-6">
-            <View className="flex-row justify-between items-center mb-8">
+            {/* <View className="flex-row justify-between items-center mb-8">
               <TouchableOpacity
                 onPress={() => router.back()}
                 className="p-2"
@@ -96,7 +96,7 @@ export default function Login() {
                 />
               </TouchableOpacity>
               <LanguageSwitcher />
-            </View>
+            </View> */}
 
 
 
