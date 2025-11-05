@@ -37,7 +37,9 @@
     "failed_load": "Failed to load data",
     "check_connection": "Please check your internet connection and try again.",
     "try_again": "Try Again",
-    "pleaseWait": "Please wait"
+    "pleaseWait": "Please wait",
+    "remove": "Remove"
+   
   },
   "auth": {
     "welcomeBack": "Welcome back!",
@@ -69,7 +71,11 @@
     "enterName": " Enter your name",
     "identifier": "Email or Phone",
     "enterIdentifier": " Enter your email or phone number",
-    "alreadyHaveAccount": " Already have an account? "
+    "alreadyHaveAccount": " Already have an account? ",
+    "registration_success": "Registration successful!.",
+    "registration_failed": "Registration failed.",
+    "pleaseTryAgain": " Please try again.",
+    "thankYou": " Thank you!"
   },
   "home": {
     "restaurants": "Restaurants",
@@ -129,7 +135,8 @@
     "language_switch_failed": "Failed to switch language",
     "language_switched": "Language switched successfully",
     "editProfile": "Edit Profile",
-    "myAccount": "My Account"
+    "myAccount": "My Account",
+    "orderHistory": "Order History"
   },
   "navigation": {
     "home": "Home",
@@ -167,7 +174,10 @@
   "wishlist": {
     "emptyTitle": "Your wishlist is empty",
     "emptySubtitle": "Browse restaurants and add your favorite items to the wishlist",
-    "browseRestaurants": "Browse Restaurants"
+    "browseRestaurants": "Browse Restaurants",
+    "removeItem": "Remove Item",
+    "areYouSureRemove": "Are you sure you want to remove {{itemName}} from your wishlist?",
+    "areYouSureClearWishlist": "Are you sure you want to remove all items from your wishlist?"
   },
   "order": {
     "title": "Order Details",
@@ -195,5 +205,32 @@
     "orderErrorcreate": "There was an error creating your order. Please try again.",
     "orderSuccesscreate": "Your order has been placed successfully!",
     "enterDeliveryAddress": "Enter your delivery address"
+  },
+  "orders": {
+    "myOrders": "My Orders",
+    "all": "All",
+    "pending": "Pending",
+    "accepted": "Accepted",
+    "preparing": "Preparing",
+    "onTheWay": "On the Way",
+    "delivered": "Delivered",
+    "cancelled": "Cancelled",
+    "orderId": "Order ID",
+    "orderDate": "Order Date",
+    "totalAmount": "Total Amount",
+    "status": "Status",
+    "items": "Items",
+    "restaurant": "Restaurant",
+    "deliveryAddress": "Delivery Address",
+    "phone": "Phone",
+    "viewDetails": "View Details",
+    "noOrders": "No orders found",
+    "noOrdersDescription": "You haven't placed any orders yet",
+    "orderAgain": "Order Again",
+    "trackOrder": "Track Order",
+    "cancelOrder": "Cancel Order",
+    "placedAt": "Placed at",
+    "deliveredAt": "Delivered at",
+    "ordersfetching": "Fetching your orders..."
   }
 }

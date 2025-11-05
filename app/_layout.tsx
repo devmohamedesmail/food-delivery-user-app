@@ -73,7 +73,7 @@ function RootLayoutNav() {
         <ReduxProvider>
           <SafeAreaProvider>
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-              <Stack>
+              <Stack screenOptions={{ headerShown: false }}>
                 {/* Main App Screens */}
                 <Stack.Screen name="index" options={{ headerShown: false }} />
                 <Stack.Screen name="auth/login" options={{ headerShown: false }} />

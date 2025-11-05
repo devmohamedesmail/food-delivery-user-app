@@ -27,7 +27,7 @@ export default function Order() {
     const { t, i18n } = useTranslation();
 
     const { auth } = useContext(AuthContext);
-    console.log("Auth Context in Order Screen:", auth);
+    // console.log("cartItems", cartItems);
 
     const formik = useFormik({
         initialValues: {
@@ -56,22 +56,20 @@ export default function Order() {
                     });
                     return;
                 }
-                
+
                 const response = await axios.post(`${config.URL}/orders/create`, {
                     user_id: auth?.user?.id || 1,
-                    restaurant_id: 54, // You may want to get this from cart items or pass it as prop
-                    order: {
-                        items: cartItems.map(item => ({
-                            id: parseInt(item.id),
-                            name: item.name,
-                            quantity: item.quantity,
-                            price: item.price
-                        }))
-                    },
+                    restaurant_id: 2, // You may want to get this from cart items or pass it as prop
+                    order: cartItems.map(item => ({
+                        id: parseInt(item.id),
+                        name: item.name,
+                        quantity: item.quantity,
+                        price: item.price
+                    })),
                     total_price: totalWithDelivery,
                     delivery_address: values.address
                 })
-                console.log("Order Response:", response.data);
+
                 Toast.show({
                     type: 'success',
                     text1: t('order.orderSuccesscreate'),
@@ -117,7 +115,7 @@ export default function Order() {
             </View> */}
             <CustomHeader
                 title={t('order.title')}
-                 onBackPress={() => router.back()}
+                onBackPress={() => router.back()}
             />
             {/* <CustomHeader title={t('order.title')} /> */}
 

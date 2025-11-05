@@ -38,22 +38,22 @@ export default function WishlistScreen() {
 
   const handleRemoveFromWishlist = (itemId: string, itemName: string) => {
     Alert.alert(
-      'Remove from Wishlist',
-      `Are you sure you want to remove ${itemName} from your wishlist?`,
+      t('wishlist.removeItem'),
+      t('wishlist.areYouSureRemove', { itemName }),
       [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Remove', style: 'destructive', onPress: () => dispatch(removeFromWishlist(itemId)) }
+        { text: t('common.cancel'), style: 'cancel' },
+        { text: t('common.remove'), style: 'destructive', onPress: () => dispatch(removeFromWishlist(itemId)) }
       ]
     );
   };
 
   const handleClearWishlist = () => {
     Alert.alert(
-      'Clear Wishlist',
-      'Are you sure you want to remove all items from your wishlist?',
+      t('common.clearAll'),
+      t('wishlist.areYouSureClearWishlist'),
       [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Clear All', style: 'destructive', onPress: () => dispatch(clearWishlist()) }
+        { text: t('common.cancel'), style: 'cancel' },
+        { text: t('common.clearAll'), style: 'destructive', onPress: () => dispatch(clearWishlist()) }
       ]
     );
   };
@@ -65,22 +65,22 @@ export default function WishlistScreen() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <View className="flex-1 bg-gray-50">
       {/* Header with item count and clear option */}
-      <View className="bg-white px-4 py-4 border-b border-gray-100">
+      <View className="bg-white px-4 pt-20 pb-10 border-b border-gray-100">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
             <TouchableOpacity onPress={() => router.back()} className="mr-4">
               <Ionicons name="arrow-back" size={24} color="#374151" />
             </TouchableOpacity>
-            <Text className="text-xl font-bold text-gray-900">
+            <Text className="text-xl text-gray-900 arabic-font">
 
               {t('navigation.wishlist')}
 
               ({totalItems})</Text>
           </View>
           <TouchableOpacity onPress={handleClearWishlist}>
-            <Text className="text-red-500 font-semibold">
+            <Text className="text-red-500 font-semibold arabic-font">
               {t('common.clearAll')}
             </Text>
           </TouchableOpacity>
@@ -121,8 +121,8 @@ export default function WishlistScreen() {
 
                   <View className="flex-row items-center justify-between">
                     {/* Price */}
-                    <Text className="text-lg font-bold text-gray-900">
-                      {config.CurrencySymbol}{item.price}
+                    <Text className="text-lg  text-gray-900 arabic-font">
+                      {config.CurrencySymbol} {item.price}
                     </Text>
 
                     {/* Add to Cart Button */}
@@ -131,7 +131,7 @@ export default function WishlistScreen() {
                       className="bg-gray-900 px-4 py-2 rounded-xl flex-row items-center"
                     >
                       <Ionicons name="bag-add" size={18} color="white" />
-                      <Text className="text-white font-semibold ml-2">
+                      <Text className="text-white font-semibold ml-2 arabic-font">
 
                         {t('common.addToCart')}
                       </Text>
@@ -145,19 +145,7 @@ export default function WishlistScreen() {
 
         {/* Summary Card */}
         <View className="bg-white mx-4 rounded-xl p-4 mb-4 shadow-sm">
-          {/* <Text className="text-lg font-bold text-gray-900 mb-4">Wishlist Summary</Text> */}
-
-          {/* <View className="flex-row justify-between items-center mb-2">
-            <Text className="text-gray-600">Total Items</Text>
-            <Text className="font-semibold text-gray-900">{totalItems}</Text>
-          </View> */}
-
-          {/* <View className="flex-row justify-between items-center mb-4">
-            <Text className="text-gray-600">Estimated Value</Text>
-            <Text className="font-semibold text-gray-900">
-              {config.CurrencySymbol}{wishlistItems.reduce((total, item) => total + item.price, 0)}
-            </Text>
-          </View> */}
+          
 
           {/* Add All to Cart Button */}
           <TouchableOpacity
@@ -167,7 +155,7 @@ export default function WishlistScreen() {
               Alert.alert('Success', 'All wishlist items have been added to your cart!');
             }}
           >
-            <Text className="text-white text-center font-bold text-lg">
+            <Text className="text-white text-center text-lg arabic-font">
              
               {t('common.addToCartAll')}
             </Text>
@@ -179,6 +167,6 @@ export default function WishlistScreen() {
       </ScrollView>
 
       <BottomNavigation />
-    </SafeAreaView>
+    </View>
   );
 }

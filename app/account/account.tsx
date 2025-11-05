@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, ScrollView, Image, TouchableOpacity, Switch } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +6,8 @@ import AccountItem from '@/items/AccountItem';
 import { Toast } from 'toastify-react-native';
 import CustomHeader from '@/components/custom/customheader';
 import BottomNavigation from '@/components/BottomNavigation';
+import { AuthContext } from '@/context/auth_context';
+import { useRouter } from 'expo-router';
 
 
 
@@ -17,6 +19,8 @@ const statsData = [
 
 const Account = () => {
   const { t , i18n } = useTranslation();
+  const {auth} =useContext(AuthContext);
+  const router = useRouter();
 
 
   const renderStat = (stat: typeof statsData[0], index: number) => (
@@ -33,72 +37,6 @@ const Account = () => {
 
 
 
-
-
-  const menuItems = [
-    {
-      id: '1',
-      title: 'Edit Profile',
-      icon: 'person-outline',
-      type: 'navigation',
-    },
-    {
-      id: '2',
-      title: 'Payment Methods',
-      icon: 'card-outline',
-      type: 'navigation',
-    },
-    {
-      id: '3',
-      title: 'Order History',
-      icon: 'time-outline',
-      type: 'navigation',
-    },
-    {
-      id: '4',
-      title: 'Addresses',
-      icon: 'location-outline',
-      type: 'navigation',
-    },
-    {
-      id: '5',
-      title: 'Notifications',
-      icon: 'notifications-outline',
-      type: 'toggle',
-      enabled: true,
-    },
-    {
-      id: '6',
-      title: 'Dark Mode',
-      icon: 'moon-outline',
-      type: 'toggle',
-      enabled: false,
-    },
-    {
-      id: '7',
-      title: 'Help & Support',
-      icon: 'help-circle-outline',
-      type: 'navigation',
-    },
-    {
-      id: '8',
-      title: 'Privacy Policy',
-      icon: 'shield-outline',
-      type: 'navigation',
-    },
-    {
-      id: '9',
-      title: 'Terms of Service',
-      icon: 'document-text-outline',
-      type: 'navigation',
-    },
-    {
-      id: '10',
-      title: t('account.switchLanguage'),
-      icon: 'language-outline',
-      type: 'navigation',
-    },
-  ];
 
 
 
@@ -137,12 +75,12 @@ const handle_switchLanguage = () => {
       {/* Header */}
     
       <View className="bg-gradient-to-r from-blue-500 to-purple-600 pt-12 pb-8 px-4">
-        <View className="flex-row justify-between items-center mb-6">
+        {/* <View className="flex-row justify-between items-center mb-6">
           <Text className="text-white text-2xl font-bold">My Account</Text>
           <TouchableOpacity className="bg-white/20 p-2 rounded-full">
             <Ionicons name="settings-outline" size={24} color="white" />
           </TouchableOpacity>
-        </View>
+        </View> */}
 
         {/* Profile Section */}
         <View className="flex-row items-center">
@@ -157,16 +95,12 @@ const handle_switchLanguage = () => {
           </View>
 
           <View className="ml-4 flex-1">
-            <Text className="text-white text-xl font-bold">John Doe</Text>
-            <Text className="text-white/80 text-base mb-1">john.doe@email.com</Text>
-            <View className="flex-row items-center">
-              <Ionicons name="star" size={16} color="#fbbf24" />
-              <Text className="text-white/90 text-sm ml-1">4.9 rating</Text>
-            </View>
+            <Text className="text-black text-xl font-bold">{auth?.user?.name}</Text>
+            <Text className="text-black text-base mb-1">{auth?.user?.identifier}</Text>
           </View>
 
           <TouchableOpacity className="bg-white/20 px-4 py-2 rounded-full">
-            <Text className="text-white font-medium">Edit</Text>
+            <Text className="text-black font-medium">Edit</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -201,14 +135,17 @@ const handle_switchLanguage = () => {
       {/* Menu Items */}
       <View className="mb-8">
         <Text className="text-gray-800 text-lg arabic-font mx-4 mb-4">{t('account.settings')}</Text>
-        {/* {menuItems.map(AccountItem)} */}
-        {/* {menuItems.map((item)=>(
-          <AccountItem key={item.id} item={item} />
-        ))} */}
+        
         <AccountItem
           title={t("account.editProfile")}
           icon="person-outline"
           type="navigation"
+        />
+        <AccountItem
+          title={t("account.orderHistory")}
+          icon="person-outline"
+          type="navigation"
+          onPress={()=> router.push('/account/orders')}
         />
          <AccountItem
           title={t('account.switchLanguage')}

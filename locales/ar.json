@@ -37,7 +37,8 @@
     "failed_load": " فشل في تحميل البيانات",
     "check_connection": " يرجى التحقق من اتصالك بالإنترنت وحاول مرة أخرى. ",
     "try_again": " حاول مرة أخرى ",
-    "pleaseWait": " يرجى الانتظار "
+    "pleaseWait": " يرجى الانتظار ",
+    "remove": "إزالة"
   },
   "auth": {
     "welcomeBack": "مرحباً بعودتك!",
@@ -69,7 +70,11 @@
     "enterName": " أدخل اسمك",
     "identifier": "البريد الإلكتروني أو الهاتف",
     "enterIdentifier": " أدخل بريدك الإلكتروني أو رقم هاتفك",
-    "alreadyHaveAccount": " هل لديك حساب بالفعل؟"
+    "alreadyHaveAccount": " هل لديك حساب بالفعل؟",
+    "registration_success": "تم التسجيل بنجاح!",
+    "registration_failed": " فشل في التسجيل.",
+    "pleaseTryAgain": " يرجى المحاولة مرة أخرى.",
+    "thankYou": " شكراً لك! "
   },
   "home": {
     "restaurants": "المطاعم",
@@ -117,7 +122,7 @@
     "closed": " مغلق ",
     "restaurant": " مطعم ",
     "found": " موجود ",
-    "add":" أضف إلى السلة "
+    "add": " أضف إلى السلة "
   },
   "menu": {
     "addtocart": "أضف إلى السلة"
@@ -129,7 +134,8 @@
     "language_switch_failed": "فشل في تبديل اللغة",
     "language_switched": "تم تبديل اللغة بنجاح",
     "editProfile": "تعديل الملف الشخصي",
-    "myAccount": "حسابي"
+    "myAccount": "حسابي",
+    "orderHistory": " تاريخ الطلبات "
   },
   "navigation": {
     "home": "الرئيسية",
@@ -160,13 +166,16 @@
     "loginNow": "تسجيل الدخول الآن",
     "readyToCheckout": "جاهز للدفع",
     "loginToCheckout": "تسجيل الدخول للدفع",
-     "areYouSureClearCart": " هل أنت متأكد أنك تريد إزالة جميع العناصر من عربة التسوق الخاصة بك؟ ",
+    "areYouSureClearCart": " هل أنت متأكد أنك تريد إزالة جميع العناصر من عربة التسوق الخاصة بك؟ ",
     "clear_all": "مسح الكل "
   },
   "wishlist": {
     "emptyTitle": "قائمة المفضلات فارغة",
     "emptySubtitle": "تصفح المطاعم وأضف العناصر المفضلة لديك إلى قائمة المفضلات",
-    "browseRestaurants": "تصفح المطاعم"
+    "browseRestaurants": "تصفح المطاعم",
+    "removeItem": " حذف العنصر ",
+    "areYouSureRemove": " هل أنت متأكد أنك تريد إزالة {{itemName}} من قائمة المفضلات الخاصة بك؟ ",
+    "areYouSureClearWishlist": " هل أنت متأكد أنك تريد إزالة جميع العناصر من قائمة المفضلات الخاصة بك؟ "
   },
   "order": {
     "title": "تفاصيل الطلب",
@@ -191,8 +200,35 @@
     "orderPlaced": "تم تأكيد الطلب بنجاح!",
     "fillAllFields": "يرجى ملء جميع الحقول المطلوبة",
     "invalidPhone": "يرجى إدخال رقم هاتف صحيح",
-    "orderErrorcreate": "حدث خطأ أثناء إنشاء طلبك. يرجى المحاولة مرة أخرى.",
+    "orderErrorcreate": "حدث خطأ أثناء إنشاء طلبك. حاول مرة أخرى.",
     "orderSuccesscreate": "تم تقديم طلبك بنجاح!",
-    "enterDeliveryAddress": "أدخل عنوان التوصيل الخاص بك"
+    "enterDeliveryAddress": "أدخل عنوان التسليم الخاص بك"
+  },
+  "orders": {
+    "myOrders": "طلباتي",
+    "all": "الكل",
+    "pending": "قيد الانتظار",
+    "accepted": "مقبول",
+    "preparing": "قيد التحضير",
+    "onTheWay": "في الطريق",
+    "delivered": "تم التوصيل",
+    "cancelled": "ملغي",
+    "orderId": "رقم الطلب",
+    "orderDate": "تاريخ الطلب",
+    "totalAmount": "المبلغ الإجمالي",
+    "status": "الحالة",
+    "items": "العناصر",
+    "restaurant": "المطعم",
+    "deliveryAddress": "عنوان التسليم",
+    "phone": "الهاتف",
+    "viewDetails": "عرض التفاصيل",
+    "noOrders": "لا توجد طلبات",
+    "noOrdersDescription": "لم تقم بتقديم أي طلبات بعد",
+    "orderAgain": "اطلب مرة أخرى",
+    "trackOrder": "تتبع الطلب",
+    "cancelOrder": "إلغاء الطلب",
+    "placedAt": "تم الطلب في",
+    "deliveredAt": "تم التوصيل في",
+    "ordersfetching": " جاري جلب طلباتك..."
   }
 }

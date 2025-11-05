@@ -60,14 +60,16 @@ export default function Register() {
 
                     Toast.show({
                         type: 'success',
-                        text1: t('registration_success'),
+                        text1: t('auth.registration_success'),
+                        text2: t('auth.thankYou'),
                         position: 'top',
                         visibilityTime: 3000,
                     });
                 } else {
                     Toast.show({
                         type: 'error',
-                        text1: t('registration_failed'),
+                        text1: t('auth.registration_failed'),
+                        text2: t('auth.pleaseTryAgain'),
                         position: 'top',
                         visibilityTime: 3000,
                     });
