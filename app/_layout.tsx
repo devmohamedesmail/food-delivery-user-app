@@ -5,7 +5,7 @@ import { useFonts } from 'expo-font';
 import { useFonts as useGoogleFonts, Cairo_400Regular, Cairo_600SemiBold, Cairo_700Bold } from '@expo-google-fonts/cairo';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
@@ -16,6 +16,10 @@ import '../global.css';
 import '../i18n';
 import ToastManager from 'toastify-react-native';
 import AuthProvider from '@/context/auth_context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Intro from '@/components/Into';
+import { View, ActivityIndicator } from 'react-native';
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -35,19 +39,17 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-
-
-   const [googleFontsLoaded] = useGoogleFonts({
+  const [googleFontsLoaded] = useGoogleFonts({
     Cairo_400Regular,
     Cairo_600SemiBold,
     Cairo_700Bold,
   });
 
-    const allFontsLoaded = expoFontsLoaded && googleFontsLoaded;
-
+  const allFontsLoaded = expoFontsLoaded && googleFontsLoaded;
+  const [hasSeenOnboarding, setHasSeenOnboarding] = useState<boolean | null>(null);
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
- useEffect(() => {
+  useEffect(() => {
     if (fontError) throw fontError;
   }, [fontError]);
 
@@ -57,8 +59,32 @@ export default function RootLayout() {
     }
   }, [allFontsLoaded]);
 
-  if (!allFontsLoaded) {
-    return null;
+  // Check if user has seen onboarding
+  useEffect(() => {
+    checkOnboardingStatus();
+  }, []);
+
+  const checkOnboardingStatus = async () => {
+    try {
+      const value = await AsyncStorage.getItem('hasSeenOnboarding');
+      setHasSeenOnboarding(value === 'true');
+    } catch (error) {
+      console.error('Error checking onboarding status:', error);
+      setHasSeenOnboarding(false);
+    }
+  };
+
+  if (!allFontsLoaded || hasSeenOnboarding === null) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+        <ActivityIndicator size="large" color="#3b82f6" />
+      </View>
+    );
+  }
+
+  // Show intro if user hasn't seen it
+  if (!hasSeenOnboarding) {
+    return <Intro />;
   }
 
   return <RootLayoutNav />;

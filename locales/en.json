@@ -232,5 +232,18 @@
     "placedAt": "Placed at",
     "deliveredAt": "Delivered at",
     "ordersfetching": "Fetching your orders..."
+  },
+  "onboarding": {
+    "skip": "Skip",
+    "next": "Next",
+    "getStarted": "Get Started",
+    "slide1Title": "Delicious Food Delivered",
+    "slide1Description": "Order from your favorite restaurants and get it delivered to your doorstep",
+    "slide2Title": "Fast & Reliable Rides",
+    "slide2Description": "Book a ride anytime, anywhere with our trusted drivers",
+    "slide3Title": "Track Your Orders",
+    "slide3Description": "Real-time tracking of your food and rides with live updates",
+    "slide4Title": "Safe & Secure",
+    "slide4Description": "Multiple payment options with secure checkout and 24/7 support"
   }
 }

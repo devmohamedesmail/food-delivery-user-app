@@ -229,6 +229,19 @@
     "cancelOrder": "إلغاء الطلب",
     "placedAt": "تم الطلب في",
     "deliveredAt": "تم التوصيل في",
-    "ordersfetching": " جاري جلب طلباتك..."
+    "ordersfetching": "جاري جلب طلباتك..."
+  },
+  "onboarding": {
+    "skip": "تخطي",
+    "next": "التالي",
+    "getStarted": "ابدأ الآن",
+    "slide1Title": "طعام لذيذ يتم توصيله",
+    "slide1Description": "اطلب من مطاعمك المفضلة واحصل عليه عند باب منزلك",
+    "slide2Title": "رحلات سريعة وموثوقة",
+    "slide2Description": "احجز رحلة في أي وقت وفي أي مكان مع سائقينا الموثوقين",
+    "slide3Title": "تتبع طلباتك",
+    "slide3Description": "تتبع في الوقت الفعلي لطعامك ورحلاتك مع تحديثات مباشرة",
+    "slide4Title": "آمن ومضمون",
+    "slide4Description": "خيارات دفع متعددة مع دفع آمن ودعم على مدار الساعة"
   }
 }

@@ -36,7 +36,7 @@ export default function RestaurantItem({ restaurant }: any) {
           shadowOffset: { width: 0, height: 2 },
           shadowOpacity: 0.08,
           shadowRadius: 12,
-          elevation: 4,
+          elevation: 1,
         }}
       >
         <View className="flex-row">
