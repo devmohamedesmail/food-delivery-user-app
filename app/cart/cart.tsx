@@ -1,11 +1,10 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, ScrollView, TouchableOpacity,Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { selectCartItems, selectCartTotalPrice, selectCartTotalItems } from '../../store/hooks';
-import { addToCart, removeFromCart, deleteFromCart, clearCart } from '../../store/slices/cartSlice';
+import { clearCart } from '../../store/slices/cartSlice';
 import BottomNavigation from '../../components/BottomNavigation';
 import EmptyCart from '@/components/EmptyCart';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +12,8 @@ import { config } from '@/constants/config';
 import CartItem from '@/items/CartItem';
 import CustomButton from '@/components/custom/custombutton';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useAuth } from '@/context/auth_context';
+
 
 export default function Cart() {
   const router = useRouter();
@@ -20,19 +21,19 @@ export default function Cart() {
   const cartItems = useAppSelector(selectCartItems);
   const totalPrice = useAppSelector(selectCartTotalPrice);
   const totalItems = useAppSelector(selectCartTotalItems);
-  const { t } = useTranslation();
+  const { t ,i18n} = useTranslation();
+  const {auth} = useAuth();
  
-
 
 
 
   const handleClearCart = () => {
     Alert.alert(
-      'Clear Cart',
-      'Are you sure you want to remove all items from your cart?',
+       t('cart.clearCart'),
+      t('cart.areYouSureClearCart'),
       [
-        { text: 'Cancel', style: 'cancel' },
-        { text: 'Clear All', style: 'destructive', onPress: () => dispatch(clearCart()) }
+        { text: t('cart.cancel'), style: 'cancel' },
+        { text: t('cart.clear_all'), style: 'destructive', onPress: () => dispatch(clearCart()) }
       ]
     );
   };
@@ -44,18 +45,18 @@ export default function Cart() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <View className="flex-1 bg-gray-50">
       {/* Header */}
-      <View className="bg-white px-4 py-4 border-b border-gray-100">
+      <View className="bg-white px-4 pt-20 pb-10 border-b border-gray-100">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
             <TouchableOpacity onPress={() => router.back()} className="mr-4">
               <Ionicons name="arrow-back" size={24} color="#374151" />
             </TouchableOpacity>
-            <Text className="text-xl font-bold text-gray-900">{t('navigation.cart')} ({totalItems})</Text>
+            <Text className="text-xl text-gray-900 arabic-font">{t('navigation.cart')} ({totalItems})</Text>
           </View>
           <TouchableOpacity onPress={handleClearCart}>
-            <Text className="text-red-500 font-semibold">{t('cart.clearCart')}</Text>
+            <Text className="text-red-500 font-semibold arabic-font">{t('cart.clearCart')}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -64,90 +65,29 @@ export default function Cart() {
         {/* Cart Items */}
         <View className="px-4 py-4">
           {cartItems.map((item) => (
-            // <View key={item.id} className="bg-white rounded-xl mb-4 p-4 shadow-sm">
-            //   <View className="flex-row">
-            //     {/* Item Image */}
-            //     <View className="w-20 h-20 rounded-xl bg-gray-200 overflow-hidden mr-4">
-            //       <Image
-            //         source={{ uri: item.image }}
-            //         style={{ width: '100%', height: '100%', resizeMode: 'cover' }}
-            //       />
-            //     </View>
-
-            //     {/* Item Details */}
-            //     <View className="flex-1">
-            //       <View className="flex-row justify-between items-start mb-2">
-            //         <Text className="text-lg font-bold text-gray-900 flex-1 mr-2" numberOfLines={1}>
-            //           {item.name}
-            //         </Text>
-            //         <TouchableOpacity 
-            //           onPress={() => handleRemoveItem(item.id, item.name)}
-            //           className="p-1"
-            //         >
-            //           <Ionicons name="trash-outline" size={20} color="#EF4444" />
-            //         </TouchableOpacity>
-            //       </View>
-
-            //       <Text className="text-gray-600 text-sm mb-3" numberOfLines={2}>
-            //         {item.description}
-            //       </Text>
-            //       <Text className="text-gray-600 text-sm mb-3" numberOfLines={2}>
-            //         {item.restaurantName}
-            //       </Text>
-
-            //       <View className="flex-row items-center justify-between">
-            //         {/* Price */}
-            //         <Text className="text-lg font-bold text-gray-900">
-            //           {config.CurrencySymbol} {(item.price * item.quantity).toFixed(2)}
-            //         </Text>
-
-            //         {/* Quantity Controls */}
-            //         <View className="flex-row items-center bg-gray-100 rounded-xl">
-            //           <TouchableOpacity
-            //             onPress={() => handleDecreaseQuantity(item.id)}
-            //             className="p-2"
-            //           >
-            //             <Ionicons name="remove" size={18} color="#374151" />
-            //           </TouchableOpacity>
-                      
-            //           <View className="px-4 py-2">
-            //             <Text className="font-bold text-gray-900">{item.quantity}</Text>
-            //           </View>
-                      
-            //           <TouchableOpacity
-            //             onPress={() => handleIncreaseQuantity(item.id)}
-            //             className="p-2"
-            //           >
-            //             <Ionicons name="add" size={18} color="#374151" />
-            //           </TouchableOpacity>
-            //         </View>
-            //       </View>
-            //     </View>
-            //   </View>
-            // </View>
             <CartItem key={item.id} item={item} />
           ))}
         </View>
 
         {/* Order Summary */}
         <View className="bg-white mx-4 rounded-xl p-4 mb-4 shadow-sm">
-          <Text className="text-lg font-bold text-gray-900 mb-4">
+          <Text className={`text-lg text-gray-900 mb-4 ${i18n.language === 'ar' ? 'arabic-font text-right' : ''}`}>
             {t('cart.orderSummary')}
           </Text>
-          
-          <View className="flex-row justify-between items-center mb-2">
-            <Text className="text-gray-600">{t('cart.subtotal')} ({totalItems} items)</Text>
+
+          <View className={`flex-row justify-between items-center mb-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
+            <Text className="text-gray-600 arabic-font text-sm">{t('cart.subtotal')} ({totalItems} {t('cart.items')})</Text>
             <Text className="font-semibold text-gray-900">{config.CurrencySymbol} {totalPrice.toFixed(2)}</Text>
           </View>
           
-          <View className="flex-row justify-between items-center mb-2">
-            <Text className="text-gray-600">{t('cart.deliveryFee')}</Text>
+          <View className={`flex-row justify-between items-center mb-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
+            <Text className="text-gray-600 arabic-font text-sm">{t('cart.deliveryFee')}</Text>
             <Text className="font-semibold text-gray-900">{config.CurrencySymbol} 2.99</Text>
           </View>
           
           <View className="border-t border-gray-200 pt-2 mt-2">
-            <View className="flex-row justify-between items-center">
-              <Text className="text-lg font-bold text-gray-900">{t('cart.total')}</Text>
+            <View className={`flex-row justify-between items-center  ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
+              <Text className="text-lg text-gray-900 arabic-font-bold">{t('cart.total')}</Text>
               <Text className="text-lg font-bold text-gray-900">
                 {config.CurrencySymbol} {(totalPrice + 2.99).toFixed(2)}
               </Text>
@@ -155,16 +95,67 @@ export default function Cart() {
           </View>
         </View>
 
+
+
+
+        {/* Login Notice or Thank You Message */}
+        {!auth ? (
+          <View className="mx-4 mb-4 bg-amber-50 rounded-2xl p-4 border-2 border-amber-200">
+            <View className="flex-row items-start">
+              <View className="bg-amber-200 p-2 rounded-full mr-3">
+                <Ionicons name="alert-circle" size={24} color="#D97706" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-base font-bold text-amber-900 mb-2 arabic-font">
+                  {t('cart.loginRequired')}
+                </Text>
+                <Text className="text-sm text-amber-800 mb-3 arabic-font">
+                  {t('cart.loginMessage')}
+                </Text>
+                <TouchableOpacity
+                  onPress={() => router.push('/auth/login')}
+                  className="bg-amber-600 py-2 px-4 rounded-lg flex-row items-center justify-center"
+                  style={{
+                    shadowColor: '#D97706',
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.2,
+                    shadowRadius: 3,
+                    elevation: 3,
+                  }}
+                >
+                  <Ionicons name="log-in-outline" size={18} color="white" />
+                  <Text className="text-white font-semibold ml-2 arabic-font">
+                    {t('cart.loginNow')}
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        ) : (
+          <View className="mx-4 mb-4 bg-green-50 rounded-2xl p-4 border border-green-200">
+            <View className="flex-row items-center">
+              <View className="bg-green-200 p-2 rounded-full mr-3">
+                <Ionicons name="checkmark-circle" size={24} color="#059669" />
+              </View>
+              <View className="flex-1">
+                <Text className="text-base font-bold text-green-900 mb-1 arabic-font">
+                  {t('cart.readyToCheckout')}
+                </Text>
+                <Text className="text-sm text-green-700 arabic-font">
+                  {t('cart.thankYou')}
+                </Text>
+              </View>
+            </View>
+          </View>
+        )}
+
+
+
         {/* Checkout Button */}
         <View className="px-4 pb-4">
-          {/* <TouchableOpacity onPress={()=> router.push('/order/order')} className="bg-gray-900 py-4 rounded-xl">
-            <Text className="text-white text-center font-bold text-lg">
-              {t('cart.proceedToCheckout')}
-            </Text>
-          </TouchableOpacity> */}
              <CustomButton 
-               title={t('cart.proceedToCheckout')} 
-               onPress={() => router.push('/order/order')} 
+               title={auth ? t('cart.proceedToCheckout') : t('cart.loginToCheckout')} 
+               onPress={() => auth ? router.push('/order/order') : router.push('/auth/login')} 
                icon={<MaterialIcons name="shopping-cart-checkout" size={24} color="white" />} />
         </View>
 
@@ -175,6 +166,6 @@ export default function Cart() {
       </ScrollView>
 
       <BottomNavigation />
-    </SafeAreaView>
+    </View>
   );
 }

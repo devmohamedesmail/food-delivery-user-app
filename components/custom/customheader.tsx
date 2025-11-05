@@ -28,12 +28,7 @@ export default function CustomHeader({
 
   return (
     <>
-      {/* Status Bar */}
-      <StatusBar 
-        barStyle="dark-content" 
-        backgroundColor="#ffffff"
-      />
-
+      
       {/* Header Container */}
       <View
         className="bg-white"
@@ -67,20 +62,13 @@ export default function CustomHeader({
             {/* Title Section */}
             <View className="flex-1">
               <Text
-                className="text-xl font-bold text-gray-900"
+                className="text-xl text-gray-900 arabic-font"
                 numberOfLines={1}
               >
                 {title}
               </Text>
               
-              {subtitle && (
-                <Text
-                  className="text-sm text-gray-600 mt-1"
-                  numberOfLines={1}
-                >
-                  {subtitle}
-                </Text>
-              )}
+            
             </View>
           </View>
 

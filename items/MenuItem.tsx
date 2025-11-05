@@ -8,6 +8,7 @@ import { toggleWishlist } from '../store/slices/wishlistSlice';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Ionicons } from '@expo/vector-icons';
 import { Toast } from 'toastify-react-native';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 interface MenuItemProps {
     item: {
@@ -32,8 +33,6 @@ export default function MenuItem({ item, restaurantId , restaurantName }: MenuIt
     const handleAddToCart = () => {
         try {
             dispatch(addToCart({
-                restaurantId: restaurantId,
-                restaurantName: restaurantName,
                 id: item.id,
                 name: item.title,
                 description: item.description,
@@ -79,78 +78,106 @@ export default function MenuItem({ item, restaurantId , restaurantName }: MenuIt
     };
 
     return (
-        <View className="bg-white rounded-2xl mb-4 shadow-sm overflow-hidden mx-4">
-            <View className="flex-row p-4">
-                {/* Image */}
-                <View className="w-24 h-24 rounded-xl bg-gray-200 overflow-hidden mr-4">
-                    <Image 
-                        source={{ uri: item.image }} 
-                        style={{ width: '100%', height: '100%', resizeMode: 'cover' }} 
+        <View 
+            className="bg-white rounded-2xl overflow-hidden"
+            style={{
+                width: '49%',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.08,
+                shadowRadius: 8,
+                elevation: 1,
+            }}
+        >
+            {/* Image Container */}
+            <View className="relative">
+                <Image 
+                    source={{ uri: item.image }} 
+                    style={{ 
+                        width: '100%', 
+                        height: 140, 
+                        resizeMode: 'cover' 
+                    }} 
+                />
+                
+                {/* Wishlist Button Overlay */}
+                <TouchableOpacity 
+                    onPress={handleToggleWishlist}
+                    className="absolute top-2 right-2 bg-white/90 p-2 rounded-full"
+                    style={{
+                        shadowColor: '#000',
+                        shadowOffset: { width: 0, height: 1 },
+                        shadowOpacity: 0.2,
+                        shadowRadius: 2,
+                    }}
+                >
+                    <MaterialCommunityIcons 
+                        name={isInWishlist ? "heart" : "heart-outline"} 
+                        size={20} 
+                        color={isInWishlist ? "#EF4444" : "#6B7280"} 
                     />
+                </TouchableOpacity>
+            </View>
+
+            {/* Content Container */}
+            <View className="p-3">
+                {/* Item Title */}
+                <Text className="text-base font-bold text-gray-900 mb-1 arabic-font" numberOfLines={1}>
+                    {item.title}
+                </Text>
+
+                {/* Item Description */}
+                <Text className="text-gray-600 text-xs mb-2 arabic-font" numberOfLines={2}>
+                    {item.description}
+                </Text>
+
+                {/* Price */}
+                <View className="flex-row items-center mb-3">
+                    <Text className="text-lg font-bold text-gray-900 arabic-font">
+                        {item.price}
+                    </Text>
+                    <Text className="text-sm text-gray-600 arabic-font ml-1">
+                        {config.CurrencySymbol}
+                    </Text>
                 </View>
 
-                {/* Content */}
-                <View className="flex-1">
-                    {/* Item Details */}
-                    <View className="flex-1">
-                        <Text className="text-lg font-bold text-gray-900 mb-1 arabic-font" numberOfLines={1}>
-                            {item.title}
-                        </Text>
-                        <Text className="text-gray-600 text-sm mb-2 arabic-font" numberOfLines={2}>
-                            {item.description}
-                        </Text>
-                        <View className="flex-row items-center mb-3">
-                            <Text className="text-lg font-bold text-red-600 arabic-font">
-                                {item.price}
-                            </Text>
-                            <Text className="text-sm text-orange-600 arabic-font ml-1">
-                                {config.CurrencySymbol}
-                            </Text>
-                        </View>
-                    </View>
-
-                    {/* Quantity Controls and Actions */}
-                    <View className="flex-row items-center justify-between">
-                        {/* Quantity Controls */}
-                        {quantity > 0 ? (
-                            <View className="flex-row items-center bg-gray-100 rounded-xl">
-                                <TouchableOpacity
-                                    onPress={handleRemoveFromCart}
-                                    className="p-2"
-                                >
-                                    <Ionicons name="remove" size={16} color="#374151" />
-                                </TouchableOpacity>
-                                <Text className="px-3 py-1 font-bold text-gray-900">{quantity}</Text>
-                                <TouchableOpacity
-                                    onPress={handleAddToCart}
-                                    className="p-2"
-                                >
-                                    <Ionicons name="add" size={16} color="#374151" />
-                                </TouchableOpacity>
-                            </View>
-                        ) : (
-                            <TouchableOpacity 
-                                onPress={handleAddToCart}
-                                className="bg-gray-900 px-3 py-2 rounded-xl flex-row items-center"
-                            >
-                                <MaterialCommunityIcons name="cart-arrow-down" size={18} color="white" />
-                                <Text className="text-white font-semibold ml-1 text-sm">{t('restaurants.add_to_cart')}</Text>
-                            </TouchableOpacity>
-                        )}
-
-                        {/* Wishlist Button */}
-                        <TouchableOpacity 
-                            onPress={handleToggleWishlist}
-                            className="p-2"
+                {/* Add to Cart / Quantity Controls */}
+                {quantity > 0 ? (
+                    <View 
+                        className="flex-row items-center justify-between bg-primary rounded-xl px-2 py-2"
+                        style={{
+                            shadowColor: '#000',
+                            shadowOffset: { width: 0, height: 2 },
+                            shadowOpacity: 0.1,
+                            shadowRadius: 3,
+                        }}
+                    >
+                        <TouchableOpacity
+                            onPress={handleRemoveFromCart}
+                            className="p-1"
                         >
-                            <MaterialCommunityIcons 
-                                name={isInWishlist ? "heart" : "heart-outline"} 
-                                size={24} 
-                                color={isInWishlist ? "#EF4444" : "#9CA3AF"} 
-                            />
+                            <Ionicons name="remove" size={18} color="#fff" />
+                        </TouchableOpacity>
+                        
+                        <Text className="px-3 font-bold text-white">{quantity}</Text>
+                        
+                        <TouchableOpacity
+                            onPress={handleAddToCart}
+                            className="p-1"
+                        >
+                            <Ionicons name="add" size={18} color="#fff" />
                         </TouchableOpacity>
                     </View>
-                </View>
+                ) : (
+                    <TouchableOpacity 
+                        onPress={handleAddToCart}
+                        className="bg-primary py-2 px-3 rounded-xl flex-row items-center justify-center"
+                    >
+                        
+                        <MaterialIcons name="shopping-bag" size={24} color="white" />
+                        <Text className="text-white arabic-font ml-1 text-sm">{t('restaurants.add')}</Text>
+                    </TouchableOpacity>
+                )}
             </View>
         </View>
     )

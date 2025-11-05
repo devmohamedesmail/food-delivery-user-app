@@ -19,7 +19,7 @@ interface RegisterFormValues {
     name: string
     identifier: string
     password: string
-   
+
 }
 
 export default function Register() {
@@ -39,7 +39,7 @@ export default function Register() {
         password: Yup.string()
             .min(6, t('password_min'))
             .required(t('password_required')),
-       
+
     })
 
     const formik = useFormik<RegisterFormValues>({
@@ -47,7 +47,7 @@ export default function Register() {
             name: '',
             identifier: '',
             password: '',
-          
+
         },
         validationSchema,
         onSubmit: async (values) => {
@@ -74,7 +74,7 @@ export default function Register() {
 
                 }
 
-                
+
             } catch (error) {
                 Alert.alert('Error', 'Network error. Please try again.')
             } finally {
@@ -89,7 +89,6 @@ export default function Register() {
 
     return (
         <View className="flex-1 bg-white">
-            <StatusBar barStyle="light-content" />
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 className="flex-1"
@@ -100,10 +99,20 @@ export default function Register() {
                     showsVerticalScrollIndicator={false}
                 >
 
-                    <>
-                        {/* <AuthHeader /> */}
-                        {/* Logo/Brand Section */}
-                        <View className="items-center mb-8 bg-white">
+
+
+                    <View className="pt-10 pb-8 px-6">
+
+
+                        <TouchableOpacity
+                            className='bg-gray-200 w-12 h-12 flex items-center justify-center rounded-full'
+                            onPress={() => router.back()}>
+                            <Ionicons name="arrow-back" size={24} color="black" />
+                        </TouchableOpacity>
+
+
+
+                        <View className='flex items-center'>
                             <Logo />
                             <Text
                                 className="text-3xl font-bold text-gray-800 mb-2"
@@ -118,75 +127,76 @@ export default function Register() {
                                 {t('auth.loginToYourAccount')}
                             </Text>
                         </View>
+                    </View>
 
-                        {/* Registration Form */}
-                        <View className="flex-1 bg-white rounded-t-[32px] px-6 pt-6">
-                            <View className="mb-6">
-                                <Text className="text-2xl text-center arabic-font text-gray-800 mb-2">
-                                    {t('auth.createAccount')}
-                                </Text>
-                            </View>
-
-                            {/* Name Input */}
-                            <CustomInput
-                                label={t('auth.name')}
-                                placeholder={t('auth.enterName')}
-                                type="text"
-                                value={formik.values.name}
-                                onChangeText={formik.handleChange('name')}
-
-                                error={formik.touched.name && formik.errors.name ? formik.errors.name : undefined}
-                            />
-
-                            {/* Phone Number Input */}
-                            <CustomInput
-                                label={t('auth.identifier')}
-                                placeholder={t('auth.enterIdentifier')}
-                                type="phone"
-                                value={formik.values.identifier}
-                                onChangeText={formik.handleChange('identifier')}
-
-                                error={formik.touched.identifier && formik.errors.identifier ? formik.errors.identifier : undefined}
-                            />
-
-                            {/* Password Input */}
-                            <CustomInput
-                                label={t('auth.password')}
-                                placeholder={t('auth.enterPassword')}
-                                type="password"
-                                value={formik.values.password}
-                                onChangeText={formik.handleChange('password')}
-
-                                error={formik.touched.password && formik.errors.password ? formik.errors.password : undefined}
-                            />
-
-
-
-                            <CustomButton
-                                title={isLoading ? t('auth.signingUp') : t('auth.signUp')}
-                                onPress={() => formik.handleSubmit()}
-                                disabled={isLoading || !formik.isValid || !formik.dirty || !formik.values.identifier || !formik.values.password}
-
-                            />
-
-
-
-
-
-
-
-                            {/* Terms and Sign In Link */}
-                            <View className="mb-6">
-                                <View className="flex-row justify-center items-center">
-                                    <Text className="text-gray-600">{t('auth.alreadyHaveAccount')} </Text>
-                                    <TouchableOpacity onPress={() => router.push('/auth/login')}>
-                                        <Text className="text-blue-600 font-bold">{t('auth.signIn')}</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
+                    {/* Registration Form */}
+                    <View className="flex-1 bg-white rounded-t-[32px] px-6 pt-6">
+                        <View className="mb-6">
+                            <Text className="text-2xl text-center arabic-font text-gray-800 mb-2">
+                                {t('auth.createAccount')}
+                            </Text>
                         </View>
 
-                    </>
+                        {/* Name Input */}
+                        <CustomInput
+                            label={t('auth.name')}
+                            placeholder={t('auth.enterName')}
+                            type="text"
+                            value={formik.values.name}
+                            onChangeText={formik.handleChange('name')}
+
+                            error={formik.touched.name && formik.errors.name ? formik.errors.name : undefined}
+                        />
+
+                        {/* Phone Number Input */}
+                        <CustomInput
+                            label={t('auth.identifier')}
+                            placeholder={t('auth.enterIdentifier')}
+                            type="phone"
+                            value={formik.values.identifier}
+                            onChangeText={formik.handleChange('identifier')}
+
+                            error={formik.touched.identifier && formik.errors.identifier ? formik.errors.identifier : undefined}
+                        />
+
+                        {/* Password Input */}
+                        <CustomInput
+                            label={t('auth.password')}
+                            placeholder={t('auth.enterPassword')}
+                            type="password"
+                            value={formik.values.password}
+                            onChangeText={formik.handleChange('password')}
+
+                            error={formik.touched.password && formik.errors.password ? formik.errors.password : undefined}
+                        />
+
+
+
+                        <CustomButton
+                            title={isLoading ? t('auth.signingUp') : t('auth.signUp')}
+                            onPress={() => formik.handleSubmit()}
+                            disabled={isLoading || !formik.isValid || !formik.dirty || !formik.values.identifier || !formik.values.password}
+
+                        />
+
+
+
+
+
+
+
+                        {/* Terms and Sign In Link */}
+                        <View className="mb-6">
+                            <View className="flex-row justify-center items-center">
+                                <Text className="text-gray-600">{t('auth.alreadyHaveAccount')} </Text>
+                                <TouchableOpacity onPress={() => router.push('/auth/login')}>
+                                    <Text className="text-primary font-bold">{t('auth.signIn')}</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+
+
 
                 </ScrollView>
             </KeyboardAvoidingView>

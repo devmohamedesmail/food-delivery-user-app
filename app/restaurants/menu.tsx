@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useLocalSearchParams } from "expo-router";
 import MenuItem from '../../items/MenuItem';
 import BottomNavigation from '@/components/BottomNavigation';
 import useFetch from '@/hooks/useFetch';
+import CustomLoading from '@/components/custom/customloading';
 
 interface MenuItem {
   id: string;
@@ -25,13 +26,12 @@ interface CartItem extends MenuItem {
 export default function Menu() {
   const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
-  const { id, name } = useLocalSearchParams();
-
-  // Ensure id is a string
+  const { id, name, address } = useLocalSearchParams();
   const restaurantId = Array.isArray(id) ? id[0] : id || '';
-  
+
   // Fetch menu data using the custom hook
   const { data: menuRestaurant, loading, error } = useFetch(`/menu/restaurant/${restaurantId}`);
+  const { data: categories, loading: categoriesLoading, error: categoriesError } = useFetch(`/categories/restaurant/2`);
 
   const getTotalItems = () => {
     return cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -40,16 +40,6 @@ export default function Menu() {
   // Ensure name is a string
   const restaurantName = Array.isArray(name) ? name[0] : name || '';
 
-  // Loading state
-  if (loading) {
-    return (
-      <View className="flex-1 bg-gray-50 items-center justify-center">
-        <View className="bg-white p-6 rounded-xl shadow-lg">
-          <Text className="text-gray-600 text-center">Loading menu...</Text>
-        </View>
-      </View>
-    );
-  }
 
   // Error state
   if (error) {
@@ -57,7 +47,7 @@ export default function Menu() {
       <View className="flex-1 bg-gray-50">
         <View className="bg-white pt-12 pb-4 shadow-sm">
           <View className="flex-row items-center justify-between px-4 mb-4">
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => router.back()}
               className="bg-gray-100 p-2 rounded-full"
             >
@@ -85,18 +75,18 @@ export default function Menu() {
       {/* Header */}
       <View className="bg-white pt-12 pb-4 shadow-sm">
         <View className="flex-row items-center justify-between px-4 mb-4">
-          <TouchableOpacity 
+          <TouchableOpacity
             onPress={() => router.back()}
             className="bg-gray-100 p-2 rounded-full"
           >
             <Ionicons name="arrow-back" size={24} color="#374151" />
           </TouchableOpacity>
-          
+
           <View className="flex-1 mx-4">
-            <Text className="text-xl font-bold text-gray-900 text-center">Pizza Palace</Text>
-            <Text className="text-gray-600 text-sm text-center">Italian Cuisine</Text>
+            <Text className="text-xl font-bold text-gray-900 text-center">{name}</Text>
+            <Text className="text-gray-600 text-sm text-center">{address}</Text>
           </View>
-          
+
           <TouchableOpacity className="bg-gray-100 p-2 rounded-full">
             <Ionicons name="search" size={24} color="#374151" />
           </TouchableOpacity>
@@ -120,19 +110,46 @@ export default function Menu() {
       </View>
 
 
-   
+      {/* Categories */}
+      <View>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="px-4 py-3">
+          {categories && categories.map((category: any) => (
+            <TouchableOpacity
+              key={category.id}
+              className="px-4 py-2 mr-2 bg-white rounded-full border border-gray-300"
+            >
+              <Text className="text-gray-700 arabic-font">{category.name}</Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
+
+      {loading ? (
+        <CustomLoading />
+      ) : (
+        <FlatList
+          data={menuRestaurant || []}
+          renderItem={({ item }) => <MenuItem item={item} restaurantId={restaurantId} restaurantName={restaurantName} />}
+          keyExtractor={(item) => item.id}
+          numColumns={2}
+          columnWrapperStyle={{ 
+            justifyContent: 'space-between',
+            paddingHorizontal: 16,
+            marginBottom: 16
+          }}
+          contentContainerStyle={{ 
+            paddingTop: 16,
+            paddingBottom: getTotalItems() > 0 ? 120 : 20 
+          }}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
+
 
       {/* Menu Items */}
-      <FlatList
-        data={menuRestaurant || []}
-        renderItem={({ item }) => <MenuItem item={item} restaurantId={restaurantId} restaurantName={restaurantName} />}
-        keyExtractor={(item) => item.id}
-        className="flex-1"
-        contentContainerStyle={{ paddingVertical: 16, paddingBottom: getTotalItems() > 0 ? 120 : 20 }}
-        showsVerticalScrollIndicator={false}
-      />
 
-    
+
+
       <BottomNavigation />
     </View>
   );

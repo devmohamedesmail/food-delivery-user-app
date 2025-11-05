@@ -33,7 +33,11 @@
     "done": "Done",
     "clearAll": "Clear All",
     "addToCart": "Add to Cart",
-    "addToCartAll": "Add All to Cart"
+    "addToCartAll": "Add All to Cart",
+    "failed_load": "Failed to load data",
+    "check_connection": "Please check your internet connection and try again.",
+    "try_again": "Try Again",
+    "pleaseWait": "Please wait"
   },
   "auth": {
     "welcomeBack": "Welcome back!",
@@ -49,23 +53,23 @@
     "passwordsDoNotMatch": "Passwords do not match",
     "passwordTooShort": "Password must be at least 6 characters",
     "invalidEmail": "Please enter a valid email address",
-    "phone":" Phone Number",
-    "enterPhone":" Enter your phone number",
-    "invalidPhone":" Please enter a valid phone number",
-    "loginToYourAccount":" Login to your account",
-    "password":"Password",
-   "rememberMe":" Remember Me",
-   "forgotPassword":" Forgot Password?",
-   "signingIn":" Signing In...",
-   "signingUp":" Signing Up...",
-   "signIn":"Sign In",
-   "dontHaveAccount":" Don't have an account? ",
-   "signUp":" Sign Up",
-   "name":"Name",
-   "enterName":" Enter your name",
-   "identifier":"Email or Phone",
-   "enterIdentifier":" Enter your email or phone number",
-   "alreadyHaveAccount":" Already have an account? "
+    "phone": " Phone Number",
+    "enterPhone": " Enter your phone number",
+    "invalidPhone": " Please enter a valid phone number",
+    "loginToYourAccount": " Login to your account",
+    "password": "Password",
+    "rememberMe": " Remember Me",
+    "forgotPassword": " Forgot Password?",
+    "signingIn": " Signing In...",
+    "signingUp": " Signing Up...",
+    "signIn": "Sign In",
+    "dontHaveAccount": " Don't have an account? ",
+    "signUp": " Sign Up",
+    "name": "Name",
+    "enterName": " Enter your name",
+    "identifier": "Email or Phone",
+    "enterIdentifier": " Enter your email or phone number",
+    "alreadyHaveAccount": " Already have an account? "
   },
   "home": {
     "restaurants": "Restaurants",
@@ -105,10 +109,18 @@
     "searchRestaurants": "Search restaurants...",
     "added_to_cart": "Added to cart",
     "add_to_cart_failed": "Failed to add to cart",
-    "add_to_cart": "Add to Cart"
+    "add_to_cart": "Add to Cart",
+    "viewMenu": "View Menu",
+    "min": "min",
+    "verified": "Verified",
+    "open": "Open",
+    "closed": "Closed",
+    "restaurant": "restaurant",
+    "found": "found",
+    "add":" Add To Cart"
   },
-  "menu":{
-    "addtocart":"Add to Cart"
+  "menu": {
+    "addtocart": "Add to Cart"
   },
   "account": {
     "swithchlanguage": "Switch Language",
@@ -119,15 +131,15 @@
     "editProfile": "Edit Profile",
     "myAccount": "My Account"
   },
- "navigation":{
-    "home":"Home",
-    "transport":"Transport",
-    "restaurants":"Restaurants",
-    "account":"Account",
-    "cart":"Cart",
-    "wishlist":"Wishlist"
- },
- "cart": {
+  "navigation": {
+    "home": "Home",
+    "transport": "Transport",
+    "restaurants": "Restaurants",
+    "account": "Account",
+    "cart": "Cart",
+    "wishlist": "Wishlist"
+  },
+  "cart": {
     "title": "Your cart is empty",
     "description": "Add some delicious items to your cart to get started",
     "browseRestaurants": "Browse Restaurants",
@@ -140,19 +152,27 @@
     "cancel": "Cancel",
     "remove": "Remove",
     "removeItem": "Remove Item",
-    "areYouSureRemove": "Are you sure you want to remove {{itemName}} from your cart?"
+    "areYouSureRemove": "Are you sure you want to remove {{itemName}} from your cart?",
+    "items": "items",
+    "thankYou": "Thank you for choosing us!",
+    "loginRequired": "Login Required",
+    "loginMessage": "Please login to your account to proceed with checkout and complete your order.",
+    "loginNow": "Login Now",
+    "readyToCheckout": "Ready to Checkout",
+    "loginToCheckout": "Login to Checkout",
+    "areYouSureClearCart": "Are you sure you want to remove all items from your cart?",
+    "clear_all": "Clear All"
   
   },
   "wishlist": {
     "emptyTitle": "Your wishlist is empty",
     "emptySubtitle": "Browse restaurants and add your favorite items to the wishlist",
     "browseRestaurants": "Browse Restaurants"
-   
   },
-  "order":{
+  "order": {
     "title": "Order Details",
     "orderSummary": "Order Summary",
-    "customerInfo": "Customer Information", 
+    "customerInfo": "Customer Information",
     "fullName": "Full Name",
     "phoneNumber": "Phone Number",
     "enterFullName": "Enter your full name",
@@ -176,5 +196,4 @@
     "orderSuccesscreate": "Your order has been placed successfully!",
     "enterDeliveryAddress": "Enter your delivery address"
   }
-
 }

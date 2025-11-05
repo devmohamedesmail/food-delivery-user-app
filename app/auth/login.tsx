@@ -5,13 +5,12 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-
 import CustomInput from '@/components/custom/custominput'
 import CustomButton from '@/components/custom/custombutton'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
 import { AuthContext } from '@/context/auth_context'
 import Logo from '@/components/logo'
 import { Toast } from 'toastify-react-native'
+
 
 
 
@@ -70,8 +69,8 @@ export default function Login() {
 
 
   return (
-    <SafeAreaView className="flex-1 bg-white">
-      <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
+    <View className="flex-1 bg-white">
+    
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -84,27 +83,19 @@ export default function Login() {
         >
           {/* Header */}
           <View className="pt-10 pb-8 px-6">
-            {/* <View className="flex-row justify-between items-center mb-8">
-              <TouchableOpacity
-                onPress={() => router.back()}
-                className="p-2"
-              >
-                <Ionicons
-                  name={i18n.language === 'ar' ? "chevron-forward" : "chevron-back"}
-                  size={24}
-                  color="#374151"
-                />
-              </TouchableOpacity>
-              <LanguageSwitcher />
-            </View> */}
 
+            <TouchableOpacity 
+               className='bg-gray-200 w-12 h-12 flex items-center justify-center rounded-full'
+               onPress={() => router.back()}>
+              <Ionicons name="arrow-back" size={24} color="black" />
+            </TouchableOpacity>
 
 
             {/* Logo/Brand Section */}
-            <View className="items-center mb-8">
+            <View className="items-center mb-8 pt-10">
               <Logo />
               <Text
-                className="text-3xl font-bold text-gray-800 mb-2"
+                className="text-3xl  text-gray-800 mb-2 arabic-font-bold"
                 style={{ fontFamily: 'Cairo_700Bold' }}
               >
                 {t('auth.welcomeBack')}
@@ -161,8 +152,7 @@ export default function Login() {
 
                 <TouchableOpacity onPress={() => { }}>
                   <Text
-                    className="text-secondary font-medium"
-                    style={{ fontFamily: 'Cairo_600SemiBold' }}
+                    className="text-primary font-medium"
                   >
                     {t('auth.forgotPassword')}
                   </Text>
@@ -184,14 +174,14 @@ export default function Login() {
               <View className="flex-row justify-center items-center mt-8 mb-8">
                 <Text
                   className="text-gray-600"
-                  style={{ fontFamily: 'Cairo_400Regular' }}
+                  
                 >
                   {t('auth.dontHaveAccount')}
                 </Text>
                 <TouchableOpacity onPress={() => router.push('/auth/register')}>
                   <Text
-                    className="text-secondary font-semibold ml-1"
-                    style={{ fontFamily: 'Cairo_600SemiBold' }}
+                    className="text-primary font-semibold ml-1"
+                    
                   >
                     {t('auth.signUp')}
                   </Text>
@@ -201,6 +191,6 @@ export default function Login() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   )
 }

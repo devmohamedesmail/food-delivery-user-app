@@ -33,7 +33,11 @@
     "done": "تم",
     "clearAll": "مسح الكل",
     "addToCart": "أضف إلى السلة",
-    "addToCartAll": "أضف الكل إلى السلة"
+    "addToCartAll": "أضف الكل إلى السلة",
+    "failed_load": " فشل في تحميل البيانات",
+    "check_connection": " يرجى التحقق من اتصالك بالإنترنت وحاول مرة أخرى. ",
+    "try_again": " حاول مرة أخرى ",
+    "pleaseWait": " يرجى الانتظار "
   },
   "auth": {
     "welcomeBack": "مرحباً بعودتك!",
@@ -49,23 +53,23 @@
     "passwordsDoNotMatch": "كلمات المرور غير متطابقة",
     "passwordTooShort": "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
     "invalidEmail": "يرجى إدخال بريد إلكتروني صحيح",
-    "phone":" رقم الهاتف",
-    "enterPhone":" أدخل رقم هاتفك",
-    "invalidPhone":" يرجى إدخال رقم هاتف صحيح",
-    "loginToYourAccount":" تسجيل الدخول إلى حسابك",
-    "password":"كلمة المرور",
-   "rememberMe":" تذكرني",
-   "forgotPassword":" نسيت كلمة المرور؟",
-   "signingIn":" جاري تسجيل الدخول...",
-   "signingUp":" جاري إنشاء الحساب...",
-   "signIn":"تسجيل الدخول",
-   "dontHaveAccount":" لا تملك حساب؟ ",
-   "signUp":" إنشاء حساب",
-   "name":" الاسم ",
-   "enterName":" أدخل اسمك",
-   "identifier":"البريد الإلكتروني أو الهاتف",
-   "enterIdentifier":" أدخل بريدك الإلكتروني أو رقم هاتفك",
-   "alreadyHaveAccount":" هل لديك حساب بالفعل؟"
+    "phone": " رقم الهاتف",
+    "enterPhone": " أدخل رقم هاتفك",
+    "invalidPhone": " يرجى إدخال رقم هاتف صحيح",
+    "loginToYourAccount": " تسجيل الدخول إلى حسابك",
+    "password": "كلمة المرور",
+    "rememberMe": " تذكرني",
+    "forgotPassword": " نسيت كلمة المرور؟",
+    "signingIn": " جاري تسجيل الدخول...",
+    "signingUp": " جاري إنشاء الحساب...",
+    "signIn": "تسجيل الدخول",
+    "dontHaveAccount": " لا تملك حساب؟ ",
+    "signUp": " إنشاء حساب",
+    "name": " الاسم ",
+    "enterName": " أدخل اسمك",
+    "identifier": "البريد الإلكتروني أو الهاتف",
+    "enterIdentifier": " أدخل بريدك الإلكتروني أو رقم هاتفك",
+    "alreadyHaveAccount": " هل لديك حساب بالفعل؟"
   },
   "home": {
     "restaurants": "المطاعم",
@@ -105,10 +109,18 @@
     "searchRestaurants": "ابحث عن المطاعم...",
     "added_to_cart": "تمت الإضافة إلى السلة",
     "add_to_cart_failed": "فشل في إضافة إلى السلة",
-    "add_to_cart": "أضف إلى السلة"
+    "add_to_cart": "أضف إلى السلة",
+    "viewMenu": " عرض القائمة",
+    "min": " دقيقة ",
+    "verified": " موثق ",
+    "open": " مفتوح ",
+    "closed": " مغلق ",
+    "restaurant": " مطعم ",
+    "found": " موجود ",
+    "add":" أضف إلى السلة "
   },
-  "menu":{
-    "addtocart":"أضف إلى السلة"
+  "menu": {
+    "addtocart": "أضف إلى السلة"
   },
   "account": {
     "switchLanguage": "تبديل اللغة",
@@ -119,15 +131,15 @@
     "editProfile": "تعديل الملف الشخصي",
     "myAccount": "حسابي"
   },
- "navigation":{
-    "home":"الرئيسية",
-    "transport":"النقل",
-    "restaurants":"المطاعم",
-    "account":"الحساب",
-    "cart":"عربة التسوق",
-    "wishlist":"  المفضلات "
- },
- "cart": {
+  "navigation": {
+    "home": "الرئيسية",
+    "transport": "النقل",
+    "restaurants": "المطاعم",
+    "account": "الحساب",
+    "cart": "عربة التسوق",
+    "wishlist": "  المفضلات "
+  },
+  "cart": {
     "title": "عربة التسوق فارغة",
     "description": "أضف بعض العناصر اللذيذة إلى عربة التسوق الخاصة بك للبدء",
     "browseRestaurants": "تصفح المطاعم",
@@ -140,16 +152,23 @@
     "cancel": "إلغاء",
     "remove": "حذف",
     "removeItem": "حذف العنصر",
-    "areYouSureRemove": "هل أنت متأكد أنك تريد إزالة {{itemName}} من عربة التسوق الخاصة بك؟"
-
+    "areYouSureRemove": "هل أنت متأكد أنك تريد إزالة {{itemName}} من عربة التسوق الخاصة بك؟",
+    "items": " عناصر ",
+    "thankYou": "شكراً لاختيارك لنا!",
+    "loginRequired": "تسجيل الدخول مطلوب",
+    "loginMessage": "يرجى تسجيل الدخول إلى حسابك للمتابعة إلى الدفع وإكمال طلبك.",
+    "loginNow": "تسجيل الدخول الآن",
+    "readyToCheckout": "جاهز للدفع",
+    "loginToCheckout": "تسجيل الدخول للدفع",
+     "areYouSureClearCart": " هل أنت متأكد أنك تريد إزالة جميع العناصر من عربة التسوق الخاصة بك؟ ",
+    "clear_all": "مسح الكل "
   },
   "wishlist": {
     "emptyTitle": "قائمة المفضلات فارغة",
     "emptySubtitle": "تصفح المطاعم وأضف العناصر المفضلة لديك إلى قائمة المفضلات",
     "browseRestaurants": "تصفح المطاعم"
-
   },
-  "order":{
+  "order": {
     "title": "تفاصيل الطلب",
     "orderSummary": "ملخص الطلب",
     "customerInfo": "معلومات العميل",
