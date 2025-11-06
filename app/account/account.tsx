@@ -8,6 +8,7 @@ import CustomHeader from '@/components/custom/customheader';
 import BottomNavigation from '@/components/BottomNavigation';
 import { AuthContext } from '@/context/auth_context';
 import { useRouter } from 'expo-router';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 
 
@@ -18,8 +19,8 @@ const statsData = [
 ];
 
 const Account = () => {
-  const { t , i18n } = useTranslation();
-  const {auth} =useContext(AuthContext);
+  const { t, i18n } = useTranslation();
+  const { auth } = useContext(AuthContext);
   const router = useRouter();
 
 
@@ -41,27 +42,27 @@ const Account = () => {
 
 
 
-const handle_switchLanguage = () => {
-  // Logic to switch language
-  try {
-    const newLanguage = i18n.language === 'en' ? 'ar' : 'en';
-    i18n.changeLanguage(newLanguage);
-    Toast.show({
-      type: 'success',
-      text1: t('account.language_switched'),
-      position: 'top',
-      visibilityTime: 2000,
-    })
-  } catch (error) {
-    Toast.show({
-      type: 'error',
-      text1: t('account.language_switch_failed'),
-      position: 'top',
-      visibilityTime: 2000,
-    })
-    
+  const handle_switchLanguage = () => {
+    // Logic to switch language
+    try {
+      const newLanguage = i18n.language === 'en' ? 'ar' : 'en';
+      i18n.changeLanguage(newLanguage);
+      Toast.show({
+        type: 'success',
+        text1: t('account.language_switched'),
+        position: 'top',
+        visibilityTime: 2000,
+      })
+    } catch (error) {
+      Toast.show({
+        type: 'error',
+        text1: t('account.language_switch_failed'),
+        position: 'top',
+        visibilityTime: 2000,
+      })
+
+    }
   }
-}
 
 
 
@@ -69,108 +70,110 @@ const handle_switchLanguage = () => {
 
 
   return (
-  <View className='flex-1'>
+    <View className='flex-1'>
       <CustomHeader title={t('account.myAccount')} />
       <ScrollView className="flex-1 bg-gray-50">
-      {/* Header */}
-    
-      <View className="bg-gradient-to-r from-blue-500 to-purple-600 pt-12 pb-8 px-4">
-        {/* <View className="flex-row justify-between items-center mb-6">
+        {/* Header */}
+
+        <View className="bg-gradient-to-r from-blue-500 to-purple-600 pt-12 pb-8 px-4">
+          {/* <View className="flex-row justify-between items-center mb-6">
           <Text className="text-white text-2xl font-bold">My Account</Text>
           <TouchableOpacity className="bg-white/20 p-2 rounded-full">
             <Ionicons name="settings-outline" size={24} color="white" />
           </TouchableOpacity>
         </View> */}
 
-        {/* Profile Section */}
-        <View className="flex-row items-center">
-          <View className="relative">
-            <Image
-              source={{ uri: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face' }}
-              className="w-20 h-20 rounded-full border-4 border-white"
-            />
-            <View className="absolute bottom-0 right-0 bg-green-500 w-6 h-6 rounded-full border-2 border-white items-center justify-center">
-              <View className="w-2 h-2 bg-white rounded-full" />
+          {/* Profile Section */}
+          <View className="flex-row items-center">
+            <View className="relative">
+             
+              <FontAwesome name="user-o" size={64} color="black" />
+              <View className="absolute bottom-0 right-0 bg-green-500 w-6 h-6 rounded-full border-2 border-white items-center justify-center">
+                <View className="w-2 h-2 bg-white rounded-full" />
+              </View>
             </View>
-          </View>
 
-          <View className="ml-4 flex-1">
-            <Text className="text-black text-xl font-bold">{auth?.user?.name}</Text>
-            <Text className="text-black text-base mb-1">{auth?.user?.identifier}</Text>
-          </View>
+            <View className="ml-4 flex-1">
+              <Text className="text-black text-xl font-bold">{auth?.user?.name}</Text>
+              <Text className="text-black text-base mb-1">{auth?.user?.identifier}</Text>
+            </View>
 
-          <TouchableOpacity className="bg-white/20 px-4 py-2 rounded-full">
-            <Text className="text-black font-medium">Edit</Text>
+            <TouchableOpacity className="bg-white/20 px-4 py-2 rounded-full">
+              <Text className="text-black font-medium">Edit</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Stats Section */}
+        <View className="px-4 -mt-6 mb-6">
+          <View className="flex-row">
+            {statsData.map(renderStat)}
+          </View>
+        </View>
+
+       
+
+
+            {/* Menu Items */}
+        <View className="mb-8">
+          <Text className="text-gray-800 text-lg arabic-font mx-4 mb-4">{t('account.settings')}</Text>
+
+          <AccountItem
+            title={t("account.privacyPolicy")}
+            icon="person-outline"
+            type="navigation"
+            onPress={() => router.push('/account/privacy-policy')}
+          />
+          <AccountItem
+            title={t("account.helpSupport")}
+            icon="person-outline"
+            type="navigation"
+            onPress={() => router.push('/account/support')}
+          />
+         
+          
+        </View>
+
+
+        {/* Menu Items */}
+        <View className="mb-8">
+          <Text className="text-gray-800 text-lg arabic-font mx-4 mb-4">{t('account.settings')}</Text>
+
+          <AccountItem
+            title={t("account.editProfile")}
+            icon="person-outline"
+            type="navigation"
+          />
+          <AccountItem
+            title={t("account.orderHistory")}
+            icon="person-outline"
+            type="navigation"
+            onPress={() => router.push('/account/orders')}
+          />
+          <AccountItem
+            title={t('account.switchLanguage')}
+            icon="language"
+            type="navigation"
+            onPress={handle_switchLanguage}
+          />
+        </View>
+
+        {/* Sign Out Button */}
+        <View className="mx-4 mb-8">
+          <TouchableOpacity className="bg-red-500 p-4 rounded-xl flex-row items-center justify-center">
+            <Ionicons name="log-out-outline" size={20} color="white" />
+            <Text className="text-white font-bold text-base ml-2">{t('account.logout')}</Text>
           </TouchableOpacity>
         </View>
-      </View>
 
-      {/* Stats Section */}
-      <View className="px-4 -mt-6 mb-6">
-        <View className="flex-row">
-          {statsData.map(renderStat)}
+        {/* App Version */}
+        <View className="items-center mb-6">
+          <Text className="text-gray-500 text-sm">App Version 1.0.0</Text>
         </View>
-      </View>
 
-      {/* Membership Card */}
-      <View className="mx-4 mb-6">
-        <View className="bg-gradient-to-r from-yellow-400 to-orange-500 p-6 rounded-xl">
-          <View className="flex-row justify-between items-center">
-            <View>
-              <Text className="text-white text-lg font-bold mb-1">Gold Member</Text>
-              <Text className="text-white/90 text-sm">Save 15% on all orders</Text>
-            </View>
-            <View className="bg-white/20 p-3 rounded-full">
-              <Ionicons name="diamond-outline" size={24} color="white" />
-            </View>
-          </View>
-
-          <View className="mt-4 pt-4 border-t border-white/20 flex-row justify-between">
-            <Text className="text-white/80 text-sm">Points Balance</Text>
-            <Text className="text-white font-bold">2,450 pts</Text>
-          </View>
-        </View>
-      </View>
-
-      {/* Menu Items */}
-      <View className="mb-8">
-        <Text className="text-gray-800 text-lg arabic-font mx-4 mb-4">{t('account.settings')}</Text>
-        
-        <AccountItem
-          title={t("account.editProfile")}
-          icon="person-outline"
-          type="navigation"
-        />
-        <AccountItem
-          title={t("account.orderHistory")}
-          icon="person-outline"
-          type="navigation"
-          onPress={()=> router.push('/account/orders')}
-        />
-         <AccountItem
-          title={t('account.switchLanguage')}
-          icon="language"
-          type="navigation"
-          onPress={handle_switchLanguage}
-        />
-      </View>
-
-      {/* Sign Out Button */}
-      <View className="mx-4 mb-8">
-        <TouchableOpacity className="bg-red-500 p-4 rounded-xl flex-row items-center justify-center">
-          <Ionicons name="log-out-outline" size={20} color="white" />
-          <Text className="text-white font-bold text-base ml-2">{t('account.logout')}</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* App Version */}
-      <View className="items-center mb-6">
-        <Text className="text-gray-500 text-sm">App Version 1.0.0</Text>
-      </View>
-     
-    </ScrollView>
-     <BottomNavigation />
-  </View>
+      </ScrollView>
+      <BottomNavigation />
+    </View>
   );
 };
 

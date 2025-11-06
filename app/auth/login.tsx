@@ -50,16 +50,24 @@ export default function Login() {
       try {
         const result = await handle_login(values.identifier, values.password)
         Toast.show({
-          text1: t('login_success'),
+          text1: t('auth.login_success'),
+          text2: t('auth.login_success_description'),
+          position: 'top',
           type: 'success',
         })
 
-        const role = result.data.user.role;
-        console.log("Login result:", result.data.user.role);
+        // const role = result.data.user.role;
+        // console.log("Login result:", result.data.user.role);
         setIsLoading(false)
+        router.replace('/')
       } catch (error) {
         setIsLoading(false)
-        console.log(error)
+        Toast.show({
+          text1: t('auth.login_failed'),
+          text2: t('auth.login_failed_description'),
+          position: 'top',
+          type: 'error',
+        })
       } finally {
         setIsLoading(false)
       }

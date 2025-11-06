@@ -98,10 +98,26 @@ export default function RestaurantItem({ restaurant }: any) {
                     shadowRadius: 2,
                   }}
                 >
-                  <Ionicons name="star" size={14} color="#F59E0B" />
-                  <Text className="text-gray-900 font-bold text-xs ml-1">
-                    {restaurant.rating ? restaurant.rating.toFixed(1) : '0.0'}
+
+                  <Text className="text-gray-900 font-bold text-xs ml-1 mr-2">
+                    (
+                    {restaurant.reviews.length > 0
+                      ? restaurant.reviews.length
+                      : 0}
+                    )
                   </Text>
+
+
+                  <Text className="text-gray-900 font-bold text-xs ml-1 mr-1">
+                    {/* Average rating */}
+                    {restaurant.reviews.length > 0
+                      ? (
+                        restaurant.reviews.reduce((sum:any, r:any) => sum + r.rating, 0) /
+                        restaurant.reviews.length
+                      ).toFixed(1)
+                      : ('0.0')}
+                  </Text>
+                  <Ionicons name="star" size={14} color="#F59E0B" />
                 </View>
               </View>
 

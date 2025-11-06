@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import BottomNavigation from '@/components/BottomNavigation';
 
 type Notification = {
     id: number;
@@ -309,6 +310,7 @@ export default function Notifications() {
                     </View>
                 )}
             </ScrollView>
+            <BottomNavigation />
         </View>
     );
 }
