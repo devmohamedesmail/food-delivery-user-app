@@ -86,7 +86,10 @@
     "cart": "عربة التسوق",
     "rides": "الرحلات",
     "welcome": "مرحباً",
-    "whatDoYouNeed": "ماذا تحتاج؟"
+    "whatDoYouNeed": "ماذا تحتاج؟",
+    "services": "خدماتنا",
+    "explore": "استكشف",
+    "guest": "ضيف"
   },
   "transport": {
     "bookRide": "احجز رحلة",
@@ -132,7 +135,13 @@
     "tryAgainLater": " يرجى المحاولة مرة أخرى لاحقاً "
   },
   "menu": {
-    "addtocart": "أضف إلى السلة"
+    "addtocart": "أضف إلى السلة",
+    "noMealsFound": "لا توجد وجبات",
+    "noMealsAvailable": "لا توجد وجبات متاحة",
+    "tryDifferentSearch": "حاول البحث بشكل مختلف أو تصفح الفئات",
+    "tryAgainLater": "يرجى المحاولة مرة أخرى لاحقاً",
+    "searchForMeals": "ابحث عن الوجبات...",
+    "view_cart": "عرض السلة"
   },
   "account": {
     "switchLanguage": "تبديل اللغة",
@@ -177,7 +186,9 @@
     "readyToCheckout": "جاهز للدفع",
     "loginToCheckout": "تسجيل الدخول للدفع",
     "areYouSureClearCart": " هل أنت متأكد أنك تريد إزالة جميع العناصر من عربة التسوق الخاصة بك؟ ",
-    "clear_all": "مسح الكل "
+    "clear_all": "مسح الكل ",
+    "totalAmount": "المبلغ الإجمالي",
+    "item": "عنصر"
   },
   "wishlist": {
     "emptyTitle": "قائمة المفضلات فارغة",
@@ -189,6 +200,7 @@
   },
   "order": {
     "title": "تفاصيل الطلب",
+    "reviewAndConfirm": "راجع وأكد طلبك",
     "orderSummary": "ملخص الطلب",
     "customerInfo": "معلومات العميل",
     "fullName": "الاسم الكامل",
@@ -212,7 +224,14 @@
     "invalidPhone": "يرجى إدخال رقم هاتف صحيح",
     "orderErrorcreate": "حدث خطأ أثناء إنشاء طلبك. حاول مرة أخرى.",
     "orderSuccesscreate": "تم تقديم طلبك بنجاح!",
-    "enterDeliveryAddress": "أدخل عنوان التسليم الخاص بك"
+    "enterDeliveryAddress": "أدخل عنوان التسليم الخاص بك",
+    "useMyLocation": "استخدم موقعي الحالي",
+    "gettingLocation": "جارٍ الحصول على موقعك...",
+    "locationPermission": "مطلوب إذن الموقع",
+    "locationPermissionMessage": "نحتاج إلى إذن الموقع للحصول على عنوانك الحالي",
+    "locationError": "خطأ في الموقع",
+    "locationErrorMessage": "تعذر الحصول على موقعك. يرجى إدخال العنوان يدويًا.",
+    "locationSuccess": "تم الحصول على الموقع بنجاح!"
   },
   "orders": {
     "myOrders": "طلباتي",

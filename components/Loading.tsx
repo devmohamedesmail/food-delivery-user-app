@@ -157,8 +157,9 @@ export default function Loading({
       <View className="relative items-center justify-center mb-6">
         {/* Pulse Background Rings */}
         <Animated.View
-          className="absolute rounded-full border-2 border-blue-200"
+          className="absolute rounded-full border-2"
           style={{
+            borderColor: '#fd4a12',
             width: config.container,
             height: config.container,
             transform: [{ scale: pulseScale }],
@@ -167,8 +168,9 @@ export default function Loading({
         />
         
         <Animated.View
-          className="absolute rounded-full border border-blue-300"
+          className="absolute rounded-full border"
           style={{
+            borderColor: '#fd4a12',
             width: config.container * 0.8,
             height: config.container * 0.8,
             transform: [{ scale: pulseScale }],
@@ -178,7 +180,7 @@ export default function Loading({
 
         {/* Main Spinner with Gradient */}
         <LinearGradient
-          colors={['#3B82F6', '#1D4ED8', '#7C3AED']}
+          colors={['#fd4a12', '#ff7a47', '#ff9066']}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           className="rounded-full items-center justify-center"
@@ -205,8 +207,9 @@ export default function Loading({
           {[0, 120, 240].map((rotation, index) => (
             <Animated.View
               key={index}
-              className="absolute w-3 h-3 rounded-full bg-blue-500"
+              className="absolute w-3 h-3 rounded-full"
               style={{
+                backgroundColor: '#fd4a12',
                 transform: [
                   { rotate: `${rotation}deg` },
                   { translateY: -(config.spinner * 0.7) },
@@ -223,8 +226,8 @@ export default function Loading({
       {showText && (
         <View className="items-center">
           <Text 
-            className="font-semibold text-gray-700 mb-2"
-            style={{ fontSize: config.text }}
+            className="font-semibold mb-2 arabic-font-bold"
+            style={{ fontSize: config.text, color: '#1a1a1a' }}
           >
             {getMessage()}
           </Text>
@@ -232,16 +235,16 @@ export default function Loading({
           {/* Animated Dots */}
           <View className="flex-row space-x-1">
             <Animated.View
-              className="w-2 h-2 rounded-full bg-blue-500"
-              style={{ opacity: dotsOpacity1 }}
+              className="w-2 h-2 rounded-full"
+              style={{ backgroundColor: '#fd4a12', opacity: dotsOpacity1 }}
             />
             <Animated.View
-              className="w-2 h-2 rounded-full bg-blue-500"
-              style={{ opacity: dotsOpacity2 }}
+              className="w-2 h-2 rounded-full"
+              style={{ backgroundColor: '#fd4a12', opacity: dotsOpacity2 }}
             />
             <Animated.View
-              className="w-2 h-2 rounded-full bg-blue-500"
-              style={{ opacity: dotsOpacity3 }}
+              className="w-2 h-2 rounded-full"
+              style={{ backgroundColor: '#fd4a12', opacity: dotsOpacity3 }}
             />
           </View>
         </View>
@@ -251,8 +254,9 @@ export default function Loading({
       {(type === 'upload' || type === 'download') && (
         <View className="w-48 h-2 bg-gray-200 rounded-full mt-4 overflow-hidden">
           <Animated.View
-            className="h-full bg-gradient-to-r from-blue-500 to-purple-600 rounded-full"
+            className="h-full rounded-full"
             style={{
+              backgroundColor: '#fd4a12',
               width: dotsValue.interpolate({
                 inputRange: [0, 1],
                 outputRange: ['20%', '90%'],

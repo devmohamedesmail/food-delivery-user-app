@@ -3,12 +3,14 @@ import { View, Text, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
+import Colors from '@/constants/Colors';
 
 export default function RestaurantItem({ restaurant }: any) {
   const router = useRouter();
   const [imageError, setImageError] = useState(false);
   const { t } = useTranslation();
-
+  
+ 
 
 
   // functions
@@ -18,7 +20,9 @@ export default function RestaurantItem({ restaurant }: any) {
       params: {
         id: restaurant.id,
         name: restaurant.name,
-        address: restaurant.address
+        address: restaurant.address,
+        image: restaurant.image,
+        reviews: JSON.stringify(restaurant.reviews),
       },
     });
   };
@@ -26,18 +30,18 @@ export default function RestaurantItem({ restaurant }: any) {
   return (
     <TouchableOpacity
       onPress={() => handleRestaurantPress(restaurant)}
-      activeOpacity={0.95}
-      className="mx-4 mb-4"
+      // activeOpacity={0.95}
+      className="mx-4 mb-2"
     >
       <View
-        className="bg-white rounded-2xl overflow-hidden"
-        style={{
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 2 },
-          shadowOpacity: 0.08,
-          shadowRadius: 12,
-          elevation: 1,
-        }}
+        className="bg-white rounded-2xl overflow-hidden shadow-md border border-gray-200"
+        // style={{
+        //   shadowColor: '#000',
+        //   shadowOffset: { width: 0, height: 2 },
+        //   shadowOpacity: 0.08,
+        //   shadowRadius: 12,
+        //   elevation: 1,
+        // }}
       >
         <View className="flex-row">
           {/* Image Container - Left Side */}
@@ -45,9 +49,10 @@ export default function RestaurantItem({ restaurant }: any) {
             {!imageError && restaurant?.image ? (
               <Image
                 source={{ uri: restaurant.image }}
+                className="rounded-2xl"
                 style={{
-                  height: 140,
-                  width: 120,
+                  height: 135,
+                  width: 130,
                   resizeMode: 'cover',
                 }}
                 onError={() => {
@@ -67,7 +72,7 @@ export default function RestaurantItem({ restaurant }: any) {
 
             {/* Status Badge on Image */}
             <View
-              className={`absolute top-2 left-2 px-2 py-1 rounded-full ${restaurant.is_active ? 'bg-green-500' : 'bg-red-500'
+              className={`absolute top-2 left-2 px-2 py-1 rounded-full ${restaurant.is_active ? 'bg-primary' : 'bg-red-500'
                 }`}
             >
               <Text className="text-white text-xs font-semibold">
@@ -90,16 +95,16 @@ export default function RestaurantItem({ restaurant }: any) {
 
                 {/* Rating */}
                 <View
-                  className="flex-row items-center bg-amber-50 px-2 py-1 rounded-lg"
-                  style={{
-                    shadowColor: '#F59E0B',
-                    shadowOffset: { width: 0, height: 1 },
-                    shadowOpacity: 0.1,
-                    shadowRadius: 2,
-                  }}
+                  className="flex-row items-center bg-black px-2 py-1 rounded-lg"
+                  // style={{
+                  //   shadowColor: '#F59E0B',
+                  //   shadowOffset: { width: 0, height: 1 },
+                  //   shadowOpacity: 0.1,
+                  //   shadowRadius: 2,
+                  // }}
                 >
 
-                  <Text className="text-gray-900 font-bold text-xs ml-1 mr-2">
+                  <Text className="text-white font-bold text-xs ml-1 mr-2">
                     (
                     {restaurant.reviews.length > 0
                       ? restaurant.reviews.length
@@ -108,7 +113,7 @@ export default function RestaurantItem({ restaurant }: any) {
                   </Text>
 
 
-                  <Text className="text-gray-900 font-bold text-xs ml-1 mr-1">
+                  <Text className="text-white font-bold text-xs ml-1 mr-1">
                     {/* Average rating */}
                     {restaurant.reviews.length > 0
                       ? (
@@ -117,25 +122,26 @@ export default function RestaurantItem({ restaurant }: any) {
                       ).toFixed(1)
                       : ('0.0')}
                   </Text>
-                  <Ionicons name="star" size={14} color="#F59E0B" />
+                  <Ionicons name="star" size={14} color="#fd4a12" />
                 </View>
               </View>
 
               {/* Location */}
-              <View className="flex-row items-center mb-3">
+              {/* <View className="flex-row items-center mb-3">
                 <Ionicons name="location-outline" size={14} color="#6B7280" />
                 <Text className="text-gray-600 text-xs ml-1 flex-1" numberOfLines={1}>
                   {restaurant.address ? restaurant.address : ''}
                 </Text>
-              </View>
+              </View> */}
 
               {/* Additional Info Row */}
               <View className="flex-row items-center flex-wrap gap-2">
                 {/* Delivery Time */}
                 <View className="flex-row items-center bg-blue-50 px-2 py-1 rounded-md">
-                  <Ionicons name="time-outline" size={13} color="#3B82F6" />
-                  <Text className="text-blue-700 text-xs font-medium ml-1">
-                    {restaurant.delivery_time || '30'} {t('restaurants.min')}
+                  <Ionicons name="time-outline" size={13} color={Colors.light.text} />
+                  <Text className="text-primary text-xs font-medium ml-1">
+                    {restaurant.delivery_time} 
+                    {/* {t('restaurants.min')} */}
 
                   </Text>
                 </View>

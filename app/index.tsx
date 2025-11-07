@@ -2,12 +2,15 @@ import BottomNavigation from '@/components/BottomNavigation'
 import { useRouter } from 'expo-router';
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import { View, Text, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@/context/auth_context';
 import { useAppSelector, selectCartTotalItems } from '@/store/hooks';
+import Banner from '@/components/Banner';
+import CreativeBottomNavigation from '@/components/CreativeBottomNavigation';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 export default function Home() {
   const { t } = useTranslation();
@@ -24,114 +27,159 @@ export default function Home() {
       id: 'restaurants',
       title: t('home.restaurants'),
       icon: 'restaurant-outline' as const,
-      gradient: ['#FF6B6B', '#FF5252'] as const,
+      gradient: ['#fd4a12', '#fd4a12'] as const,
       route: '/restaurants/restaurants'
     },
     {
       id: 'wishlist',
       title: t('home.wishlist'),
       icon: 'heart-outline' as const,
-      gradient: ['#FF6B9D', '#C44569'] as const,
+      // gradient: ['#FF6B9D', '#C44569'] as const,
+      gradient: ['#fd4a12', '#FF6A3D', '#FFC24A'] as const,
       route: '/wishlist/wishlist'
     },
     {
       id: 'cart',
       title: t('home.cart'),
       icon: 'bag-outline' as const,
-      gradient: ['#4ECDC4', '#26D0CE'] as const,
+      // gradient: ['#4ECDC4', '#26D0CE'] as const,
+      gradient: ['#fd4a12', '#C1370C'] as const,
       route: '/cart/cart'
     },
     {
       id: 'rides',
       title: t('home.rides'),
       icon: 'car-outline' as const,
-      gradient: ['#45B7D1', '#2196F3'] as const,
+      // gradient: ['#45B7D1', '#2196F3'] as const,
+      gradient: ['#FF6A3D', '#fd4a12', '#FFC24A'] as const,
       route: '/rides/rides'
     }
   ];
 
   return (
-    <View className='flex-1 bg-gray-50'>
-      
+    <SafeAreaView className='flex-1 bg-gray-50'>
+
       <View className="px-6 py-3  pt-20">
         <View className="flex-row items-center justify-between">
           <View className="flex-row items-center">
-            <TouchableOpacity onPress={() => router.push('/notifications/notifications')} className="mr-3 p-2">
-              <Ionicons name="notifications-outline" size={22} color="#374151" />
-            </TouchableOpacity>
+
 
             <View>
-              <Text className="text-base text-gray-900 font-semibold arabic-font">
+              <Text className="text-base text-primary font-semibold arabic-font">
                 {t('home.welcome')}
               </Text>
               <Text className="text-sm text-gray-600 arabic-font">
-                { auth?.user?.name || auth?.name || t('home.guest') }
+                {auth?.user?.name || auth?.name || t('home.guest')}
               </Text>
             </View>
           </View>
 
-          <TouchableOpacity onPress={() => router.push('/cart/cart')} className="p-2">
-            <View className="relative">
-              <Ionicons name="cart-outline" size={24} color="#374151" />
-              {totalItems > 0 && (
-                <View className="absolute -top-2 -right-2 bg-red-600 rounded-full px-2 py-0.5">
-                  <Text className="text-xs text-white">{totalItems}</Text>
+          <View className="flex-row items-center">
+            <TouchableOpacity onPress={() => router.push('/notifications/notifications')} className="p-2">
+              <View className="relative">
+                <FontAwesome name="bell" size={20} color="black" />
+                <View className="absolute -top-2 -right-2 w-4 h-4 bg-primary rounded-full px-2 py-0.5">
+                  {/* <Text className="text-xs text-white"></Text> */}
                 </View>
-              )}
-            </View>
-          </TouchableOpacity>
+              </View>
+            </TouchableOpacity>
+
+
+            <TouchableOpacity onPress={() => router.push('/cart/cart')} className="p-2">
+              <View className="relative">
+                <Ionicons name="bag" size={24} color="black" />
+                {totalItems > 0 && (
+                  <View className="absolute -top-2 -right-2 bg-primary rounded-full px-2 py-0.5">
+                    <Text className="text-xs text-white">{totalItems}</Text>
+                  </View>
+                )}
+              </View>
+            </TouchableOpacity>
+          </View>
+
+
         </View>
       </View>
 
       <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
         {/* Service Cards Grid */}
-        <View className='px-6 py-6'>
-          <View className='flex-row flex-wrap justify-between'>
+        <View className='px-5 py-4'>
+
+          <Text className='text-xl font-bold text-gray-800 mb-5 arabic-font'>
+            {t('home.services')}
+          </Text>
+
+          <View className='flex-row flex-wrap -mx-2'>
             {serviceCards.map((service, index) => (
-              <TouchableOpacity
-                key={service.id}
-                onPress={() => handleNavigation(service.route)}
-                className='w-[48%] mb-4 rounded-2xl overflow-hidden'
-                activeOpacity={0.8}
-              >
-                <LinearGradient
-                  colors={service.gradient}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  className='rounded-2xl p-6 h-32'
+              <View key={service.id} className='w-1/2 px-2 mb-4'>
+                <TouchableOpacity
+                  onPress={() => handleNavigation(service.route)}
+                  activeOpacity={10}
+                  className='bg-white rounded-3xl overflow-hidden'
                   style={{
-                    shadowColor: service.gradient[0],
+                    shadowColor: '#000',
                     shadowOffset: { width: 0, height: 4 },
-                    shadowOpacity: 0.3,
-                    shadowRadius: 8,
-                    elevation: 8,
+                    shadowOpacity: 0.08,
+                    shadowRadius: 12,
+                    elevation: 2,
                   }}
                 >
-                  <View className='flex-1 justify-between'>
-                    <View className='items-center'>
-                      <View className='bg-white/20 p-3 rounded-xl mb-3'>
-                        <Ionicons
-                          name={service.icon as any}
-                          size={28}
-                          color="white"
-                        />
+                  <LinearGradient
+                    colors={[service.gradient[0] + '', service.gradient[1] + '']}
+                    start={{ x: 0, y: 0 }}
+                    end={{ x: 1, y: 1 }}
+                    className='p-5 h-36'
+                  >
+                    <View className='flex-1 justify-between'>
+                      <View 
+                        className='w-14 h-14 rounded-2xl items-center justify-center mb-2'
+                        style={{ backgroundColor: service.gradient[0] + '20' }}
+                      >
+                        <View 
+                          className='w-12 h-12 rounded-xl items-center justify-center'
+                          style={{ backgroundColor: service.gradient[0] }}
+                        >
+                          <Ionicons
+                            name={service.icon as any}
+                            size={24}
+                            color="white"
+                          />
+                        </View>
+                      </View>
+                      <View>
+                        <Text className='text-white  arabic-font-bold text-base mb-1'>
+                          {service.title}
+                        </Text>
+                        <View className='flex-row items-center'>
+                          <Text 
+                            className='text-xs font-semibold arabic-font text-white'
+                            // style={{ color: service.gradient[0] }}
+                          >
+                            {t('home.explore')}
+                          </Text>
+                          <Ionicons
+                            name="arrow-forward"
+                            size={12}
+                            // color={service.gradient[0]}
+                            color="white"
+                            style={{ marginLeft: 4 }}
+                          />
+                        </View>
                       </View>
                     </View>
-                    <Text className='text-white text-center font-semibold arabic-font text-base'>
-                      {service.title}
-                    </Text>
-                  </View>
-                </LinearGradient>
-              </TouchableOpacity>
+                  </LinearGradient>
+                </TouchableOpacity>
+              </View>
             ))}
           </View>
         </View>
 
-        {/* Additional spacing for BottomNavigation */}
+        <Banner />
         <View className='h-20' />
       </ScrollView>
 
-      <BottomNavigation />
-    </View>
+      {/* <BottomNavigation /> */}
+      <CreativeBottomNavigation />
+    </SafeAreaView>
   );
 }

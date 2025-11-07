@@ -12,8 +12,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { useColorScheme } from '@/components/useColorScheme';
 import { ReduxProvider } from '../store/ReduxProvider';
 import '../global.css';
-// Initialize i18n immediately
-import '../i18n';
+import '../lib/i18n'
 import ToastManager from 'toastify-react-native';
 import AuthProvider from '@/context/auth_context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -100,23 +99,8 @@ function RootLayoutNav() {
           <SafeAreaProvider>
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
               <Stack screenOptions={{ headerShown: false }}>
-                {/* Main App Screens */}
-                <Stack.Screen name="index" options={{ headerShown: false }} />
-                <Stack.Screen name="auth/login" options={{ headerShown: false }} />
-                <Stack.Screen name="auth/register" options={{ headerShown: false }} />
-                <Stack.Screen name="account/account" options={{ headerShown: false }} />
-                <Stack.Screen name="rides/rides" options={{ headerShown: false }} />
-                <Stack.Screen name="notifications/notifications" options={{ headerShown: false }} />
-                <Stack.Screen name="cart/cart" options={{ headerShown: false }} />
-                <Stack.Screen name="wishlist/wishlist" options={{ headerShown: false }} />
-                <Stack.Screen name="order/order" options={{ headerShown: false }} />
-
-                {/* Restaurant Screens */}
-                <Stack.Screen name="restaurants/restaurants" options={{ headerShown: false }} />
-                <Stack.Screen name="restaurants/menu" options={{ headerShown: false }} />
-                
-                {/* Fallback */}
-                <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+                 <Stack.Screen name="index" options={{ headerShown: false }} />
+                 <Stack.Screen name="+not-found" options={{ headerShown: false }} />
               </Stack>
               <ToastManager />
             </ThemeProvider>

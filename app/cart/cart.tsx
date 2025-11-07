@@ -46,18 +46,83 @@ export default function Cart() {
 
   return (
     <View className="flex-1 bg-gray-50">
-      {/* Header */}
-      <View className="bg-white px-4 pt-20 pb-10 border-b border-gray-100">
-        <View className="flex-row items-center justify-between">
-          <View className="flex-row items-center">
-            <TouchableOpacity onPress={() => router.back()} className="mr-4">
-              <Ionicons name="arrow-back" size={24} color="#374151" />
-            </TouchableOpacity>
-            <Text className="text-xl text-gray-900 arabic-font">{t('navigation.cart')} ({totalItems})</Text>
-          </View>
-          <TouchableOpacity onPress={handleClearCart}>
-            <Text className="text-red-500 font-semibold arabic-font">{t('cart.clearCart')}</Text>
+      {/* Creative Header */}
+      <View 
+        className="pt-14 pb-8 px-5"
+        style={{ backgroundColor: '#242424' }}
+      >
+        {/* Top Row - Back Button & Clear Cart */}
+        <View className="flex-row items-center justify-between mb-6">
+          <TouchableOpacity 
+            onPress={() => router.back()}
+            className='w-11 h-11 rounded-2xl items-center justify-center'
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              borderWidth: 1,
+              borderColor: 'rgba(255, 255, 255, 0.2)',
+            }}
+          >
+            <Ionicons name="arrow-back" size={22} color="white" />
           </TouchableOpacity>
+
+          <TouchableOpacity 
+            onPress={handleClearCart}
+            className='flex-row items-center px-4 py-2 rounded-2xl'
+            style={{
+              backgroundColor: 'rgba(253, 74, 18, 0.15)',
+              borderWidth: 1,
+              borderColor: 'rgba(253, 74, 18, 0.3)',
+            }}
+          >
+            <Ionicons name="trash-outline" size={18} color="white" />
+            <Text className="text-sm font-semibold ml-2 arabic-font text-white">
+              {t('cart.clearCart')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Title & Items Count */}
+        <View className="mb-4">
+          <Text className="text-3xl arabic-font-bold text-white mb-2">
+            {t('navigation.cart')}
+          </Text>
+          <View className="flex-row items-center">
+            <View 
+              className="px-3 py-1.5 rounded-full flex-row items-center"
+              style={{ backgroundColor: 'rgba(253, 74, 18, 0.2)' }}
+            >
+              <Ionicons name="cart" size={16} color="#fd4a12" />
+              <Text className="text-sm font-semibold ml-1.5 arabic-font" style={{ color: '#fd4a12' }}>
+                {totalItems} {totalItems === 1 ? t('cart.item') : t('cart.items')}
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {/* Total Price Card */}
+        <View 
+          className="rounded-2xl p-4 flex-row items-center justify-between"
+          style={{
+            backgroundColor: 'rgba(255, 255, 255, 0.05)',
+            borderWidth: 1,
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+          }}
+        >
+          <View>
+            <Text className="text-white/60 text-xs mb-1 arabic-font" style={{ fontFamily: 'Cairo_400Regular' }}>
+              
+              {t('cart.totalAmount')}
+            </Text>
+            <Text className="text-white text-2xl font-bold" style={{ fontFamily: 'Cairo_700Bold' }}>
+              {config.CurrencySymbol} {(totalPrice + 2.99).toFixed(2)}
+            </Text>
+          </View>
+          <View 
+            className="w-12 h-12 rounded-full items-center justify-center"
+            style={{ backgroundColor: 'rgba(253, 74, 18, 0.2)' }}
+          >
+            <Ionicons name="wallet" size={24} color="#fd4a12" />
+          </View>
         </View>
       </View>
 
@@ -165,7 +230,7 @@ export default function Cart() {
         <View className="h-20" />
       </ScrollView>
 
-      <BottomNavigation />
+      {/* <BottomNavigation /> */}
     </View>
   );
 }

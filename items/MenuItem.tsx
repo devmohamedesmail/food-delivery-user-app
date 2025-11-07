@@ -9,6 +9,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Ionicons } from '@expo/vector-icons';
 import { Toast } from 'toastify-react-native';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import Colors from '@/constants/Colors';
 
 interface MenuItemProps {
     item: {
@@ -103,7 +104,7 @@ export default function MenuItem({ item, restaurantId , restaurantName }: MenuIt
                 {/* Wishlist Button Overlay */}
                 <TouchableOpacity 
                     onPress={handleToggleWishlist}
-                    className="absolute top-2 right-2 bg-white/90 p-2 rounded-full"
+                    className="absolute top-4 right-5 bg-white p-2 rounded-full"
                     style={{
                         shadowColor: '#000',
                         shadowOffset: { width: 0, height: 1 },
@@ -114,7 +115,7 @@ export default function MenuItem({ item, restaurantId , restaurantName }: MenuIt
                     <MaterialCommunityIcons 
                         name={isInWishlist ? "heart" : "heart-outline"} 
                         size={20} 
-                        color={isInWishlist ? "#EF4444" : "#6B7280"} 
+                        color={isInWishlist ? "#EF4444" : Colors.light.tabIconSelected} 
                     />
                 </TouchableOpacity>
             </View>

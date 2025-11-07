@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, ScrollView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, FlatList, ScrollView, Image, Share, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useLocalSearchParams } from "expo-router";
 import MenuItem from '../../items/MenuItem';
-import BottomNavigation from '@/components/BottomNavigation';
 import useFetch from '@/hooks/useFetch';
 import CustomLoading from '@/components/custom/customloading';
+import ErrorMessage from '@/components/ErrorMessage';
+import NoMealFound from '@/components/NoMealFound';
+import { useTranslation } from 'react-i18next';
+import { selectCartItems, selectCartTotalItems, selectCartTotalPrice, useAppSelector } from '@/store/hooks';
+import { config } from '@/constants/config';
 
 interface MenuItem {
   id: string;
@@ -26,12 +30,21 @@ interface CartItem extends MenuItem {
 export default function Menu() {
   const router = useRouter();
   const [cart, setCart] = useState<CartItem[]>([]);
-  const { id, name, address } = useLocalSearchParams();
+  const { id, name, address, image, reviews } = useLocalSearchParams();
   const restaurantId = Array.isArray(id) ? id[0] : id || '';
+  const { t } = useTranslation();
+  const cartItems = useAppSelector(selectCartItems);
+  const totalPrice = useAppSelector(selectCartTotalPrice);
+  const totalItems = useAppSelector(selectCartTotalItems);
+
+  // State for filtering
+  const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filteredMenu, setFilteredMenu] = useState<any[]>([]);
 
   // Fetch menu data using the custom hook
   const { data: menuRestaurant, loading, error } = useFetch(`/menu/restaurant/${restaurantId}`);
-  const { data: categories, loading: categoriesLoading, error: categoriesError } = useFetch(`/categories/restaurant/2`);
+  const { data: categories, loading: categoriesLoading, error: categoriesError } = useFetch(`/categories/restaurant/${restaurantId}`);
 
   const getTotalItems = () => {
     return cart.reduce((sum, item) => sum + item.quantity, 0);
@@ -39,86 +52,260 @@ export default function Menu() {
 
   // Ensure name is a string
   const restaurantName = Array.isArray(name) ? name[0] : name || '';
+  const restaurantAddress = Array.isArray(address) ? address[0] : address || '';
+
+
+  // Parse reviews
+  const parsedReviews = reviews ? JSON.parse(Array.isArray(reviews) ? reviews[0] : reviews) : [];
+  const averageRating = parsedReviews.length > 0
+    ? (parsedReviews.reduce((sum: number, r: any) => sum + r.rating, 0) / parsedReviews.length).toFixed(1)
+    : '0.0';
+
+  // Share function
+  const handleShare = async () => {
+    try {
+      await Share.share({
+        message: `Check out ${restaurantName} on our app!`,
+        title: restaurantName,
+      });
+    } catch (error) {
+      console.log('Error sharing:', error);
+    }
+  };
+
+  // Filter menu items based on category and search
+  useEffect(() => {
+    if (!menuRestaurant) return;
+
+    let filtered = menuRestaurant;
+
+    // Filter by category
+    if (selectedCategory !== null) {
+      filtered = filtered.filter((item: any) => item.category_id === selectedCategory);
+    }
+
+    // Filter by search query
+    if (searchQuery.trim() !== '') {
+      filtered = filtered.filter((item: any) =>
+        item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
+    setFilteredMenu(filtered);
+  }, [menuRestaurant, selectedCategory, searchQuery]);
+
+  // Handle category selection
+  const handleCategoryPress = (categoryId: number) => {
+    if (selectedCategory === categoryId) {
+      setSelectedCategory(null); // Deselect if already selected
+    } else {
+      setSelectedCategory(categoryId);
+    }
+  };
+
+  // Handle search
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
 
 
   // Error state
   if (error) {
     return (
-      <View className="flex-1 bg-gray-50">
-        <View className="bg-white pt-12 pb-4 shadow-sm">
-          <View className="flex-row items-center justify-between px-4 mb-4">
-            <TouchableOpacity
-              onPress={() => router.back()}
-              className="bg-gray-100 p-2 rounded-full"
-            >
-              <Ionicons name="arrow-back" size={24} color="#374151" />
-            </TouchableOpacity>
-          </View>
-        </View>
-        <View className="flex-1 items-center justify-center px-8">
-          <View className="w-20 h-20 rounded-full bg-red-100 items-center justify-center mb-4">
-            <Ionicons name="alert-circle-outline" size={40} color="#EF4444" />
-          </View>
-          <Text className="text-gray-900 text-xl font-bold mb-2 text-center">
-            Failed to load menu
-          </Text>
-          <Text className="text-gray-500 text-center leading-6">
-            Unable to load the menu. Please check your connection and try again.
-          </Text>
-        </View>
-      </View>
+      <ErrorMessage />
     );
   }
 
+
+
+
+
+
+
+
   return (
     <View className="flex-1 bg-gray-50">
-      {/* Header */}
-      <View className="bg-white pt-12 pb-4 shadow-sm">
-        <View className="flex-row items-center justify-between px-4 mb-4">
+
+      {/* Creative Header with Restaurant Image */}
+      <View className='relative'>
+        {/* Background Image */}
+        <Image
+          source={require('../../assets/images/banners/9.jpg')}
+          className="w-full h-64"
+          style={{ resizeMode: 'cover' }}
+        />
+
+        {/* Dark Overlay */}
+        <View className="absolute inset-0 bg-black/30" />
+
+        {/* Back Button */}
+        <View className="absolute top-14 left-5">
           <TouchableOpacity
             onPress={() => router.back()}
-            className="bg-gray-100 p-2 rounded-full"
+            className='w-11 h-11 rounded-2xl items-center justify-center'
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.15,
+              shadowRadius: 8,
+              elevation: 5,
+            }}
           >
-            <Ionicons name="arrow-back" size={24} color="#374151" />
-          </TouchableOpacity>
-
-          <View className="flex-1 mx-4">
-            <Text className="text-xl font-bold text-gray-900 text-center">{name}</Text>
-            <Text className="text-gray-600 text-sm text-center">{address}</Text>
-          </View>
-
-          <TouchableOpacity className="bg-gray-100 p-2 rounded-full">
-            <Ionicons name="search" size={24} color="#374151" />
+            <Ionicons name="arrow-back" size={22} color="#1a1a1a" />
           </TouchableOpacity>
         </View>
 
-        {/* Restaurant Info */}
-        <View className="flex-row items-center justify-around bg-gray-50 mx-4 p-3 rounded-xl">
-          <View className="flex-row items-center">
-            <Ionicons name="star" size={16} color="#F59E0B" />
-            <Text className="text-gray-700 font-semibold ml-1">4.8</Text>
-          </View>
-          <View className="flex-row items-center">
-            <Ionicons name="time-outline" size={16} color="#6B7280" />
-            <Text className="text-gray-700 ml-1">25-35 min</Text>
-          </View>
-          <View className="flex-row items-center">
-            <Ionicons name="bicycle-outline" size={16} color="#6B7280" />
-            <Text className="text-gray-700 ml-1">$2.99 delivery</Text>
+        {/* Share Button */}
+        <View className="absolute top-14 right-5">
+          <TouchableOpacity
+            onPress={handleShare}
+            className='w-11 h-11 rounded-2xl items-center justify-center'
+            style={{
+              backgroundColor: 'rgba(255, 255, 255, 0.95)',
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.15,
+              shadowRadius: 8,
+              elevation: 5,
+            }}
+          >
+            <Ionicons name="share-social" size={22} color="#fd4a12" />
+          </TouchableOpacity>
+        </View>
+
+        {/* Restaurant Info Card - Overlapping */}
+        <View className="absolute -bottom-16 left-5 right-5">
+          <View
+            className="bg-white rounded-3xl p-5"
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 8 },
+              shadowOpacity: 0.15,
+              shadowRadius: 16,
+              elevation: 10,
+            }}
+          >
+            <Text className="text-2xl font-bold text-gray-900 mb-2" style={{ fontFamily: 'Cairo_700Bold' }}>
+              {restaurantName}
+            </Text>
+            <Text className="text-gray-500 text-sm mb-4" style={{ fontFamily: 'Cairo_400Regular' }}>
+              {restaurantAddress}
+            </Text>
+
+            {/* Reviews & Info */}
+            <View className="flex-row items-center justify-between">
+              <View className="flex-row items-center">
+                <Ionicons name="star" size={20} color="#fd4a12" />
+                <Text className="text-gray-800 font-bold text-base ml-1" style={{ fontFamily: 'Cairo_700Bold' }}>
+                  {averageRating}
+                </Text>
+                <Text className="text-gray-500 text-sm ml-1" style={{ fontFamily: 'Cairo_400Regular' }}>
+                  ({parsedReviews.length} reviews)
+                </Text>
+              </View>
+
+              <View className="flex-row items-center">
+                <Ionicons name="time-outline" size={18} color="#6B7280" />
+                <Text className="text-gray-600 text-sm ml-1" style={{ fontFamily: 'Cairo_400Regular' }}>
+                  25-35 min
+                </Text>
+              </View>
+
+              <View className="flex-row items-center">
+                <Ionicons name="bicycle-outline" size={18} color="#6B7280" />
+                <Text className="text-gray-600 text-sm ml-1" style={{ fontFamily: 'Cairo_400Regular' }}>
+                  $2.99
+                </Text>
+              </View>
+            </View>
           </View>
         </View>
       </View>
 
+      {/* Spacer for overlapping card */}
+      <View className="h-20" />
+
+      {/* Search Bar */}
+      <View className="px-5 mb-4">
+        <View
+          className="flex-row items-center bg-white rounded-2xl px-4 py-3.5"
+          style={{
+            shadowColor: '#000',
+            shadowOffset: { width: 0, height: 3 },
+            shadowOpacity: 0.08,
+            shadowRadius: 8,
+            elevation: 3,
+          }}
+        >
+          <Ionicons name="search" size={22} color="#fd4a12" />
+          <TextInput
+            placeholder={t('menu.searchForMeals')}
+            value={searchQuery}
+            onChangeText={handleSearch}
+            className="flex-1 ml-3 text-gray-900 text-base arabic-font text-right"
+            placeholderTextColor="#9CA3AF"
+          // style={{ fontFamily: 'Cairo_400Regular' }}
+          />
+          {searchQuery.length > 0 && (
+            <TouchableOpacity onPress={() => handleSearch('')}>
+              <Ionicons name="close-circle" size={22} color="#fd4a12" />
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
+
+
+      {/* Header */}
 
       {/* Categories */}
-      <View>
-        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="px-4 py-3">
+      <View className="mb-4">
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} className="px-4">
+          {/* All Categories Button */}
+          <TouchableOpacity
+            onPress={() => setSelectedCategory(null)}
+            className={`px-5 py-2.5 mr-3 rounded-2xl ${selectedCategory === null ? 'bg-primary' : 'bg-white border border-gray-200'
+              }`}
+            style={{
+              shadowColor: selectedCategory === null ? '#fd4a12' : '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: selectedCategory === null ? 0.25 : 0.05,
+              shadowRadius: 4,
+              elevation: selectedCategory === null ? 4 : 1,
+            }}
+          >
+            <Text
+              className={`arabic-font font-semibold ${selectedCategory === null ? 'text-white' : 'text-gray-700'
+                }`}
+              style={{ fontFamily: 'Cairo_600SemiBold' }}
+            >
+              All
+            </Text>
+          </TouchableOpacity>
+
+          {/* Category Buttons */}
           {categories && categories.map((category: any) => (
             <TouchableOpacity
               key={category.id}
-              className="px-4 py-2 mr-2 bg-white rounded-full border border-gray-300"
+              onPress={() => handleCategoryPress(category.id)}
+              className={`px-5 py-2.5 mr-3 rounded-2xl ${selectedCategory === category.id ? 'bg-primary' : 'bg-white border border-gray-200'
+                }`}
+              style={{
+                shadowColor: selectedCategory === category.id ? '#fd4a12' : '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: selectedCategory === category.id ? 0.25 : 0.05,
+                shadowRadius: 4,
+                elevation: selectedCategory === category.id ? 4 : 1,
+              }}
             >
-              <Text className="text-gray-700 arabic-font">{category.name}</Text>
+              <Text
+                className={`arabic-font font-semibold ${selectedCategory === category.id ? 'text-white' : 'text-gray-700'
+                  }`}
+                style={{ fontFamily: 'Cairo_600SemiBold' }}
+              >
+                {category.name}
+              </Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -128,29 +315,40 @@ export default function Menu() {
         <CustomLoading />
       ) : (
         <FlatList
-          data={menuRestaurant || []}
+          data={filteredMenu || []}
           renderItem={({ item }) => <MenuItem item={item} restaurantId={restaurantId} restaurantName={restaurantName} />}
           keyExtractor={(item) => item.id}
           numColumns={2}
-          columnWrapperStyle={{ 
+          columnWrapperStyle={{
             justifyContent: 'space-between',
             paddingHorizontal: 16,
             marginBottom: 16
           }}
-          contentContainerStyle={{ 
+          contentContainerStyle={{
             paddingTop: 16,
-            paddingBottom: getTotalItems() > 0 ? 120 : 20 
+            paddingBottom: getTotalItems() > 0 ? 120 : 20
           }}
           showsVerticalScrollIndicator={false}
+          ListEmptyComponent={() => <NoMealFound />}
         />
       )}
 
 
-      {/* Menu Items */}
 
 
 
-      <BottomNavigation />
+
+
+      {cartItems.length > 0 ? (
+        <View className='bg-primary h-14 fixed bottom-10 rounded-full overflow-hidden mx-4'>
+          <View className='flex justify-between items-center flex-row h-14 px-6'>
+            <Text className='text-white font-semibold'>{totalPrice.toFixed(2)} {config.CurrencySymbol} </Text>
+           <TouchableOpacity onPress={()=> router.push('/cart/cart')}>
+              <Text className='text-white font-semibold'> {t('menu.view_cart')} - ( {totalItems} ) </Text>
+           </TouchableOpacity>
+          </View>
+        </View>
+      ) : (<></>)}
     </View>
   );
 }

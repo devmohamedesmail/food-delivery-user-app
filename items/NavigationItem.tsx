@@ -9,7 +9,7 @@ interface NavigationItemProps {
 }
 
 export default function NavigationItem({ icon, label, onPress, isActive = false }: NavigationItemProps) {
-    const iconColor = isActive ? '#10b981' : '#6b7280';
+    const iconColor = isActive ? 'red' : '#6b7280';
     
     // Animation values
     const scaleAnim = useRef(new Animated.Value(1)).current;
@@ -110,7 +110,7 @@ export default function NavigationItem({ icon, label, onPress, isActive = false 
                 </Animated.View>
                 <Text 
                     className={`text-xs font-medium arabic-font ${
-                        isActive ? 'text-green-600' : 'text-gray-500'
+                        isActive ? 'text-primary' : 'text-gray-500'
                     }`}
                     numberOfLines={1}
                 >

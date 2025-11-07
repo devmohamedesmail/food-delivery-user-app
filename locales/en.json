@@ -87,7 +87,10 @@
     "cart": "Cart",
     "rides": "Rides",
     "welcome": "Welcome",
-    "whatDoYouNeed": "What do you need?"
+    "whatDoYouNeed": "What do you need?",
+    "services": "Our Services",
+    "explore": "Explore",
+    "guest": "Guest"
   },
   "transport": {
     "bookRide": "Book a Ride",
@@ -133,7 +136,13 @@
     "tryAgainLater": "Please try again later"
   },
   "menu": {
-    "addtocart": "Add to Cart"
+    "addtocart": "Add to Cart",
+    "noMealsFound": "No meals found",
+    "noMealsAvailable": "No meals available",
+    "tryDifferentSearch": "Try a different search or browse categories",
+    "tryAgainLater": "Please try again later",
+    "searchForMeals": "Search for meals...",
+    "view_cart": "View Cart"
   },
   "account": {
     "swithchlanguage": "Switch Language",
@@ -178,7 +187,10 @@
     "readyToCheckout": "Ready to Checkout",
     "loginToCheckout": "Login to Checkout",
     "areYouSureClearCart": "Are you sure you want to remove all items from your cart?",
-    "clear_all": "Clear All"
+    "clear_all": "Clear All",
+    "totalAmount": "Total Amount",
+    "item": "item"
+   
   
   },
   "wishlist": {
@@ -191,6 +203,7 @@
   },
   "order": {
     "title": "Order Details",
+    "reviewAndConfirm": "Review and confirm your order",
     "orderSummary": "Order Summary",
     "customerInfo": "Customer Information",
     "fullName": "Full Name",
@@ -214,7 +227,14 @@
     "invalidPhone": "Please enter a valid phone number",
     "orderErrorcreate": "There was an error creating your order. Please try again.",
     "orderSuccesscreate": "Your order has been placed successfully!",
-    "enterDeliveryAddress": "Enter your delivery address"
+    "enterDeliveryAddress": "Enter your delivery address",
+    "useMyLocation": "Use My Current Location",
+    "gettingLocation": "Getting your location...",
+    "locationPermission": "Location Permission Required",
+    "locationPermissionMessage": "We need your location permission to get your current address",
+    "locationError": "Location Error",
+    "locationErrorMessage": "Unable to get your location. Please enter address manually.",
+    "locationSuccess": "Location retrieved successfully!"
   },
   "orders": {
     "myOrders": "My Orders",

@@ -62,7 +62,7 @@ export default function BottomNavigation() {
         width={width}
         height={80}
         viewBox={`0 0 ${width} 80`}
-        className="absolute bottom-0"
+        className="absolute bottom-0 "
         style={{
           shadowColor: '#000',
           shadowOffset: { width: 0, height: -4 },
@@ -113,11 +113,11 @@ export default function BottomNavigation() {
             activeOpacity={0.8}
             className="items-center justify-center"
             style={{
-              width: 64,
-              height: 64,
+              width: 54,
+              height: 54,
               borderRadius: 32,
-              backgroundColor: '#10b981',
-              shadowColor: '#10b981',
+              backgroundColor: 'red',
+              shadowColor: 'red',
               shadowOffset: { width: 0, height: 4 },
               shadowOpacity: 0.3,
               shadowRadius: 12,
@@ -128,7 +128,7 @@ export default function BottomNavigation() {
               <Fontisto name="shopping-bag-1" size={26} color="white" />
             </View>
           </TouchableOpacity>
-          <Text className="text-xs font-medium text-green-600 mt-1">
+          <Text className="text-xs font-medium text-primary mt-1">
             {t('navigation.cart')}
           </Text>
         </View>

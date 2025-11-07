@@ -74,12 +74,13 @@ export default function CartItem({ item }: any) {
                         </Text>
 
                         {/* Quantity Controls */}
-                        <View className="flex-row items-center bg-gray-100 rounded-xl">
+                        <View className="flex-row items-center bg-gray-200 rounded-full p-1 px-2">
                             <TouchableOpacity
+                                
                                 onPress={() => handleDecreaseQuantity(item.id)}
-                                className="p-2"
+                                className="p-2 bg-primary rounded-full"
                             >
-                                <Ionicons name="remove" size={18} color="#374151" />
+                                <Ionicons name="remove" size={18} color="white" />
                             </TouchableOpacity>
 
                             <View className="px-4 py-2">
@@ -88,9 +89,9 @@ export default function CartItem({ item }: any) {
 
                             <TouchableOpacity
                                 onPress={() => handleIncreaseQuantity(item.id)}
-                                className="p-2"
+                                className="p-2 bg-primary rounded-full"
                             >
-                                <Ionicons name="add" size={18} color="#374151" />
+                                <Ionicons name="add" size={18} color="white" />
                             </TouchableOpacity>
                         </View>
                     </View>
