@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert, Dimensions, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Alert, Dimensions, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -9,6 +9,9 @@ import { useTranslation } from 'react-i18next';
 import useFetch from '@/hooks/useFetch';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import { config } from '@/constants/config';
+import { useRouter } from 'expo-router';
+import { LinearGradient } from 'expo-linear-gradient';
 
 const { width, height } = Dimensions.get('window');
 const GOOGLE_API_KEY = "AIzaSyCWrI-BwVYZE6D7wzFCVeEuaKr6VR-6FGI";
@@ -25,6 +28,7 @@ interface PlaceResult {
 
 export default function Rides() {
   const { t } = useTranslation();
+  const router = useRouter();
   const mapRef = useRef<MapView>(null);
   const bottomSheetRef = useRef<BottomSheet>(null);
   
@@ -33,6 +37,7 @@ export default function Rides() {
   const [destination, setDestination] = useState<LocationCoords | null>(null);
   const [originAddress, setOriginAddress] = useState('');
   const [destinationAddress, setDestinationAddress] = useState('');
+  const [currentLocation, setCurrentLocation] = useState<LocationCoords | null>(null);
   
   // Search states
   const [originInput, setOriginInput] = useState('');
@@ -69,6 +74,7 @@ export default function Rides() {
       const { latitude, longitude } = location.coords;
       
       setOrigin({ latitude, longitude });
+      setCurrentLocation({ latitude, longitude });
       
       // Reverse geocode to get address
       const addressResponse = await axios.get(
@@ -84,13 +90,26 @@ export default function Rides() {
       mapRef.current?.animateToRegion({
         latitude,
         longitude,
-        latitudeDelta: 0.05,
-        longitudeDelta: 0.05,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
       });
     } catch (error) {
       Alert.alert('Error', 'Failed to get your location');
     } finally {
       setLoading(false);
+    }
+  };
+
+  // Center map to current location
+  const centerMapToMyLocation = () => {
+    if (currentLocation) {
+      mapRef.current?.animateToRegion({
+        ...currentLocation,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      }, 1000);
+    } else {
+      getMyLocation();
     }
   };
 
@@ -237,10 +256,15 @@ export default function Rides() {
     }
   }, [origin, destination]);
 
+  // Get user location on mount
+  useEffect(() => {
+    getMyLocation();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View className="flex-1 bg-white">
-        {/* Map */}
+        {/* Map with Street View */}
         <MapView
           ref={mapRef}
           provider={PROVIDER_GOOGLE}
@@ -251,6 +275,14 @@ export default function Rides() {
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
+          showsUserLocation={true}
+          showsMyLocationButton={false}
+          showsCompass={true}
+          showsScale={true}
+          showsBuildings={true}
+          showsTraffic={true}
+          showsIndoors={true}
+          mapType="standard"
         >
           {origin && (
             <Marker
@@ -258,7 +290,7 @@ export default function Rides() {
               title="Pickup Location"
               pinColor="green"
             >
-              <View className="bg-green-500 p-3 rounded-full">
+              <View className="bg-green-500 p-3 rounded-full shadow-lg">
                 <Ionicons name="location" size={24} color="white" />
               </View>
             </Marker>
@@ -270,7 +302,7 @@ export default function Rides() {
               title="Destination"
               pinColor="red"
             >
-              <View className="bg-red-500 p-3 rounded-full">
+              <View className="bg-red-500 p-3 rounded-full shadow-lg">
                 <Ionicons name="flag" size={24} color="white" />
               </View>
             </Marker>
@@ -279,11 +311,101 @@ export default function Rides() {
           {routeCoordinates.length > 0 && (
             <Polyline
               coordinates={routeCoordinates}
-              strokeWidth={4}
+              strokeWidth={5}
               strokeColor="#fd4a12"
             />
           )}
         </MapView>
+
+        {/* Professional Header */}
+        <SafeAreaView className="absolute top-0 left-0 right-0">
+          <LinearGradient
+            colors={['rgba(255,255,255,0.95)', 'rgba(255,255,255,0.85)', 'transparent']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }}
+            className="pb-4"
+          >
+            <View className="px-4 pt-10">
+              <View className="flex-row items-center justify-between">
+                {/* Back Button */}
+                <TouchableOpacity
+                  onPress={() => router.back()}
+                  className="w-12 h-12 bg-white rounded-2xl items-center justify-center"
+                  style={{
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.15,
+                    shadowRadius: 8,
+                    elevation: 5,
+                  }}
+                >
+                  <Ionicons name="arrow-back" size={24} color="#000" />
+                </TouchableOpacity>
+
+                {/* Title */}
+                <View className="flex-1 mx-4">
+                  <Text className="text-xl font-bold text-gray-900 text-center arabic-font">
+                    {t('rides.bookARide')}
+                  </Text>
+                  {distance && (
+                    <Text className="text-xs text-gray-600 text-center mt-1">
+                      {distance} • {duration}
+                    </Text>
+                  )}
+                </View>
+
+                {/* Menu Button */}
+                <TouchableOpacity
+                  className="w-12 h-12 bg-white rounded-2xl items-center justify-center"
+                  style={{
+                    shadowColor: '#000',
+                    shadowOffset: { width: 0, height: 4 },
+                    shadowOpacity: 0.15,
+                    shadowRadius: 8,
+                    elevation: 5,
+                  }}
+                >
+                  <Ionicons name="menu" size={24} color="#000" />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </LinearGradient>
+        </SafeAreaView>
+
+        {/* Locate Me Button */}
+        <SafeAreaView className="absolute right-4" style={{ top: height * 0.4 }}>
+          <TouchableOpacity
+            onPress={centerMapToMyLocation}
+            className="w-12 h-12 bg-white rounded-full items-center justify-center mb-3"
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.2,
+              shadowRadius: 6,
+              elevation: 5,
+            }}
+          >
+            {loading ? (
+              <ActivityIndicator size="small" color="#fd4a12" />
+            ) : (
+              <Ionicons name="navigate" size={24} color="#fd4a12" />
+            )}
+          </TouchableOpacity>
+
+          {/* Map Type Toggle */}
+          <TouchableOpacity
+            className="w-12 h-12 bg-white rounded-full items-center justify-center"
+            style={{
+              shadowColor: '#000',
+              shadowOffset: { width: 0, height: 2 },
+              shadowOpacity: 0.2,
+              shadowRadius: 6,
+              elevation: 5,
+            }}
+          >
+            <Ionicons name="layers-outline" size={24} color="#6B7280" />
+          </TouchableOpacity>
+        </SafeAreaView>
 
         {/* Bottom Sheet */}
         <BottomSheet
@@ -295,14 +417,19 @@ export default function Rides() {
           handleIndicatorStyle={{ backgroundColor: '#d1d5db' }}
         >
           <BottomSheetScrollView className="flex-1 px-4">
-            <Text className="text-2xl font-bold text-gray-900 mb-6">Book a Ride</Text>
-            
+            <Text className="text-2xl arabic-font text-center text-gray-900 mb-6">
+              {t('rides.bookARide')}
+            </Text>
+
             {/* Origin Input */}
             <View className="mb-4">
               <View className="bg-gray-50 rounded-2xl p-4 flex-row items-center">
                 <View className="bg-green-500 w-3 h-3 rounded-full mr-3" />
                 <View className="flex-1">
-                  <Text className="text-gray-500 text-xs mb-1">Pickup Location</Text>
+                  <Text className="text-gray-500 text-xs mb-1">
+                    {t('rides.pickupLocation')}
+                   
+                    </Text>
                   <TextInput
                     value={originInput}
                     onChangeText={(text) => {
@@ -310,7 +437,7 @@ export default function Rides() {
                       searchPlaces(text, true);
                       setShowOriginSuggestions(true);
                     }}
-                    placeholder="Enter pickup location"
+                    placeholder={t('rides.enterPickupLocation')}
                     className="text-gray-900 font-medium"
                   />
                 </View>
@@ -354,7 +481,9 @@ export default function Rides() {
               <View className="bg-gray-50 rounded-2xl p-4 flex-row items-center">
                 <View className="bg-red-500 w-3 h-3 rounded-full mr-3" />
                 <View className="flex-1">
-                  <Text className="text-gray-500 text-xs mb-1">Destination</Text>
+                  <Text className="text-gray-500 text-xs mb-1">
+                    {t('rides.destination')}
+                  </Text>
                   <TextInput
                     value={destinationInput}
                     onChangeText={(text) => {
@@ -362,7 +491,7 @@ export default function Rides() {
                       searchPlaces(text, false);
                       setShowDestinationSuggestions(true);
                     }}
-                    placeholder="Enter destination"
+                    placeholder={t('rides.enterDestination')}
                     className="text-gray-900 font-medium"
                   />
                 </View>
@@ -401,7 +530,9 @@ export default function Rides() {
                   <View className="items-center">
                     <Ionicons name="navigate-outline" size={24} color="#fd4a12" />
                     <Text className="text-orange-900 font-bold text-lg mt-1">{distance}</Text>
-                    <Text className="text-orange-600 text-xs">Distance</Text>
+                    <Text className="text-orange-600 text-xs">
+                      {t('rides.distance')}
+                    </Text>
                   </View>
                   
                   <View className="w-px h-12 bg-orange-200" />
@@ -409,7 +540,9 @@ export default function Rides() {
                   <View className="items-center">
                     <Ionicons name="time-outline" size={24} color="#fd4a12" />
                     <Text className="text-orange-900 font-bold text-lg mt-1">{duration}</Text>
-                    <Text className="text-orange-600 text-xs">Duration</Text>
+                    <Text className="text-orange-600 text-xs">
+                      {t('rides.duration')}
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -418,7 +551,9 @@ export default function Rides() {
             {/* Vehicle Selection */}
             {vehiclesData && vehiclesData.length > 0 && distanceValue > 0 && (
               <View className="mb-4">
-                <Text className="text-lg font-bold text-gray-900 mb-3">Select Vehicle</Text>
+                <Text className="text-lg font-bold text-gray-900 mb-3">
+                  {t('rides.selectVehicle')}
+                </Text>
                 {vehiclesData.map((vehicle: any) => {
                   const price = calculatePrice(vehicle);
                   const isSelected = selectedVehicle?.id === vehicle.id;
@@ -448,24 +583,24 @@ export default function Rides() {
                           <Text className={`text-sm ${
                             isSelected ? 'text-orange-600' : 'text-gray-500'
                           }`}>
-                            {vehicle.type} • {vehicle.capacity} seats
+                            {vehicle.type} • {vehicle.capacity} {t('rides.seats')}
                           </Text>
                           <Text className={`text-xs mt-1 ${
                             isSelected ? 'text-orange-500' : 'text-gray-400'
                           }`}>
-                            ${vehicle.price_per_km}/km
+                            {config.CurrencySymbol} {vehicle.price_per_km}/km
                           </Text>
                         </View>
                         <View className="items-end">
                           <Text className={`text-2xl font-bold ${
                             isSelected ? 'text-orange-600' : 'text-gray-900'
                           }`}>
-                            ${price}
+                            {config.CurrencySymbol} {price}
                           </Text>
                           <Text className={`text-xs ${
                             isSelected ? 'text-orange-500' : 'text-gray-500'
                           }`}>
-                            Estimated
+                            {t('rides.estimated')}
                           </Text>
                         </View>
                       </View>
@@ -496,7 +631,7 @@ export default function Rides() {
                 <>
                   <Ionicons name="car-sport" size={24} color="white" />
                   <Text className="text-white font-bold text-lg ml-2">
-                    {distance ? 'Update Route' : 'Find Route'}
+                    {distance ? t('rides.updateRoute') : t('rides.findRoute')}
                   </Text>
                 </>
               )}
@@ -517,14 +652,14 @@ export default function Rides() {
               >
                 <Ionicons name="checkmark-circle" size={24} color="white" />
                 <Text className="text-white font-bold text-lg ml-2">
-                  Confirm Booking - ${calculatePrice(selectedVehicle)}
+                  {t('rides.confirmBooking')} - {config.CurrencySymbol} {calculatePrice(selectedVehicle)}
                 </Text>
               </TouchableOpacity>
             )}
           </BottomSheetScrollView>
         </BottomSheet>
 
-        <BottomNavigation />
+     
       </View>
     </GestureHandlerRootView>
   );

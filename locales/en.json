@@ -107,7 +107,7 @@
     "availableCoupons":"Available Coupons",
     "hotDeals": "Hot Deals 🔥"
   },
-  "transport": {
+  "rides": {
     "bookRide": "Book a Ride",
     "from": "From",
     "to": "To",
@@ -129,7 +129,20 @@
     "moreSpaceComfort": "More space & comfort",
     "luxuryVehicles": "Luxury vehicles",
     "ecoFriendlyRides": "Eco-friendly rides",
-    "away": "away"
+    "away": "away",
+    "bookARide": "Book a Ride",
+    "pickupLocation": "Pickup Location",
+    "destination": "Destination",
+    "selectRideType": "Select Ride Type",
+    "distance": "Distance",
+    "duration": "Duration",
+    "selectVehicle": "Select Vehicle",
+    "seats": "seats",
+    "estimated": "Estimated",
+    "confirmBooking": "Confirm Booking",
+    "updateRoute": "Update Route",
+    "findRoute": "Find Route"
+  
   },
   "restaurants": {
     "restaurants": "Restaurants",
