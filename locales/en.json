@@ -97,7 +97,15 @@
     "whatDoYouNeed": "What do you need?",
     "services": "Our Services",
     "explore": "Explore",
-    "guest": "Guest"
+    "guest": "Guest",
+    "totalOrders": "Total Orders",
+    "totalRides": "Total Rides",
+    "specialOffers": "Special Offers",
+    "viewAll": "See All",
+    "claimNow": "Claim Now",
+    "popularRestaurants": "Popular Restaurants",
+    "availableCoupons":"Available Coupons",
+    "hotDeals": "Hot Deals 🔥"
   },
   "transport": {
     "bookRide": "Book a Ride",
