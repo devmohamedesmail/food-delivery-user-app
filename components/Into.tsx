@@ -37,7 +37,7 @@ export default function Intro() {
       title: t('onboarding.slide1Title'),
       description: t('onboarding.slide1Description'),
       icon: 'restaurant',
-      color: '#3b82f6',
+      color: '#fd4a12',
       gradient: ['#3b82f6', '#2563eb'],
     },
     {
@@ -45,7 +45,7 @@ export default function Intro() {
       title: t('onboarding.slide2Title'),
       description: t('onboarding.slide2Description'),
       icon: 'car-sport',
-      color: '#8b5cf6',
+      color: '#000000',
       gradient: ['#8b5cf6', '#7c3aed'],
     },
     {
@@ -159,7 +159,7 @@ export default function Intro() {
           className="absolute top-12 right-6 z-10 bg-gray-100 px-4 py-2 rounded-full"
           style={{ elevation: 2 }}
         >
-          <Text className="text-gray-700 font-semibold">
+          <Text className="text-gray-700 font-semibold arabic-font">
             {t('onboarding.skip')}
           </Text>
         </TouchableOpacity>

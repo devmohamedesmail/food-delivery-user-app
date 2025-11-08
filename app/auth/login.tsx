@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { View, Text, ScrollView, TouchableOpacity, SafeAreaView, StatusBar, KeyboardAvoidingView, Platform, Button } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, Button } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -10,6 +10,10 @@ import CustomButton from '@/components/custom/custombutton'
 import { AuthContext } from '@/context/auth_context'
 import Logo from '@/components/logo'
 import { Toast } from 'toastify-react-native'
+import * as WebBrowser from 'expo-web-browser';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as AuthSession from 'expo-auth-session'
+import SocialLogin from '@/components/SocialLogin'
 
 
 
@@ -73,6 +77,9 @@ export default function Login() {
       }
     },
   })
+
+
+
 
 
 
@@ -176,7 +183,7 @@ export default function Login() {
                 />
               </View>
 
-
+             <SocialLogin />
 
               {/* Sign Up Link */}
               <View className="flex-row justify-center items-center mt-8 mb-8">

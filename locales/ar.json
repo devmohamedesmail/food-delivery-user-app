@@ -78,7 +78,10 @@
      "login_success": " تسجيل الدخول ناجح! ",
     "login_success_description": "لقد قمت بتسجيل الدخول بنجاح.",
     "login_failed": "فشل في تسجيل الدخول.",
-    "login_failed_description": "البريد الإلكتروني/الهاتف أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى."
+    "login_failed_description": "البريد الإلكتروني/الهاتف أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.",
+    "orContinueWith": "أو المتابعة باستخدام",
+    "continueWithGoogle": "المتابعة باستخدام Google",
+    "continueWithFacebook": "المتابعة باستخدام Facebook"
   },
   "home": {
     "restaurants": "المطاعم",

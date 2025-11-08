@@ -1,11 +1,14 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert, Dimensions, ActivityIndicator } from 'react-native';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { View, Text, TouchableOpacity, TextInput, Alert, Dimensions, ActivityIndicator, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
 import BottomNavigation from '@/components/BottomNavigation';
 import { useTranslation } from 'react-i18next';
+import useFetch from '@/hooks/useFetch';
+import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const { width, height } = Dimensions.get('window');
 const GOOGLE_API_KEY = "AIzaSyCWrI-BwVYZE6D7wzFCVeEuaKr6VR-6FGI";
@@ -23,6 +26,7 @@ interface PlaceResult {
 export default function Rides() {
   const { t } = useTranslation();
   const mapRef = useRef<MapView>(null);
+  const bottomSheetRef = useRef<BottomSheet>(null);
   
   // Location states
   const [origin, setOrigin] = useState<LocationCoords | null>(null);
@@ -41,8 +45,15 @@ export default function Rides() {
   // Route states
   const [distance, setDistance] = useState('');
   const [duration, setDuration] = useState('');
+  const [distanceValue, setDistanceValue] = useState(0); // in meters
   const [routeCoordinates, setRouteCoordinates] = useState<LocationCoords[]>([]);
   const [loading, setLoading] = useState(false);
+  const [selectedVehicle, setSelectedVehicle] = useState<any>(null);
+  
+  const {data: vehiclesData, loading: vehiclesLoading, error: vehiclesError} = useFetch('/vehicles');
+
+  // Bottom Sheet snap points
+  const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
 
   // Get user's current location
   const getMyLocation = async () => {
@@ -155,6 +166,7 @@ export default function Rides() {
         
         setDistance(leg.distance.text);
         setDuration(leg.duration.text);
+        setDistanceValue(leg.distance.value); // Distance in meters
         
         // Decode polyline
         const points = decodePolyline(route.overview_polyline.points);
@@ -174,6 +186,14 @@ export default function Rides() {
     } finally {
       setLoading(false);
     }
+  };
+
+  // Calculate price based on distance and vehicle
+  const calculatePrice = (vehicle: any) => {
+    if (!distanceValue) return 0;
+    const distanceInKm = distanceValue / 1000;
+    const pricePerKm = parseFloat(vehicle.price_per_km || vehicle.price || 0);
+    return (distanceInKm * pricePerKm).toFixed(2);
   };
 
   // Decode Google polyline
@@ -218,199 +238,294 @@ export default function Rides() {
   }, [origin, destination]);
 
   return (
-    <View className="flex-1 bg-white">
-      {/* Map */}
-      <MapView
-        ref={mapRef}
-        provider={PROVIDER_GOOGLE}
-        style={{ width, height: height * 0.5 }}
-        initialRegion={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}
-      >
-        {origin && (
-          <Marker
-            coordinate={origin}
-            title="Pickup Location"
-            pinColor="green"
-          >
-            <View className="bg-green-500 p-3 rounded-full">
-              <Ionicons name="location" size={24} color="white" />
-            </View>
-          </Marker>
-        )}
-        
-        {destination && (
-          <Marker
-            coordinate={destination}
-            title="Destination"
-            pinColor="red"
-          >
-            <View className="bg-red-500 p-3 rounded-full">
-              <Ionicons name="flag" size={24} color="white" />
-            </View>
-          </Marker>
-        )}
-        
-        {routeCoordinates.length > 0 && (
-          <Polyline
-            coordinates={routeCoordinates}
-            strokeWidth={4}
-            strokeColor="#3B82F6"
-          />
-        )}
-      </MapView>
-
-      {/* Controls */}
-      <View className="flex-1 bg-white rounded-t-3xl -mt-8 px-4 pt-6">
-        <Text className="text-2xl font-bold text-gray-900 mb-6">Book a Ride</Text>
-        
-        {/* Origin Input */}
-        <View className="mb-4">
-          <View className="bg-gray-50 rounded-2xl p-4 flex-row items-center">
-            <View className="bg-green-500 w-3 h-3 rounded-full mr-3" />
-            <View className="flex-1">
-              <Text className="text-gray-500 text-xs mb-1">Pickup Location</Text>
-              <TextInput
-                value={originInput}
-                onChangeText={(text) => {
-                  setOriginInput(text);
-                  searchPlaces(text, true);
-                  setShowOriginSuggestions(true);
-                }}
-                placeholder="Enter pickup location"
-                className="text-gray-900 font-medium"
-              />
-            </View>
-            <TouchableOpacity
-              onPress={getMyLocation}
-              className="bg-green-100 p-2 rounded-full ml-2"
-            >
-              {loading ? (
-                <ActivityIndicator size="small" color="#10B981" />
-              ) : (
-                <Ionicons name="locate" size={20} color="#10B981" />
-              )}
-            </TouchableOpacity>
-          </View>
-          
-          {/* Origin Suggestions */}
-          {showOriginSuggestions && originSuggestions.length > 0 && (
-            <View className="bg-white mt-2 rounded-xl border border-gray-200 max-h-48">
-              {originSuggestions.map((suggestion, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => getPlaceDetails(suggestion.place_id, true)}
-                  className="p-3 border-b border-gray-100"
-                >
-                  <View className="flex-row items-center">
-                    <Ionicons name="location-outline" size={20} color="#6B7280" />
-                    <Text className="text-gray-900 ml-3 flex-1" numberOfLines={1}>
-                      {suggestion.description}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
-        </View>
-
-        {/* Destination Input */}
-        <View className="mb-4">
-          <View className="bg-gray-50 rounded-2xl p-4 flex-row items-center">
-            <View className="bg-red-500 w-3 h-3 rounded-full mr-3" />
-            <View className="flex-1">
-              <Text className="text-gray-500 text-xs mb-1">Destination</Text>
-              <TextInput
-                value={destinationInput}
-                onChangeText={(text) => {
-                  setDestinationInput(text);
-                  searchPlaces(text, false);
-                  setShowDestinationSuggestions(true);
-                }}
-                placeholder="Enter destination"
-                className="text-gray-900 font-medium"
-              />
-            </View>
-            <TouchableOpacity className="p-2">
-              <Ionicons name="bookmark-outline" size={20} color="#EF4444" />
-            </TouchableOpacity>
-          </View>
-          
-          {/* Destination Suggestions */}
-          {showDestinationSuggestions && destinationSuggestions.length > 0 && (
-            <View className="bg-white mt-2 rounded-xl border border-gray-200 max-h-48">
-              {destinationSuggestions.map((suggestion, index) => (
-                <TouchableOpacity
-                  key={index}
-                  onPress={() => getPlaceDetails(suggestion.place_id, false)}
-                  className="p-3 border-b border-gray-100"
-                >
-                  <View className="flex-row items-center">
-                    <Ionicons name="location-outline" size={20} color="#6B7280" />
-                    <Text className="text-gray-900 ml-3 flex-1" numberOfLines={1}>
-                      {suggestion.description}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
-        </View>
-
-        {/* Distance and Duration Info */}
-        {distance && duration && (
-          <View className="bg-blue-50 rounded-2xl p-4 mb-4">
-            <View className="flex-row items-center justify-around">
-              <View className="items-center">
-                <Ionicons name="navigate-outline" size={24} color="#3B82F6" />
-                <Text className="text-blue-900 font-bold text-lg mt-1">{distance}</Text>
-                <Text className="text-blue-600 text-xs">Distance</Text>
-              </View>
-              
-              <View className="w-px h-12 bg-blue-200" />
-              
-              <View className="items-center">
-                <Ionicons name="time-outline" size={24} color="#3B82F6" />
-                <Text className="text-blue-900 font-bold text-lg mt-1">{duration}</Text>
-                <Text className="text-blue-600 text-xs">Duration</Text>
-              </View>
-            </View>
-          </View>
-        )}
-
-        {/* Book Ride Button */}
-        <TouchableOpacity
-          onPress={getDirections}
-          disabled={!origin || !destination || loading}
-          className={`rounded-2xl py-4 flex-row items-center justify-center ${
-            origin && destination && !loading ? 'bg-gray-900' : 'bg-gray-300'
-          }`}
-          style={{
-            shadowColor: '#000',
-            shadowOffset: { width: 0, height: 2 },
-            shadowOpacity: 0.1,
-            shadowRadius: 4,
-            elevation: 3,
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <View className="flex-1 bg-white">
+        {/* Map */}
+        <MapView
+          ref={mapRef}
+          provider={PROVIDER_GOOGLE}
+          style={{ width, height }}
+          initialRegion={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.0922,
+            longitudeDelta: 0.0421,
           }}
         >
-          {loading ? (
-            <ActivityIndicator color="white" />
-          ) : (
-            <>
-              <Ionicons name="car-sport" size={24} color="white" />
-              <Text className="text-white font-bold text-lg ml-2">
-                {distance ? 'Update Route' : 'Find Route'}
-              </Text>
-            </>
+          {origin && (
+            <Marker
+              coordinate={origin}
+              title="Pickup Location"
+              pinColor="green"
+            >
+              <View className="bg-green-500 p-3 rounded-full">
+                <Ionicons name="location" size={24} color="white" />
+              </View>
+            </Marker>
           )}
-        </TouchableOpacity>
-      </View>
+          
+          {destination && (
+            <Marker
+              coordinate={destination}
+              title="Destination"
+              pinColor="red"
+            >
+              <View className="bg-red-500 p-3 rounded-full">
+                <Ionicons name="flag" size={24} color="white" />
+              </View>
+            </Marker>
+          )}
+          
+          {routeCoordinates.length > 0 && (
+            <Polyline
+              coordinates={routeCoordinates}
+              strokeWidth={4}
+              strokeColor="#fd4a12"
+            />
+          )}
+        </MapView>
 
-      <BottomNavigation />
-    </View>
+        {/* Bottom Sheet */}
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={1}
+          snapPoints={snapPoints}
+          enablePanDownToClose={false}
+          backgroundStyle={{ backgroundColor: '#ffffff' }}
+          handleIndicatorStyle={{ backgroundColor: '#d1d5db' }}
+        >
+          <BottomSheetScrollView className="flex-1 px-4">
+            <Text className="text-2xl font-bold text-gray-900 mb-6">Book a Ride</Text>
+            
+            {/* Origin Input */}
+            <View className="mb-4">
+              <View className="bg-gray-50 rounded-2xl p-4 flex-row items-center">
+                <View className="bg-green-500 w-3 h-3 rounded-full mr-3" />
+                <View className="flex-1">
+                  <Text className="text-gray-500 text-xs mb-1">Pickup Location</Text>
+                  <TextInput
+                    value={originInput}
+                    onChangeText={(text) => {
+                      setOriginInput(text);
+                      searchPlaces(text, true);
+                      setShowOriginSuggestions(true);
+                    }}
+                    placeholder="Enter pickup location"
+                    className="text-gray-900 font-medium"
+                  />
+                </View>
+                <TouchableOpacity
+                  onPress={getMyLocation}
+                  className="bg-green-100 p-2 rounded-full ml-2"
+                >
+                  {loading ? (
+                    <ActivityIndicator size="small" color="#10B981" />
+                  ) : (
+                    <Ionicons name="locate" size={20} color="#10B981" />
+                  )}
+                </TouchableOpacity>
+              </View>
+              
+              {/* Origin Suggestions */}
+              {showOriginSuggestions && originSuggestions.length > 0 && (
+                <View className="bg-white mt-2 rounded-xl border border-gray-200 max-h-48">
+                  <ScrollView>
+                    {originSuggestions.map((suggestion, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => getPlaceDetails(suggestion.place_id, true)}
+                        className="p-3 border-b border-gray-100"
+                      >
+                        <View className="flex-row items-center">
+                          <Ionicons name="location-outline" size={20} color="#6B7280" />
+                          <Text className="text-gray-900 ml-3 flex-1" numberOfLines={1}>
+                            {suggestion.description}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
+            </View>
+
+            {/* Destination Input */}
+            <View className="mb-4">
+              <View className="bg-gray-50 rounded-2xl p-4 flex-row items-center">
+                <View className="bg-red-500 w-3 h-3 rounded-full mr-3" />
+                <View className="flex-1">
+                  <Text className="text-gray-500 text-xs mb-1">Destination</Text>
+                  <TextInput
+                    value={destinationInput}
+                    onChangeText={(text) => {
+                      setDestinationInput(text);
+                      searchPlaces(text, false);
+                      setShowDestinationSuggestions(true);
+                    }}
+                    placeholder="Enter destination"
+                    className="text-gray-900 font-medium"
+                  />
+                </View>
+                <TouchableOpacity className="p-2">
+                  <Ionicons name="bookmark-outline" size={20} color="#EF4444" />
+                </TouchableOpacity>
+              </View>
+              
+              {/* Destination Suggestions */}
+              {showDestinationSuggestions && destinationSuggestions.length > 0 && (
+                <View className="bg-white mt-2 rounded-xl border border-gray-200 max-h-48">
+                  <ScrollView>
+                    {destinationSuggestions.map((suggestion, index) => (
+                      <TouchableOpacity
+                        key={index}
+                        onPress={() => getPlaceDetails(suggestion.place_id, false)}
+                        className="p-3 border-b border-gray-100"
+                      >
+                        <View className="flex-row items-center">
+                          <Ionicons name="location-outline" size={20} color="#6B7280" />
+                          <Text className="text-gray-900 ml-3 flex-1" numberOfLines={1}>
+                            {suggestion.description}
+                          </Text>
+                        </View>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
+                </View>
+              )}
+            </View>
+
+            {/* Distance and Duration Info */}
+            {distance && duration && (
+              <View className="bg-orange-50 rounded-2xl p-4 mb-4">
+                <View className="flex-row items-center justify-around">
+                  <View className="items-center">
+                    <Ionicons name="navigate-outline" size={24} color="#fd4a12" />
+                    <Text className="text-orange-900 font-bold text-lg mt-1">{distance}</Text>
+                    <Text className="text-orange-600 text-xs">Distance</Text>
+                  </View>
+                  
+                  <View className="w-px h-12 bg-orange-200" />
+                  
+                  <View className="items-center">
+                    <Ionicons name="time-outline" size={24} color="#fd4a12" />
+                    <Text className="text-orange-900 font-bold text-lg mt-1">{duration}</Text>
+                    <Text className="text-orange-600 text-xs">Duration</Text>
+                  </View>
+                </View>
+              </View>
+            )}
+
+            {/* Vehicle Selection */}
+            {vehiclesData && vehiclesData.length > 0 && distanceValue > 0 && (
+              <View className="mb-4">
+                <Text className="text-lg font-bold text-gray-900 mb-3">Select Vehicle</Text>
+                {vehiclesData.map((vehicle: any) => {
+                  const price = calculatePrice(vehicle);
+                  const isSelected = selectedVehicle?.id === vehicle.id;
+                  
+                  return (
+                    <TouchableOpacity
+                      key={vehicle.id}
+                      onPress={() => setSelectedVehicle(vehicle)}
+                      className={`mb-3 rounded-2xl p-4 ${
+                        isSelected ? 'bg-orange-50 border-2 border-orange-500' : 'bg-gray-50 border border-gray-200'
+                      }`}
+                    >
+                      <View className="flex-row items-center justify-between">
+                        <View className="flex-1">
+                          <View className="flex-row items-center mb-1">
+                            <Ionicons 
+                              name="car-sport" 
+                              size={24} 
+                              color={isSelected ? '#fd4a12' : '#6B7280'} 
+                            />
+                            <Text className={`ml-2 text-lg font-bold ${
+                              isSelected ? 'text-orange-900' : 'text-gray-900'
+                            }`}>
+                              {vehicle.name}
+                            </Text>
+                          </View>
+                          <Text className={`text-sm ${
+                            isSelected ? 'text-orange-600' : 'text-gray-500'
+                          }`}>
+                            {vehicle.type} • {vehicle.capacity} seats
+                          </Text>
+                          <Text className={`text-xs mt-1 ${
+                            isSelected ? 'text-orange-500' : 'text-gray-400'
+                          }`}>
+                            ${vehicle.price_per_km}/km
+                          </Text>
+                        </View>
+                        <View className="items-end">
+                          <Text className={`text-2xl font-bold ${
+                            isSelected ? 'text-orange-600' : 'text-gray-900'
+                          }`}>
+                            ${price}
+                          </Text>
+                          <Text className={`text-xs ${
+                            isSelected ? 'text-orange-500' : 'text-gray-500'
+                          }`}>
+                            Estimated
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })}
+              </View>
+            )}
+
+            {/* Book Ride Button */}
+            <TouchableOpacity
+              onPress={getDirections}
+              disabled={(!origin || !destination || loading)}
+              className={`rounded-2xl py-4 mb-4 flex-row items-center justify-center ${
+                origin && destination && !loading ? 'bg-gray-900' : 'bg-gray-300'
+              }`}
+              style={{
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+                elevation: 3,
+              }}
+            >
+              {loading ? (
+                <ActivityIndicator color="white" />
+              ) : (
+                <>
+                  <Ionicons name="car-sport" size={24} color="white" />
+                  <Text className="text-white font-bold text-lg ml-2">
+                    {distance ? 'Update Route' : 'Find Route'}
+                  </Text>
+                </>
+              )}
+            </TouchableOpacity>
+
+            {/* Confirm Booking Button */}
+            {selectedVehicle && distanceValue > 0 && (
+              <TouchableOpacity
+                className="rounded-2xl py-4 mb-6 flex-row items-center justify-center"
+                style={{
+                  backgroundColor: '#fd4a12',
+                  shadowColor: '#fd4a12',
+                  shadowOffset: { width: 0, height: 4 },
+                  shadowOpacity: 0.3,
+                  shadowRadius: 8,
+                  elevation: 5,
+                }}
+              >
+                <Ionicons name="checkmark-circle" size={24} color="white" />
+                <Text className="text-white font-bold text-lg ml-2">
+                  Confirm Booking - ${calculatePrice(selectedVehicle)}
+                </Text>
+              </TouchableOpacity>
+            )}
+          </BottomSheetScrollView>
+        </BottomSheet>
+
+        <BottomNavigation />
+      </View>
+    </GestureHandlerRootView>
   );
 }

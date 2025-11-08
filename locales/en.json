@@ -79,7 +79,10 @@
     "login_success": "Login successful!",
     "login_success_description": "You have successfully logged in.",
     "login_failed": "Login failed.",
-    "login_failed_description": "Invalid email/phone or password. Please try again."
+    "login_failed_description": "Invalid email/phone or password. Please try again.",
+    "orContinueWith": "Or continue with",
+    "continueWithGoogle": "Continue with Google",
+    "continueWithFacebook": "Continue with Facebook"
   },
   "home": {
     "restaurants": "Restaurants",
