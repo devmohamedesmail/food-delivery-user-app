@@ -81,7 +81,11 @@
     "login_failed_description": "البريد الإلكتروني/الهاتف أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى.",
     "orContinueWith": "أو المتابعة باستخدام",
     "continueWithGoogle": "المتابعة باستخدام Google",
-    "continueWithFacebook": "المتابعة باستخدام Facebook"
+    "continueWithFacebook": "المتابعة باستخدام Facebook",
+    "protectedConnection": "هذه هي اتصال محمي. نحن لن نشارك معلوماتك.",
+    "secureLogin": "تسجيل دخول آمن",
+    "quickRegistration": "تسجيل سريع",
+    "getStartedNow": "ابدأ الآن!"
   },
   "home": {
     "restaurants": "المطاعم",

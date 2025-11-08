@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "uber-app",
-    "slug": "uber-app",
+    "name": " توصيلة ",
+    "slug": "tawsila-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "uberapp",
+    "scheme": "tawsila",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {

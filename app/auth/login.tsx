@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { View, Text, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, Button } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, Alert, KeyboardAvoidingView, Platform, Button, SafeAreaView } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
@@ -84,8 +84,8 @@ export default function Login() {
 
 
   return (
-    <View className="flex-1 bg-white">
-    
+    <SafeAreaView className="flex-1 bg-gray-50">
+
 
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -96,36 +96,76 @@ export default function Login() {
           contentContainerStyle={{ flexGrow: 1 }}
           showsVerticalScrollIndicator={false}
         >
-          {/* Header */}
-          <View className="pt-10 pb-8 px-6">
-
-            <TouchableOpacity 
-               className='bg-gray-200 w-12 h-12 flex items-center justify-center rounded-full'
-               onPress={() => router.back()}>
-              <Ionicons name="arrow-back" size={24} color="black" />
-            </TouchableOpacity>
-
+          {/* Creative Header */}
+          <View 
+            className="pt-14 pb-8 px-5"
+            style={{ backgroundColor: '#242424' }}
+          >
+            {/* Back Button */}
+            <View className="mb-6">
+              <TouchableOpacity
+                onPress={() => router.back()}
+                className='w-11 h-11 rounded-2xl items-center justify-center'
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  borderWidth: 1,
+                  borderColor: 'rgba(255, 255, 255, 0.2)',
+                }}
+              >
+                <Ionicons name="arrow-back" size={22} color="white" />
+              </TouchableOpacity>
+            </View>
 
             {/* Logo/Brand Section */}
-            <View className="items-center mb-8 pt-10">
-              <Logo />
+            <View className="items-center mb-6">
+              <View className="mb-4">
+                <Logo />
+              </View>
               <Text
-                className="text-3xl  text-gray-800 mb-2 arabic-font-bold"
+                className="text-3xl text-white mb-2"
                 style={{ fontFamily: 'Cairo_700Bold' }}
               >
                 {t('auth.welcomeBack')}
               </Text>
               <Text
-                className={`text-gray-600 text-center ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
+                className={`text-white/70 text-center text-base ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
                 style={{ fontFamily: 'Cairo_400Regular' }}
               >
                 {t('auth.loginToYourAccount')}
               </Text>
             </View>
+
+            {/* Decorative Card */}
+            <View 
+              className="rounded-2xl p-4 flex-row items-center justify-between"
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                borderWidth: 1,
+                borderColor: 'rgba(255, 255, 255, 0.1)',
+              }}
+            >
+              <View className="flex-row items-center">
+                <View 
+                  className="w-10 h-10 rounded-full items-center justify-center mr-3"
+                  style={{ backgroundColor: 'rgba(253, 74, 18, 0.2)' }}
+                >
+                  <Ionicons name="lock-closed" size={20} color="#fd4a12" />
+                </View>
+                <View>
+                  <Text className="text-white/60 text-xs mb-0.5" style={{ fontFamily: 'Cairo_400Regular' }}>
+                    {t('auth.secureLogin')}
+                  </Text>
+                  <Text className="text-white text-sm font-semibold" style={{ fontFamily: 'Cairo_600SemiBold' }}>
+                    {t('auth.protectedConnection')}
+                  </Text>
+                </View>
+              </View>
+              <Ionicons name="shield-checkmark" size={24} color="#fd4a12" />
+            </View>
           </View>
 
           {/* Login Form */}
-          <View className="flex-1 px-6">
+          <View className="flex-1 px-6 bg-gray-50 -mt-4 pt-8 rounded-t-3xl">
             <View className="space-y-4">
               {/* Email/Phone Input */}
               <CustomInput
@@ -183,20 +223,20 @@ export default function Login() {
                 />
               </View>
 
-             <SocialLogin />
+              {/* <SocialLogin /> */}
 
               {/* Sign Up Link */}
               <View className="flex-row justify-center items-center mt-8 mb-8">
                 <Text
                   className="text-gray-600"
-                  
+
                 >
                   {t('auth.dontHaveAccount')}
                 </Text>
                 <TouchableOpacity onPress={() => router.push('/auth/register')}>
                   <Text
                     className="text-primary font-semibold ml-1"
-                    
+
                   >
                     {t('auth.signUp')}
                   </Text>
@@ -206,6 +246,6 @@ export default function Login() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </View>
+    </SafeAreaView>
   )
 }

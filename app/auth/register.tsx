@@ -90,7 +90,7 @@ export default function Register() {
 
 
     return (
-        <View className="flex-1 bg-white">
+        <View className="flex-1 bg-gray-50">
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 className="flex-1"
@@ -103,36 +103,76 @@ export default function Register() {
 
 
 
-                    <View className="pt-10 pb-8 px-6">
+                    {/* Creative Header */}
+                    <View 
+                        className="pt-14 pb-8 px-5"
+                        style={{ backgroundColor: '#242424' }}
+                    >
+                        {/* Back Button */}
+                        <View className="mb-6">
+                            <TouchableOpacity
+                                onPress={() => router.back()}
+                                className='w-11 h-11 rounded-2xl items-center justify-center'
+                                style={{
+                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                    borderWidth: 1,
+                                    borderColor: 'rgba(255, 255, 255, 0.2)',
+                                }}
+                            >
+                                <Ionicons name="arrow-back" size={22} color="white" />
+                            </TouchableOpacity>
+                        </View>
 
-
-                        <TouchableOpacity
-                            className='bg-gray-200 w-12 h-12 flex items-center justify-center rounded-full'
-                            onPress={() => router.back()}>
-                            <Ionicons name="arrow-back" size={24} color="black" />
-                        </TouchableOpacity>
-
-
-
-                        <View className='flex items-center'>
-                            <Logo />
+                        {/* Logo/Brand Section */}
+                        <View className="items-center mb-6">
+                            <View className="mb-4">
+                                <Logo />
+                            </View>
                             <Text
-                                className="text-3xl font-bold text-gray-800 mb-2"
+                                className="text-3xl text-white mb-2"
                                 style={{ fontFamily: 'Cairo_700Bold' }}
                             >
-                                {t('auth.welcomeBack')}
+                                {t('auth.createAccount')}
                             </Text>
                             <Text
-                                className={`text-gray-600 text-center ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
+                                className={`text-white/70 text-center text-base ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
                                 style={{ fontFamily: 'Cairo_400Regular' }}
                             >
-                                {t('auth.loginToYourAccount')}
+                                {t('auth.joinUs')}
                             </Text>
+                        </View>
+
+                        {/* Decorative Card */}
+                        <View 
+                            className="rounded-2xl p-4 flex-row items-center justify-between"
+                            style={{
+                                backgroundColor: 'rgba(255, 255, 255, 0.05)',
+                                borderWidth: 1,
+                                borderColor: 'rgba(255, 255, 255, 0.1)',
+                            }}
+                        >
+                            <View className="flex-row items-center">
+                                <View 
+                                    className="w-10 h-10 rounded-full items-center justify-center mr-3"
+                                    style={{ backgroundColor: 'rgba(253, 74, 18, 0.2)' }}
+                                >
+                                    <Ionicons name="person-add" size={20} color="#fd4a12" />
+                                </View>
+                                <View>
+                                    <Text className="text-white/60 text-xs mb-0.5" style={{ fontFamily: 'Cairo_400Regular' }}>
+                                        {t('auth.quickRegistration')}
+                                    </Text>
+                                    <Text className="text-white text-sm font-semibold" style={{ fontFamily: 'Cairo_600SemiBold' }}>
+                                        {t('auth.getStartedNow')}
+                                    </Text>
+                                </View>
+                            </View>
+                            <Ionicons name="checkmark-circle" size={24} color="#fd4a12" />
                         </View>
                     </View>
 
                     {/* Registration Form */}
-                    <View className="flex-1 bg-white rounded-t-[32px] px-6 pt-6">
+                    <View className="flex-1 bg-gray-50 -mt-4 pt-8 rounded-t-3xl px-6">
                         <View className="mb-6">
                             <Text className="text-2xl text-center arabic-font text-gray-800 mb-2">
                                 {t('auth.createAccount')}

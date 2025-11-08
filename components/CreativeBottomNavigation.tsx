@@ -9,6 +9,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useRouter } from 'expo-router';
 import { AuthContext } from '@/context/auth_context';
+import Colors from '@/constants/Colors';
 
 
 
@@ -23,25 +24,25 @@ export default function CreativeBottomNavigation() {
         {
             name: 'car',
             label: t('navigation.rides'),
-            icon: <AntDesign name="car" size={24} color="black" />,
+            icon: <AntDesign name="car" size={24} color={Colors.light.tabIconSelected} />,
             onPress: () => { router.push('/rides/rides') }
         },
         {
             name: 'cart',
             label: 'Cart',
-            icon: <MaterialCommunityIcons name="cart-variant" size={24} color="black" />,
+            icon: <MaterialCommunityIcons name="cart-variant" size={24} color={Colors.light.tabIconSelected} />,
             onPress: () => { router.push('/cart/cart') }
         },
         {
             name: 'wishlist',
             label: t('navigation.wishlist'),
-            icon: <FontAwesome6 name="heart" size={24} color="black" />,
+            icon: <FontAwesome6 name="heart" size={24} color={Colors.light.tabIconSelected} />,
             onPress: () => { router.push('/wishlist/wishlist') }
         },
         {
             name: 'account',
             label: t('navigation.account'),
-            icon: <FontAwesome name="user-o" size={24} color="black" />,
+            icon: <FontAwesome name="user-o" size={24} color={Colors.light.tabIconSelected} />,
             onPress: () => { router.push(`${auth ? '/account/account' : '/auth/login'}`) }
         },
     ];

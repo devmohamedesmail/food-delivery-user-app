@@ -36,8 +36,8 @@ export default function Banner() {
                         resizeMode='cover'
                     />
                     <View className='absolute flex  w-full bottom-0 p-4 rounded-b-lg bg-opacity-60'>
-                        <Text className='font-semibold text-white'>{banner.title}</Text>
-                        <Text className='text-sm text-white'>{banner.description}</Text>
+                        <Text className='font-semibold text-white text-3xl'>{banner.title}</Text>
+                        <Text className=' text-white text-xl'>{banner.description}</Text>
                     </View>
 
                 </View>

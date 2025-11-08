@@ -82,7 +82,11 @@
     "login_failed_description": "Invalid email/phone or password. Please try again.",
     "orContinueWith": "Or continue with",
     "continueWithGoogle": "Continue with Google",
-    "continueWithFacebook": "Continue with Facebook"
+    "continueWithFacebook": "Continue with Facebook",
+    "protectedConnection": "This is a protected connection. We will not share your information.",
+    "secureLogin": "Secure Login",
+    "quickRegistration": "Quick Registration",
+    "getStartedNow": "Get started now!"
   },
   "home": {
     "restaurants": "Restaurants",
