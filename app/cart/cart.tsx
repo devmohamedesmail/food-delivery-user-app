@@ -6,7 +6,7 @@ import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { selectCartItems, selectCartTotalPrice, selectCartTotalItems } from '../../store/hooks';
 import { clearCart } from '../../store/slices/cartSlice';
 import BottomNavigation from '../../components/BottomNavigation';
-import EmptyCart from '@/components/EmptyCart';
+import EmptyCart from '@/components/cart/EmptyCart';
 import { useTranslation } from 'react-i18next';
 import { config } from '@/constants/config';
 import CartItem from '@/items/CartItem';

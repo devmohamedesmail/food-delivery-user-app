@@ -1,69 +1,73 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, ScrollView, Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { config } from '@/constants/config';
+import useFetch from '@/hooks/useFetch';
 
 export default function FeaturedMeals() {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const router = useRouter();
+    const { data, loading, error } = useFetch('/menu/sale/meals')
 
     const handleNavigation = (route: string) => {
         router.push(route as any);
     };
-    const featuredMeals = [
-        {
-            id: 1,
-            name: t('home.pizzaMargherita') || 'Pizza Margherita',
-            restaurant: 'Italian Kitchen',
-            price: '12.99',
-            oldPrice: '18.99',
-            discount: '40% OFF',
-            rating: '4.8',
-            image: '🍕',
-            gradient: ['#fd4a12', '#FF6A3D'] as const,
-        },
-        {
-            id: 2,
-            name: t('home.burgerCombo') || 'Burger Combo',
-            restaurant: 'Burger House',
-            price: '9.99',
-            oldPrice: '15.99',
-            discount: '35% OFF',
-            rating: '4.6',
-            image: '🍔',
-            gradient: ['#FFB347', '#FFC24A'] as const,
-        },
-        {
-            id: 3,
-            name: t('home.sushiPlatter') || 'Sushi Platter',
-            restaurant: 'Sushi Bar',
-            price: '24.99',
-            oldPrice: '34.99',
-            discount: '30% OFF',
-            rating: '4.9',
-            image: '🍣',
-            gradient: ['#4ECDC4', '#45B7D1'] as const,
-        },
-    ];
+    // const featuredMeals = [
+    //     {
+    //         id: 1,
+    //         name: t('home.pizzaMargherita') || 'Pizza Margherita',
+    //         restaurant: 'Italian Kitchen',
+    //         price: '12.99',
+    //         oldPrice: '18.99',
+    //         discount: '40% OFF',
+    //         rating: '4.8',
+    //         image: '🍕',
+    //         gradient: ['#fd4a12', '#FF6A3D'] as const,
+    //     },
+    //     {
+    //         id: 2,
+    //         name: t('home.burgerCombo') || 'Burger Combo',
+    //         restaurant: 'Burger House',
+    //         price: '9.99',
+    //         oldPrice: '15.99',
+    //         discount: '35% OFF',
+    //         rating: '4.6',
+    //         image: '🍔',
+    //         gradient: ['#FFB347', '#FFC24A'] as const,
+    //     },
+    //     {
+    //         id: 3,
+    //         name: t('home.sushiPlatter') || 'Sushi Platter',
+    //         restaurant: 'Sushi Bar',
+    //         price: '24.99',
+    //         oldPrice: '34.99',
+    //         discount: '30% OFF',
+    //         rating: '4.9',
+    //         image: '🍣',
+    //         gradient: ['#4ECDC4', '#45B7D1'] as const,
+    //     },
+    // ];
+
+
     return (
         <View className='px-5 mb-6 py-3'>
-            <View className='flex-row justify-between items-center mb-4'>
-                <Text className='text-xl font-bold text-gray-800 arabic-font'>
+            <View className={`flex-row justify-between items-center mb-4 ${i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
+                <Text className='text-xl font-bold text-black arabic-font'>
                     {t('home.hotDeals')}
                 </Text>
                 <TouchableOpacity onPress={() => handleNavigation('/restaurants/restaurants')}>
-                    <Text className='text-primary font-semibold arabic-font'>
+                    <Text className='text-primary font-semibold'>
                         {t('home.viewAll')}
                     </Text>
                 </TouchableOpacity>
             </View>
 
             <ScrollView horizontal showsHorizontalScrollIndicator={false} className='py-3'>
-                {featuredMeals.map((meal, index) => (
+                {/* {featuredMeals.map((meal, index) => (
                     <TouchableOpacity
                         key={meal.id}
                         activeOpacity={0.8}
@@ -105,7 +109,7 @@ export default function FeaturedMeals() {
                                 <View className='flex-row items-center justify-between'>
                                     <View className='flex-row items-center'>
                                         <Text className='text-lg font-bold text-primary mr-2'>
-                                          {config.CurrencySymbol} {meal.price}
+                                            {config.CurrencySymbol} {meal.price}
                                         </Text>
                                         <Text className='text-sm text-gray-400 line-through'>
                                             {config.CurrencySymbol} {meal.oldPrice}
@@ -121,7 +125,35 @@ export default function FeaturedMeals() {
                             </View>
                         </View>
                     </TouchableOpacity>
-                ))}
+                ))} */}
+
+
+
+                {loading ? (
+                    <>
+                        <Text>Loading...</Text>
+                    </>) : (
+                    <>
+                        {data && data.length > 0 ? (
+                            <>
+
+
+                                {data.map((meal: any, index: number) => (
+                                  <TouchableOpacity key={meal.id} className='mx-1'>
+                                    <Image 
+                                        source={{ uri: meal.image }}
+                                        style={{ width: 100, height: 100 }}
+                                    />
+                                    <Text className='text-black'>{meal.name}</Text>
+                                    <Text className='text-black'>{meal.name}</Text>
+                                    <Text className='text-black'>{meal.name}</Text>
+                                    <Text className='text-black'>{meal.name}</Text>
+                                  </TouchableOpacity>
+                                ))}
+                            </>
+                        ) : (<><Text>no offers</Text></>)}
+                    </>
+                )}
             </ScrollView>
         </View>
     )

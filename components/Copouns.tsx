@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Copouns() {
-    const { t } = useTranslation();
+    const { t , i18n } = useTranslation();
 
   const coupons = [
     {
@@ -35,11 +35,11 @@ export default function Copouns() {
 
   return (
      <View className='px-5 mb-6'>
-          <View className='flex-row justify-between items-center mb-4'>
-            <Text className='text-xl font-bold text-gray-800 arabic-font'>
+          
+            <Text className={`text-xl font-bold mb-2 text-right text-black ${i18n.language === 'ar' ? 'text-right' : ''}`}>
               {t('home.availableCoupons') }
             </Text>
-          </View>
+         
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {coupons.map((coupon, index) => (
@@ -73,7 +73,7 @@ export default function Copouns() {
                       </View>
                       <View>
                         <Text className='text-white/80 text-xs mb-1 arabic-font'>
-                          {t('home.couponCode') || 'Coupon Code'}
+                          {t('home.couponCode')}
                         </Text>
                         <Text className='text-white text-lg font-bold arabic-font-bold'>
                           {coupon.code}

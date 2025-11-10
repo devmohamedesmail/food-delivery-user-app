@@ -10,10 +10,7 @@ import CustomButton from '@/components/custom/custombutton'
 import { AuthContext } from '@/context/auth_context'
 import Logo from '@/components/logo'
 import { Toast } from 'toastify-react-native'
-import * as WebBrowser from 'expo-web-browser';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as AuthSession from 'expo-auth-session'
-import SocialLogin from '@/components/SocialLogin'
+
 
 
 
@@ -23,7 +20,7 @@ export default function Login() {
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
-  const { auth, handle_login } = useContext(AuthContext)
+  const { handle_login } = useContext(AuthContext)
   // console.log(auth)
 
   // Formik form handling with Yup validation
@@ -84,7 +81,7 @@ export default function Login() {
 
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <View className="flex-1 bg-gray-50">
 
 
       <KeyboardAvoidingView
@@ -102,7 +99,7 @@ export default function Login() {
             style={{ backgroundColor: '#242424' }}
           >
             {/* Back Button */}
-            <View className="mb-6">
+            <View className="mb-3">
               <TouchableOpacity
                 onPress={() => router.back()}
                 className='w-11 h-11 rounded-2xl items-center justify-center'
@@ -117,7 +114,7 @@ export default function Login() {
             </View>
 
             {/* Logo/Brand Section */}
-            <View className="items-center mb-6">
+            <View className="items-center  mb-3">
               <View className="mb-4">
                 <Logo />
               </View>
@@ -135,33 +132,7 @@ export default function Login() {
               </Text>
             </View>
 
-            {/* Decorative Card */}
-            <View 
-              className="rounded-2xl p-4 flex-row items-center justify-between"
-              style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                borderWidth: 1,
-                borderColor: 'rgba(255, 255, 255, 0.1)',
-              }}
-            >
-              <View className="flex-row items-center">
-                <View 
-                  className="w-10 h-10 rounded-full items-center justify-center mr-3"
-                  style={{ backgroundColor: 'rgba(253, 74, 18, 0.2)' }}
-                >
-                  <Ionicons name="lock-closed" size={20} color="#fd4a12" />
-                </View>
-                <View>
-                  <Text className="text-white/60 text-xs mb-0.5" style={{ fontFamily: 'Cairo_400Regular' }}>
-                    {t('auth.secureLogin')}
-                  </Text>
-                  <Text className="text-white text-sm font-semibold" style={{ fontFamily: 'Cairo_600SemiBold' }}>
-                    {t('auth.protectedConnection')}
-                  </Text>
-                </View>
-              </View>
-              <Ionicons name="shield-checkmark" size={24} color="#fd4a12" />
-            </View>
+          
           </View>
 
           {/* Login Form */}
@@ -246,6 +217,6 @@ export default function Login() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   )
 }

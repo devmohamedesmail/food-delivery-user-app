@@ -7,21 +7,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // primary: "#fd4a12",
-        // secondary: "#ed5108ff",
-        // accent: "#FBBF24",
-        // background: "#F3F4F6"
         primary: {
-          DEFAULT: "#fd4a12",   // Light mode
-          dark: "#fd4a12",      // Dark mode (نفس اللون إذا تريده يكون ثابت)
+          DEFAULT: "#fd4a12",   
+          dark: "#fd4a12",      
         },
         background: {
-          DEFAULT: "#F3F4F6",   // Light mode background
-          dark: "#0D0D0D",      // Dark mode background
+          DEFAULT: "#F3F4F6", 
+          dark: "#0D0D0D", 
         },
         text: {
-          DEFAULT: "#1E293B",   // Light text
-          dark: "#FFFFFF",      // Dark text
+          DEFAULT: "#1E293B", 
+          dark: "#FFFFFF", 
         },
     },
   },

@@ -13,7 +13,6 @@ import Logo from '@/components/logo'
 import { Toast } from 'toastify-react-native'
 import { useRouter } from 'expo-router'
 
-type UserRole = 'restaurant_owner' | 'driver'
 
 interface RegisterFormValues {
     name: string
@@ -31,14 +30,14 @@ export default function Register() {
 
     const validationSchema = Yup.object({
         name: Yup.string()
-            .min(2, t('name_required'))
-            .required(t('name_required')),
+            .min(2, t('auth.name_min_required'))
+            .required(t('auth.name_required')),
         identifier: Yup.string()
-            .matches(/^[0-9]{10,15}$/, t('phone_invalid'))
-            .required(t('phone_required')),
+            .matches(/^[0-9]{10,15}$/, t('auth.phone_invalid'))
+            .required(t('auth.phone_required')),
         password: Yup.string()
-            .min(6, t('password_min'))
-            .required(t('password_required')),
+            .min(6, t('auth.password_min'))
+            .required(t('auth.password_required')),
 
     })
 
@@ -65,6 +64,7 @@ export default function Register() {
                         position: 'top',
                         visibilityTime: 3000,
                     });
+                    router.push('/')
                 } else {
                     Toast.show({
                         type: 'error',
@@ -78,7 +78,13 @@ export default function Register() {
 
 
             } catch (error) {
-                Alert.alert('Error', 'Network error. Please try again.')
+                Toast.show({
+                    type: 'error',
+                    text1: t('auth.registration_failed'),
+                    text2: t('auth.pleaseTryAgain'),
+                    position: 'top',
+                    visibilityTime: 3000,
+                });
             } finally {
                 setIsLoading(false)
             }
@@ -104,12 +110,12 @@ export default function Register() {
 
 
                     {/* Creative Header */}
-                    <View 
+                    <View
                         className="pt-14 pb-8 px-5"
                         style={{ backgroundColor: '#242424' }}
                     >
                         {/* Back Button */}
-                        <View className="mb-6">
+                        <View className="mb-3">
                             <TouchableOpacity
                                 onPress={() => router.back()}
                                 className='w-11 h-11 rounded-2xl items-center justify-center'
@@ -124,7 +130,7 @@ export default function Register() {
                         </View>
 
                         {/* Logo/Brand Section */}
-                        <View className="items-center mb-6">
+                        <View className="items-center mb-3">
                             <View className="mb-4">
                                 <Logo />
                             </View>
@@ -134,41 +140,9 @@ export default function Register() {
                             >
                                 {t('auth.createAccount')}
                             </Text>
-                            <Text
-                                className={`text-white/70 text-center text-base ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}
-                                style={{ fontFamily: 'Cairo_400Regular' }}
-                            >
-                                {t('auth.joinUs')}
-                            </Text>
+
                         </View>
 
-                        {/* Decorative Card */}
-                        <View 
-                            className="rounded-2xl p-4 flex-row items-center justify-between"
-                            style={{
-                                backgroundColor: 'rgba(255, 255, 255, 0.05)',
-                                borderWidth: 1,
-                                borderColor: 'rgba(255, 255, 255, 0.1)',
-                            }}
-                        >
-                            <View className="flex-row items-center">
-                                <View 
-                                    className="w-10 h-10 rounded-full items-center justify-center mr-3"
-                                    style={{ backgroundColor: 'rgba(253, 74, 18, 0.2)' }}
-                                >
-                                    <Ionicons name="person-add" size={20} color="#fd4a12" />
-                                </View>
-                                <View>
-                                    <Text className="text-white/60 text-xs mb-0.5" style={{ fontFamily: 'Cairo_400Regular' }}>
-                                        {t('auth.quickRegistration')}
-                                    </Text>
-                                    <Text className="text-white text-sm font-semibold" style={{ fontFamily: 'Cairo_600SemiBold' }}>
-                                        {t('auth.getStartedNow')}
-                                    </Text>
-                                </View>
-                            </View>
-                            <Ionicons name="checkmark-circle" size={24} color="#fd4a12" />
-                        </View>
                     </View>
 
                     {/* Registration Form */}

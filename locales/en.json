@@ -86,7 +86,13 @@
     "protectedConnection": "This is a protected connection. We will not share your information.",
     "secureLogin": "Secure Login",
     "quickRegistration": "Quick Registration",
-    "getStartedNow": "Get started now!"
+    "getStartedNow": "Get started now!",
+    "name_required": "Name is required",
+    "name_min_required": "Name must be at least 2 characters",
+    "phone_invalid": "Phone number is invalid",
+    "phone_required": "Phone number is required",
+    "password_min": "Password must be at least 6 characters",
+    "password_required": "Password is required"
   },
   "home": {
     "restaurants": "Restaurants",
@@ -95,7 +101,7 @@
     "rides": "Rides",
     "welcome": "Welcome",
     "whatDoYouNeed": "What do you need?",
-    "services": "Our Services",
+    "services": " Services",
     "explore": "Explore",
     "guest": "Guest",
     "totalOrders": "Total Orders",
@@ -105,7 +111,11 @@
     "claimNow": "Claim Now",
     "popularRestaurants": "Popular Restaurants",
     "availableCoupons":"Available Coupons",
-    "hotDeals": "Hot Deals 🔥"
+    "hotDeals": "Hot Deals 🔥",
+    "couponCode": "Coupon Code",
+    "copyCode": "Copy Code",
+    "codeCopied": "Code Copied!",
+    "applyCoupon": "Apply Coupon"
   },
   "rides": {
     "bookRide": "Book a Ride",

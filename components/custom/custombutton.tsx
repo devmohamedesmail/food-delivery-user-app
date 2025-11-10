@@ -24,12 +24,12 @@ export default function CustomButton({ title, onPress, icon, disabled = false, .
             >
                 <View className='flex-row justify-center items-center space-x-2'>
                     <Text 
-                        className={` mx-2 arabic-font ${
+                        className={` mx-2  ${
                             disabled 
                                 ? 'text-gray-500' 
                                 : 'text-white'
                         }`}
-                        style={{ fontFamily: 'Cairo_600SemiBold' }}
+                        
                     >
                         {title}
                     </Text>

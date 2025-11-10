@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
 export default function PopularResturants() {
-    const { t } = useTranslation();
+    const { t , i18n } = useTranslation();
     const router = useRouter();
 
     const handleNavigation = (route: string) => {
@@ -54,18 +54,18 @@ export default function PopularResturants() {
     ];
     return (
         <View className='px-5 mb-6'>
-            <View className='flex-row justify-between items-center mb-4'>
-                <Text className='text-xl font-bold text-gray-800 arabic-font'>
+            <View className={`flex-row justify-between items-center mb-4 ${i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
+                <Text className={`text-xl font-bold text-gray-800 arabic-font ${i18n.language === 'ar' ? 'text-right' : ''}`}>
                     {t('home.popularRestaurants')}
                 </Text>
                 <TouchableOpacity onPress={() => handleNavigation('/restaurants/restaurants')}>
-                    <Text className='text-primary font-semibold arabic-font'>
-                        {t('home.viewAll') || 'View All'}
+                    <Text className='text-primary'>
+                        {t('home.viewAll')}
                     </Text>
                 </TouchableOpacity>
             </View>
 
-            <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} className='py-3'>
                 {popularRestaurants.map((restaurant, index) => (
                     <TouchableOpacity
                         key={restaurant.id}

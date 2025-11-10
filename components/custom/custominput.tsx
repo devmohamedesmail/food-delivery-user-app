@@ -32,11 +32,10 @@ export default function CustomInput({ label, placeholder, value, onChangeText, k
   return (
     <View className='mb-3 '>
       <Text
-        style={{ fontFamily: 'Cairo_400Regular' }}
-        className={`mb-2  ${i18n.language === "ar" ? 'text-right arabic-font' : 'text-left'}`}>{label}</Text>
-      <View className={`flex-row items-center border border-gray-500 rounded-md px-2 ${inputFocused ? 'bg-gray-100 border-secondary' : ''} ${i18n.language === "ar" ? 'flex-row-reverse' : ''} `}>
+        className={`mb-2  ${i18n.language === "ar" ? 'text-right' : 'text-left'}`}>{label}</Text>
+      <View className={`flex-row items-center border border-gray-500 rounded-md px-2 ${inputFocused ? 'bg-gray-100 border-primary' : ''} ${i18n.language === "ar" ? 'flex-row-reverse' : ''} `}>
         <TextInput
-          className={`  ${i18n.language === "ar" ? 'arabic-font text-right' : ''}  border-gray-300 p-2 rounded-md  flex-1 focus:border-primary py-4  focus:outline-none`}
+          className={` border-gray-300 p-2 rounded-md  flex-1 focus:border-primary py-4  focus:outline-none`}
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
