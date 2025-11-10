@@ -115,7 +115,25 @@
     "couponCode": "Coupon Code",
     "copyCode": "Copy Code",
     "codeCopied": "Code Copied!",
-    "applyCoupon": "Apply Coupon"
+    "applyCoupon": "Apply Coupon",
+    "minOrder": "Min. order:"
+  },
+  "offers": {
+    "title": "Special Offers",
+    "availableDeals": "amazing deals",
+    "loading": "Loading amazing deals...",
+    "error": "Oops! Something went wrong",
+    "errorMessage": "Failed to load offers. Please try again.",
+    "retry": "Retry",
+    "noOffers": "No Offers Available",
+    "noOffersMessage": "Check back later for amazing deals!",
+    "off": "OFF",
+    "add": "Add",
+    "addedToCart": "Added to cart successfully!",
+    "addToCartFailed": "Failed to add to cart",
+    "removedFromCart": "Removed from cart",
+    "loadMore": "Load More Offers",
+    "loadingMore": "Loading more..."
   },
   "rides": {
     "bookRide": "Book a Ride",

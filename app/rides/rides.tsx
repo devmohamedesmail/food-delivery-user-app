@@ -1,10 +1,9 @@
-import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Alert, Dimensions, ActivityIndicator, ScrollView, SafeAreaView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
 import * as Location from 'expo-location';
 import axios from 'axios';
-import BottomNavigation from '@/components/BottomNavigation';
 import { useTranslation } from 'react-i18next';
 import useFetch from '@/hooks/useFetch';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';

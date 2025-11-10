@@ -12,8 +12,8 @@ import CreativeBottomNavigation from '@/components/CreativeBottomNavigation';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 import HomeCategories from '@/components/home/HomeCategories';
-import FeaturedMeals from '@/components/FeaturedMeals';
-import Copouns from '@/components/Copouns';
+import FeaturedMeals from '@/components/home/FeaturedMeals';
+import Copouns from '@/components/home/Copouns';
 import PopularResturants from '@/components/PopularResturants';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SpecialOffers from '@/components/home/SpecialOffers';
@@ -117,7 +117,7 @@ export default function Home() {
       
 
         {/* Featured Meals with Offers */}
-       {/* <FeaturedMeals /> */}
+       <FeaturedMeals />
 
         {/* Coupons Section */}
         <Copouns />
