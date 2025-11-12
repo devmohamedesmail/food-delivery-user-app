@@ -13,6 +13,7 @@ import CartItem from '@/items/CartItem';
 import CustomButton from '@/components/custom/custombutton';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useAuth } from '@/context/auth_context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function Cart() {
@@ -45,7 +46,7 @@ export default function Cart() {
   }
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-gray-50">
       {/* Creative Header */}
       <View 
         className="pt-14 pb-8 px-5"
@@ -231,6 +232,6 @@ export default function Cart() {
       </ScrollView>
 
       {/* <BottomNavigation /> */}
-    </View>
+    </SafeAreaView>
   );
 }

@@ -33,7 +33,7 @@ export const BusinessTypes = () => {
   const handleBusinessTypePress = (businessType: BusinessType) => {
     // Navigate to business type screen
     router.push(`/stores`);
-    
+
   };
 
   const getCleanImageUrl = (imageUrl: string) => {
@@ -43,25 +43,30 @@ export const BusinessTypes = () => {
 
   return (
     <View className='mb-6'>
-    
+
       <Text className={`text-md text-black my-4 px-5 ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
-            {t('home.categories')}
+        {t('home.categories')}
       </Text>
 
       {/* Business Types Horizontal Scroll */}
-      <View 
+      <View
         className='flex flex-row justify-center'
       >
-        {data.map((businessType: BusinessType) => (
+        {data && data.map((businessType: BusinessType) => (
           <TouchableOpacity
             key={businessType.id}
             activeOpacity={0.7}
-            onPress={() => handleBusinessTypePress(businessType)}
+            onPress={() => {
+              router.push({
+                pathname: '/stores',
+                params: { businessTypeId: businessType.id.toString() }
+              });
+            }}
             className='items-center mx-4'
             style={{ width: 80 }}
           >
             {/* Circular Image */}
-            <View 
+            <View
               className='w-24 h-24 rounded-md overflow-hidden mb-2 bg-gray-200'
               style={{
                 shadowColor: '#000',
@@ -79,8 +84,8 @@ export const BusinessTypes = () => {
             </View>
 
             {/* Name */}
-            <Text 
-              className='font-semibold text-black text-md text-center mt-2' 
+            <Text
+              className='font-semibold text-black text-md text-center mt-2'
               numberOfLines={2}
             >
               {i18n.language === 'ar' ? businessType.name_ar : businessType.name_en}
