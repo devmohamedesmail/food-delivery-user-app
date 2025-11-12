@@ -4,7 +4,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 
-export default function PopularResturants() {
+export default function FeaturedResturants() {
     const { t , i18n } = useTranslation();
     const router = useRouter();
 

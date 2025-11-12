@@ -116,7 +116,8 @@
     "copyCode": "Copy Code",
     "codeCopied": "Code Copied!",
     "applyCoupon": "Apply Coupon",
-    "minOrder": "Min. order:"
+    "minOrder": "Min. order:",
+    "categories": "Categories"
   },
   "offers": {
     "title": "Special Offers",

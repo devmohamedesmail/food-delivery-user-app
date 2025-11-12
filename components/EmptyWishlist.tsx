@@ -2,12 +2,12 @@ import React from 'react'
 import { View } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, Text } from 'react-native';
-import BottomNavigation from './BottomNavigation';
+import BottomNavigation from './common/BottomNavigation';
 import { useRouter } from 'expo-router';
 import CustomHeader from '../components/custom/customheader';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import CreativeBottomNavigation from './CreativeBottomNavigation';
+import CreativeBottomNavigation from './common/CreativeBottomNavigation';
 
 export default function EmptyWishlist() {
   const router = useRouter();

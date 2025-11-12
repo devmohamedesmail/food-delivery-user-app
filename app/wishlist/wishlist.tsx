@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import CustomHeader from '../../components/custom/customheader';
-import BottomNavigation from '../../components/BottomNavigation';
+import BottomNavigation from '../../components/common/BottomNavigation';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { selectWishlistItems, selectWishlistTotalItems } from '../../store/hooks';
 import { removeFromWishlist, clearWishlist } from '../../store/slices/wishlistSlice';

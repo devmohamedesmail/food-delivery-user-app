@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import CreativeBottomNavigation from '../CreativeBottomNavigation';
+import CreativeBottomNavigation from '../common/CreativeBottomNavigation';
 
 
 export default function EmptyCart() {

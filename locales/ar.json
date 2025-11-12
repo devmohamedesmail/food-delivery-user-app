@@ -115,7 +115,8 @@
     "copyCode": "نسخ الرمز",
     "codeCopied": "تم نسخ الرمز!",
     "applyCoupon": "تطبيق الكوبون",
-    "minOrder": "الحد الأدنى للطلب:"
+    "minOrder": "الحد الأدنى للطلب:",
+    "categories": " الاقسام "
   },
   "offers": {
     "title": "عروض خاصة",

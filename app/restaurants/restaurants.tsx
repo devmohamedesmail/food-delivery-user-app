@@ -5,11 +5,11 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import CustomHeader from '../../components/custom/customheader';
 import RestaurantItem from '../../items/RestaurantItem';
-import BottomNavigation from '@/components/BottomNavigation';
+import BottomNavigation from '@/components/common/BottomNavigation';
 import useFetch from '@/hooks/useFetch';
 import CustomLoading from '@/components/custom/customloading';
 import NoResturantFound from '@/components/NoResturantFound';
-import CreativeBottomNavigation from '@/components/CreativeBottomNavigation';
+import CreativeBottomNavigation from '@/components/common/CreativeBottomNavigation';
 
 interface Restaurant {
   id: number;

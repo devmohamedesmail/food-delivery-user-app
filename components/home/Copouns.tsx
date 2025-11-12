@@ -8,9 +8,9 @@ import useFetch from '@/hooks/useFetch';
 import { config } from '@/constants/config';
 
 export default function Copouns() {
-    const { t , i18n } = useTranslation();
-    const {data , loading, error} = useFetch('/coupons')
-    const [copiedId, setCopiedId] = useState<number | null>(null);
+  const { t, i18n } = useTranslation();
+  const { data, loading, error } = useFetch('/coupons')
+  const [copiedId, setCopiedId] = useState<number | null>(null);
 
   const getCouponColor = (index: number) => {
     const colors = ['#fd4a12', '#4ECDC4', '#FFB347', '#FF6B9D', '#95E1D3'];
@@ -33,7 +33,7 @@ export default function Copouns() {
   const handleCopyCoupon = async (code: string, id: number) => {
     await Clipboard.setStringAsync(code);
     setCopiedId(id);
-    
+
     Toast.success(`🎉 Coupon "${code}" copied!`);
 
     setTimeout(() => {
@@ -44,18 +44,20 @@ export default function Copouns() {
   if (loading || !data || data.length === 0) return null;
 
   return (
-     <View className='px-5 mb-6'>
-          
-            <Text className={`text-xl font-bold mb-2 text-right text-black ${i18n.language === 'ar' ? 'text-right' : ''}`}>
-              {t('home.availableCoupons') }
-            </Text>
-         
+    <>
+      {data && data.length > 0 ? (
+        <View className='px-5 mb-6'>
+
+          <Text className={`text-xl font-bold mb-2 text-right text-black ${i18n.language === 'ar' ? 'text-right' : ''}`}>
+            {t('home.availableCoupons')}
+          </Text>
+
 
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {data.map((coupon: any, index: number) => {
               const color = getCouponColor(index);
               const isCopied = copiedId === coupon.id;
-              
+
               return (
                 <TouchableOpacity
                   key={coupon.id}
@@ -79,14 +81,14 @@ export default function Copouns() {
                     {/* Background Pattern */}
                     <View className='absolute -right-8 -top-8 w-32 h-32 rounded-full bg-white opacity-10' />
                     <View className='absolute -right-4 -bottom-4 w-24 h-24 rounded-full bg-white opacity-10' />
-                    
+
                     {/* Celebration effect when copied */}
                     {isCopied && (
                       <View className='absolute inset-0 items-center justify-center'>
                         <Text className='text-6xl'>🎉</Text>
                       </View>
                     )}
-                    
+
                     <View className='flex-row items-center justify-between mb-3'>
                       <View className='flex-row items-center'>
                         <View className='w-12 h-12 rounded-full bg-white/20 items-center justify-center mr-3 border border-white/30'>
@@ -117,7 +119,7 @@ export default function Copouns() {
                       )}
                     </View>
 
-                    <TouchableOpacity 
+                    <TouchableOpacity
                       className='bg-white rounded-full py-2.5 items-center'
                       onPress={() => handleCopyCoupon(coupon.code, coupon.id)}
                     >
@@ -131,5 +133,8 @@ export default function Copouns() {
             })}
           </ScrollView>
         </View>
+      ) : (<></>)}
+
+    </>
   )
 }

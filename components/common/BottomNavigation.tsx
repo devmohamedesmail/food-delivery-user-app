@@ -62,7 +62,7 @@ export default function BottomNavigation() {
         width={width}
         height={80}
         viewBox={`0 0 ${width} 80`}
-        className="absolute bottom-0 "
+        className="absolute bottom-0  "
         style={{
           shadowColor: '#000',
           shadowOffset: { width: 0, height: -4 },
@@ -87,12 +87,12 @@ export default function BottomNavigation() {
             Q 0,0 0,20
             Z
           `}
-          fill="white"
+          fill="#f8f9fa"
         />
       </Svg>
 
       {/* Navigation Content */}
-      <View className="absolute bottom-0 left-0 right-0 flex-row items-end justify-between px-6 pb-4">
+      <View className="absolute bottom-0 left-0 right-0 flex-row items-end justify-between px-6 pb-1 ">
         {/* Left Navigation Items */}
         <View className="flex-row flex-1 justify-around">
           {leftNavItems.map((item, index) => (
@@ -111,7 +111,7 @@ export default function BottomNavigation() {
           <TouchableOpacity
             onPress={centerAction.onPress}
             activeOpacity={0.8}
-            className="items-center justify-center"
+            className="items-center justify-center mb-2"
             style={{
               width: 54,
               height: 54,

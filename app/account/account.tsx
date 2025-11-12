@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import AccountItem from '@/items/AccountItem';
 import { Toast } from 'toastify-react-native';
 import CustomHeader from '@/components/custom/customheader';
-import BottomNavigation from '@/components/BottomNavigation';
+import BottomNavigation from '@/components/common/BottomNavigation';
 import { AuthContext } from '@/context/auth_context';
 import { useRouter } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome';

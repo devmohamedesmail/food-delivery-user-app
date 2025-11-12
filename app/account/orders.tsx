@@ -10,7 +10,7 @@ import NoOrdersFound from '@/components/NoOrdersFound';
 import CustomLoading from '@/components/custom/customloading';
 import ErrorMessage from '@/components/ErrorMessage';
 import OrderUserItem from '@/items/OrderUserItem';
-import BottomNavigation from '@/components/BottomNavigation';
+import BottomNavigation from '@/components/common/BottomNavigation';
 
 type OrderStatus = 'all' | 'pending' | 'accepted' | 'preparing' | 'on_the_way' | 'delivered' | 'cancelled';
 

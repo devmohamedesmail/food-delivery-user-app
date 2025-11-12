@@ -16,7 +16,7 @@ import axios from 'axios';
 import { AuthContext } from '@/context/auth_context';
 import { Toast } from 'toastify-react-native';
 import CustomHeader from '@/components/custom/customheader';
-import BottomNavigation from '@/components/BottomNavigation';
+import BottomNavigation from '@/components/common/BottomNavigation';
 import * as Location from 'expo-location';
 
 export default function Order() {

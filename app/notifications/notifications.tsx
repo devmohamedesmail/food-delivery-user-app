@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Animated } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import BottomNavigation from '@/components/BottomNavigation';
+import BottomNavigation from '@/components/common/BottomNavigation';
 
 type Notification = {
     id: number;
