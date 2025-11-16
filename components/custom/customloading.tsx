@@ -1,6 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import Loading from '../Loading';
+import Loading from '../common/Loading';
 import { useTranslation } from 'react-i18next';
 
 export default function CustomLoading({message}: {message?:string}) {

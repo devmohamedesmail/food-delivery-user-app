@@ -10,7 +10,7 @@ interface LoadingProps {
   showText?: boolean;
 }
 
-const { width } = Dimensions.get('window');
+
 
 export default function Loading({ 
   message = 'Loading...', 

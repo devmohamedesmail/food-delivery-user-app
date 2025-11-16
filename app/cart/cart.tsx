@@ -10,7 +10,7 @@ import EmptyCart from '@/components/cart/EmptyCart';
 import { useTranslation } from 'react-i18next';
 import { config } from '@/constants/config';
 import CartItem from '@/items/CartItem';
-import CustomButton from '@/components/custom/custombutton';
+import CustomButton from '@/components/custom/Button';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useAuth } from '@/context/auth_context';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -46,7 +46,7 @@ export default function Cart() {
   }
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
       {/* Creative Header */}
       <View 
         className="pt-14 pb-8 px-5"
@@ -84,33 +84,19 @@ export default function Cart() {
 
         {/* Title & Items Count */}
         <View className="mb-4">
-          <Text className="text-3xl arabic-font-bold text-white mb-2">
+          <Text className="text-3xl text-center text-white mb-2">
             {t('navigation.cart')}
           </Text>
-          <View className="flex-row items-center">
-            <View 
-              className="px-3 py-1.5 rounded-full flex-row items-center"
-              style={{ backgroundColor: 'rgba(253, 74, 18, 0.2)' }}
-            >
-              <Ionicons name="cart" size={16} color="#fd4a12" />
-              <Text className="text-sm font-semibold ml-1.5 arabic-font" style={{ color: '#fd4a12' }}>
-                {totalItems} {totalItems === 1 ? t('cart.item') : t('cart.items')}
-              </Text>
-            </View>
-          </View>
+         
         </View>
 
         {/* Total Price Card */}
         <View 
-          className="rounded-2xl p-4 flex-row items-center justify-between"
-          style={{
-            backgroundColor: 'rgba(255, 255, 255, 0.05)',
-            borderWidth: 1,
-            borderColor: 'rgba(255, 255, 255, 0.1)',
-          }}
+          className="rounded-2xl p-4 flex-row items-center justify-between border border-white/10 "
+         
         >
           <View>
-            <Text className="text-white/60 text-xs mb-1 arabic-font" style={{ fontFamily: 'Cairo_400Regular' }}>
+            <Text className="text-white text-md mb-1 " >
               
               {t('cart.totalAmount')}
             </Text>
@@ -122,7 +108,7 @@ export default function Cart() {
             className="w-12 h-12 rounded-full items-center justify-center"
             style={{ backgroundColor: 'rgba(253, 74, 18, 0.2)' }}
           >
-            <Ionicons name="wallet" size={24} color="#fd4a12" />
+            <Ionicons name="wallet" size={24} color="white" />
           </View>
         </View>
       </View>

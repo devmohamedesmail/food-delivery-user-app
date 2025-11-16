@@ -16,7 +16,7 @@ import '../lib/i18n'
 import ToastManager from 'toastify-react-native';
 import AuthProvider from '@/context/auth_context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Intro from '@/components/Into';
+import Intro from '@/components/common/Into';
 import { View, ActivityIndicator } from 'react-native';
 
 export {

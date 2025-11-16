@@ -8,16 +8,15 @@ import { selectCartItems, selectCartTotalPrice, selectCartTotalItems } from '../
 import { useTranslation } from 'react-i18next';
 import { config } from '@/constants/config';
 import { useFormik } from 'formik';
-import CustomInput from '@/components/custom/custominput';
-import CustomButton from '@/components/custom/custombutton';
+import Input from '@/components/custom/Input';
+import CustomButton from '@/components/custom/Button';
 import CartItem from '@/items/CartItem';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import axios from 'axios';
 import { AuthContext } from '@/context/auth_context';
 import { Toast } from 'toastify-react-native';
-import CustomHeader from '@/components/custom/customheader';
-import BottomNavigation from '@/components/common/BottomNavigation';
 import * as Location from 'expo-location';
+import * as Yup from 'yup';
 
 export default function Order() {
     const router = useRouter();
@@ -26,22 +25,29 @@ export default function Order() {
     const totalPrice = useAppSelector(selectCartTotalPrice);
     const totalItems = useAppSelector(selectCartTotalItems);
     const { t, i18n } = useTranslation();
-
     const { auth } = useContext(AuthContext);
     const [loadingLocation, setLoadingLocation] = useState(false);
     // console.log("cartItems", cartItems);
 
     const formik = useFormik({
         initialValues: {
-            name: '',
             phone: '',
             address: '',
         },
 
+        validationSchema: Yup.object({
+            phone: Yup.string()
+                .required(t('order.phoneRequired'))
+                .min(6, t('order.phoneMin')),
+            address: Yup.string()
+                .required(t('order.addressRequired'))
+                .min(10, t('order.addressMin')),
+        }),
+
         onSubmit: async (values) => {
             try {
                 // Validate required fields
-                if (!values.name || !values.phone || !values.address) {
+                if (!values.phone || !values.address) {
                     Toast.show({
                         type: 'error',
                         text1: 'Please fill in all required fields',
@@ -61,7 +67,7 @@ export default function Order() {
 
                 const response = await axios.post(`${config.URL}/orders/create`, {
                     user_id: auth?.user?.id || 1,
-                    restaurant_id: 2, // You may want to get this from cart items or pass it as prop
+                    restaurant_id: 2,
                     order: cartItems.map(item => ({
                         id: parseInt(item.id),
                         name: item.name,
@@ -69,7 +75,8 @@ export default function Order() {
                         price: item.price
                     })),
                     total_price: totalWithDelivery,
-                    delivery_address: values.address
+                    delivery_address: values.address,
+                    phone: values.phone,
                 })
 
                 Toast.show({
@@ -92,10 +99,10 @@ export default function Order() {
     const getCurrentLocation = async () => {
         try {
             setLoadingLocation(true);
-            
+
             // Request permission
             const { status } = await Location.requestForegroundPermissionsAsync();
-            
+
             if (status !== 'granted') {
                 Alert.alert(
                     t('order.locationPermission'),
@@ -159,13 +166,13 @@ export default function Order() {
     return (
         <View className="flex-1 bg-gray-50">
             {/* Creative Header */}
-            <View 
+            <View
                 className="pt-14 pb-8 px-5"
                 style={{ backgroundColor: '#242424' }}
             >
                 {/* Top Row - Back Button */}
                 <View className="flex-row items-center justify-between mb-6">
-                    <TouchableOpacity 
+                    <TouchableOpacity
                         onPress={() => router.back()}
                         className='w-11 h-11 rounded-2xl items-center justify-center'
                         style={{
@@ -177,7 +184,7 @@ export default function Order() {
                         <Ionicons name="arrow-back" size={22} color="white" />
                     </TouchableOpacity>
 
-                    <View 
+                    <View
                         className='flex-row items-center px-4 py-2 rounded-2xl'
                         style={{
                             backgroundColor: 'rgba(253, 74, 18, 0.15)',
@@ -202,10 +209,10 @@ export default function Order() {
                     </Text>
                 </View>
 
-              
+
             </View>
 
-        
+
 
             <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
                 {/* Order Items Section */}
@@ -230,15 +237,9 @@ export default function Order() {
                         {t('order.customerInfo')}
                     </Text>
 
-                    <CustomInput
-                        label={t('order.fullName')}
-                        placeholder={t('order.enterFullName')}
-                        value={formik.values.name}
-                        onChangeText={formik.handleChange('name')}
-                        error={formik.touched.name && formik.errors.name ? formik.errors.name : undefined}
-                    />
 
-                    <CustomInput
+
+                    <Input
                         label={t('order.phoneNumber')}
                         placeholder={t('order.enterPhoneNumber')}
                         value={formik.values.phone}
@@ -246,7 +247,7 @@ export default function Order() {
                         error={formik.touched.phone && formik.errors.phone ? formik.errors.phone : undefined}
                     />
 
-                    <CustomInput
+                    <Input
                         label={t('order.deliveryAddress')}
                         placeholder={t('order.enterDeliveryAddress')}
                         value={formik.values.address}
@@ -284,7 +285,7 @@ export default function Order() {
 
 
 
-                </View>                
+                </View>
                 <View className="bg-white mx-4 mt-4 rounded-xl p-4 shadow-sm">
                     <Text className={`text-lg  text-gray-900 mb-4 ${i18n.language === 'ar' ? 'arabic-font text-right' : ''}`}>
                         {t('order.deliveryInfo')}
@@ -359,7 +360,7 @@ export default function Order() {
                 {/* Bottom spacing */}
                 <View className="h-8" />
             </ScrollView>
-           
+
         </View>
     );
 }

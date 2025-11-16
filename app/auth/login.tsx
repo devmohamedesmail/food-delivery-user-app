@@ -5,10 +5,10 @@ import { useFormik } from 'formik'
 import * as Yup from 'yup'
 import { Ionicons } from '@expo/vector-icons'
 import { useRouter } from 'expo-router'
-import CustomInput from '@/components/custom/custominput'
-import CustomButton from '@/components/custom/custombutton'
+import CustomInput from '@/components/custom/Input'
+import CustomButton from '@/components/custom/Button'
 import { AuthContext } from '@/context/auth_context'
-import Logo from '@/components/logo'
+import Logo from '@/components/common/logo'
 import { Toast } from 'toastify-react-native'
 
 
@@ -29,18 +29,12 @@ export default function Login() {
     initialValues: {
       identifier: '',
       password: '',
+      
     },
     validationSchema: Yup.object({
       identifier: Yup.string()
-        .required(t('phone_required'))
-        .test('email-or-phone', t('phone_invalid'), function (value) {
-          if (!value) return false;
-          // Check if it's a valid email
-          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-          // Check if it's a valid phone number
-          const phoneRegex = /^[0-9]{10,15}$/;
-          return emailRegex.test(value) || phoneRegex.test(value);
-        }),
+        .email(t('auth.email_invalid'))
+        .required(t('auth.email_required')),
       password: Yup.string()
         .required(t('password_required'))
         .min(6, t('password_min')),
@@ -94,7 +88,7 @@ export default function Login() {
           showsVerticalScrollIndicator={false}
         >
           {/* Creative Header */}
-          <View 
+          <View
             className="pt-14 pb-8 px-5"
             style={{ backgroundColor: '#242424' }}
           >
@@ -116,7 +110,7 @@ export default function Login() {
             {/* Logo/Brand Section */}
             <View className="items-center  mb-3">
               <View className="mb-4">
-                <Logo />
+                {/* <Logo /> */}
               </View>
               <Text
                 className="text-3xl text-white mb-2"
@@ -132,7 +126,7 @@ export default function Login() {
               </Text>
             </View>
 
-          
+
           </View>
 
           {/* Login Form */}

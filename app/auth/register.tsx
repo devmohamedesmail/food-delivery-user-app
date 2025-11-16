@@ -4,10 +4,10 @@ import { Ionicons } from '@expo/vector-icons'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import CustomInput from '@/components/custom/custominput'
+import CustomInput from '@/components/custom/Input'
 import { AuthContext } from '@/context/auth_context'
-import CustomButton from '@/components/custom/custombutton'
-import Logo from '@/components/logo'
+import CustomButton from '@/components/custom/Button'
+import Logo from '@/components/common/logo'
 
 
 import { Toast } from 'toastify-react-native'
@@ -17,7 +17,8 @@ import { useRouter } from 'expo-router'
 interface RegisterFormValues {
     name: string
     identifier: string
-    password: string
+    password: string,
+    role_id: string
 
 }
 
@@ -32,9 +33,12 @@ export default function Register() {
         name: Yup.string()
             .min(2, t('auth.name_min_required'))
             .required(t('auth.name_required')),
+        // identifier: Yup.string()
+        //     .matches(/^[0-9]{10,15}$/, t('auth.phone_invalid'))
+        //     .required(t('auth.phone_required')),
         identifier: Yup.string()
-            .matches(/^[0-9]{10,15}$/, t('auth.phone_invalid'))
-            .required(t('auth.phone_required')),
+            .email(t('auth.email_invalid'))
+            .required(t('auth.email_required')),
         password: Yup.string()
             .min(6, t('auth.password_min'))
             .required(t('auth.password_required')),
@@ -46,6 +50,7 @@ export default function Register() {
             name: '',
             identifier: '',
             password: '',
+            role_id: '1'
 
         },
         validationSchema,
@@ -54,7 +59,7 @@ export default function Register() {
 
             try {
 
-                const result = await handle_register(values.name, values.identifier, values.password)
+                const result = await handle_register(values.name, values.identifier, values.password , values.role_id);
                 if (result.success) {
 
                     Toast.show({
@@ -64,7 +69,11 @@ export default function Register() {
                         position: 'top',
                         visibilityTime: 3000,
                     });
-                    router.push('/')
+                    setTimeout(() => {
+                        setIsLoading(false)
+                        router.push('/')
+                    }, 3000);
+                    
                 } else {
                     Toast.show({
                         type: 'error',
@@ -132,7 +141,7 @@ export default function Register() {
                         {/* Logo/Brand Section */}
                         <View className="items-center mb-3">
                             <View className="mb-4">
-                                <Logo />
+                                {/* <Logo /> */}
                             </View>
                             <Text
                                 className="text-3xl text-white mb-2"

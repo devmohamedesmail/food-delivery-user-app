@@ -12,6 +12,7 @@ import { config } from '@/constants/config';
 import { useRouter } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import i18n from '@/lib/i18n';
 
 const { width, height } = Dimensions.get('window');
 const GOOGLE_API_KEY = "AIzaSyCWrI-BwVYZE6D7wzFCVeEuaKr6VR-6FGI";
@@ -318,7 +319,9 @@ export default function Rides() {
         </MapView>
 
         {/* Professional Header */}
-        <SafeAreaView className="absolute top-0 left-0 right-0">
+        <SafeAreaView className="absolute top-0 left-0 right-0" 
+        edges={["bottom"]}
+        >
           <LinearGradient
             colors={['rgba(255,255,255,0.95)', 'rgba(255,255,255,0.85)', 'transparent']}
             start={{ x: 0, y: 0 }}
@@ -417,7 +420,7 @@ export default function Rides() {
           handleIndicatorStyle={{ backgroundColor: '#d1d5db' }}
         >
           <BottomSheetScrollView className="flex-1 px-4">
-            <Text className="text-2xl arabic-font text-center text-gray-900 mb-6">
+            <Text className="text-2xl text-center text-gray-900 mb-6">
               {t('rides.bookARide')}
             </Text>
 
@@ -426,9 +429,8 @@ export default function Rides() {
               <View className="bg-gray-50 rounded-2xl p-4 flex-row items-center">
                 <View className="bg-green-500 w-3 h-3 rounded-full mr-3" />
                 <View className="flex-1">
-                  <Text className="text-gray-500 text-xs mb-1">
-                    {t('rides.pickupLocation')}
-                   
+                  <Text className={`text-black text-xs mb-1 ${i18n.language === 'ar' ? 'text-right' : ''}`}>
+                    {t('rides.pickupLocation')}                   
                     </Text>
                   <TextInput
                     value={originInput}
@@ -481,7 +483,7 @@ export default function Rides() {
               <View className="bg-gray-50 rounded-2xl p-4 flex-row items-center">
                 <View className="bg-red-500 w-3 h-3 rounded-full mr-3" />
                 <View className="flex-1">
-                  <Text className="text-gray-500 text-xs mb-1">
+                  <Text className={`text-black text-xs mb-1 ${i18n.language === 'ar' ? 'text-right' : ''}`}>
                     {t('rides.destination')}
                   </Text>
                   <TextInput

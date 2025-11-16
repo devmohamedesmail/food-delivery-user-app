@@ -4,11 +4,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import AccountItem from '@/items/AccountItem';
 import { Toast } from 'toastify-react-native';
-import CustomHeader from '@/components/custom/customheader';
+import CustomHeader from '@/components/custom/Header';
 import BottomNavigation from '@/components/common/BottomNavigation';
 import { AuthContext } from '@/context/auth_context';
 import { useRouter } from 'expo-router';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
@@ -70,7 +71,9 @@ const Account = () => {
 
 
   return (
-    <View className='flex-1'>
+    <SafeAreaView className='flex-1' 
+      edges={['bottom']}
+    >
       <CustomHeader title={t('account.myAccount')} />
       <ScrollView className="flex-1 bg-gray-50">
         {/* Header */}
@@ -173,7 +176,7 @@ const Account = () => {
 
       </ScrollView>
       <BottomNavigation />
-    </View>
+    </SafeAreaView>
   );
 };
 

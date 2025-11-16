@@ -118,6 +118,16 @@
     "minOrder": "الحد الأدنى للطلب:",
     "categories": " الاقسام "
   },
+  "notFound": {
+    "title": "الصفحة غير موجودة",
+    "description": "عذراً! الصفحة التي تبحث عنها غير موجودة. ربما تم نقلها أو حذفها.",
+    "suggestions": "ما يمكنك فعله:",
+    "checkUrl": "تحقق من الرابط بحثاً عن أخطاء",
+    "goBack": "العودة إلى الصفحة السابقة",
+    "goHome": "العودة إلى الصفحة الرئيسية",
+    "homeButton": "الذهاب للرئيسية",
+    "backButton": "رجوع"
+  },
   "offers": {
     "title": "عروض خاصة",
     "availableDeals": "عرض مميز",
@@ -199,6 +209,16 @@
     "searchForMeals": "ابحث عن الوجبات...",
     "view_cart": "عرض السلة"
   },
+  "stores":{
+    "loading": "جاري تحميل المتاجر...",
+    "noStoresFound": " لا توجد متاجر",
+    "noStoresAvailable": "لا توجد متاجر متاحة",
+    "all": "الكل",
+    "noProductsFound": "لا توجد منتجات",
+    "noProductsAvailable": "لا توجد منتجات متاحة",
+    "tryDifferentSearch": "حاول البحث بشكل مختلف أو تصفح الفئات",
+    "tryAgainLater": "يرجى المحاولة مرة أخرى لاحقاً"
+  },
   "account": {
     "switchLanguage": "تبديل اللغة",
     "settings": "الإعدادات",
@@ -244,7 +264,11 @@
     "areYouSureClearCart": " هل أنت متأكد أنك تريد إزالة جميع العناصر من عربة التسوق الخاصة بك؟ ",
     "clear_all": "مسح الكل ",
     "totalAmount": "المبلغ الإجمالي",
-    "item": "عنصر"
+    "item": "عنصر",
+    "addToCart": "أضف إلى السلة",
+    "addedToCart": "تمت الإضافة إلى السلة بنجاح! " ,
+    "removedFromCart": " تمت الإزالة من السلة",
+    "cartCleared": "تم مسح السلة بنجاح"
   },
   "wishlist": {
     "emptyTitle": "قائمة المفضلات فارغة",
@@ -287,7 +311,9 @@
     "locationPermissionMessage": "نحتاج إلى إذن الموقع للحصول على عنوانك الحالي",
     "locationError": "خطأ في الموقع",
     "locationErrorMessage": "تعذر الحصول على موقعك. يرجى إدخال العنوان يدويًا.",
-    "locationSuccess": "تم الحصول على الموقع بنجاح!"
+    "locationSuccess": "تم الحصول على الموقع بنجاح!",
+     "phoneRequired": " رقم الهاتف مطلوب",
+    "addressRequired": "عنوان التسليم مطلوب"
   },
   "orders": {
     "myOrders": "طلباتي",

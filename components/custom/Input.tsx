@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import Entypo from '@expo/vector-icons/Entypo';
+import Colors from '@/constants/Colors';
 
 
 
@@ -19,7 +20,7 @@ interface CustomInputProps {
 
 }
 
-export default function CustomInput({ label, placeholder, value, onChangeText, keyboardType, error, type }: CustomInputProps) {
+export default function Input({ label, placeholder, value, onChangeText, keyboardType, error, type }: CustomInputProps) {
   const { t, i18n } = useTranslation()
   const [isPasswordVisible, setIsPasswordVisible] = useState(false)
   const [inputFocused, setInputFocused] = useState(false)
@@ -35,7 +36,7 @@ export default function CustomInput({ label, placeholder, value, onChangeText, k
         className={`mb-2  ${i18n.language === "ar" ? 'text-right' : 'text-left'}`}>{label}</Text>
       <View className={`flex-row items-center border border-gray-500 rounded-md px-2 ${inputFocused ? 'bg-gray-100 border-primary' : ''} ${i18n.language === "ar" ? 'flex-row-reverse' : ''} `}>
         <TextInput
-          className={` border-gray-300 p-2 rounded-md  flex-1 focus:border-primary py-4  focus:outline-none`}
+          className={` border-gray-300 p-2 rounded-md  flex-1 focus:border-primary py-4  focus:outline-none ${i18n.language === "ar" ? 'text-right' : 'text-left'}`}
           placeholder={placeholder}
           value={value}
           onChangeText={onChangeText}
@@ -43,6 +44,7 @@ export default function CustomInput({ label, placeholder, value, onChangeText, k
           secureTextEntry={isPassword && !isPasswordVisible}
           onFocus={() => setInputFocused(true)}
           onBlur={() => setInputFocused(false)}
+          cursorColor={Colors.light.tabIconSelected}
 
 
         />

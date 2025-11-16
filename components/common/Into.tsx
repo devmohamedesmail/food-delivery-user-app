@@ -132,7 +132,7 @@ export default function Intro() {
       <View className="items-center">
         <Text
           className={`text-3xl font-bold text-gray-900 mb-4 ${
-            i18n.language === 'ar' ? 'arabic-font text-right' : 'text-center'
+            i18n.language === 'ar' ? 'text-center' : 'text-center'
           }`}
           style={{ maxWidth: width - 80 }}
         >
@@ -140,7 +140,7 @@ export default function Intro() {
         </Text>
         <Text
           className={`text-lg text-gray-600 leading-7 ${
-            i18n.language === 'ar' ? 'arabic-font text-right' : 'text-center'
+            i18n.language === 'ar' ? 'text-center' : 'text-center'
           }`}
           style={{ maxWidth: width - 100 }}
         >

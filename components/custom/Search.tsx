@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function CustomSearch() {
+export default function Search() {
   return (
     <div>customsearch</div>
   )

@@ -28,10 +28,10 @@ export default function BottomNavigation() {
       onPress: () => router.push('/'),
     },
     {
-      icon: <Ionicons name="restaurant" size={24} />,
+      icon: <Ionicons name="car" size={24} />,
       label: t('navigation.restaurants'),
       isActive: pathname.includes('/restaurants'),
-      onPress: () => router.push('/restaurants/restaurants'),
+      onPress: () => router.push('/rides'),
     },
   ];
 
@@ -87,7 +87,7 @@ export default function BottomNavigation() {
             Q 0,0 0,20
             Z
           `}
-          fill="#f8f9fa"
+          fill="white"
         />
       </Svg>
 
@@ -107,7 +107,7 @@ export default function BottomNavigation() {
         </View>
 
         {/* Center Floating Action Button */}
-        <View className="items-center justify-center" style={{ marginBottom: 20 }}>
+        <View className="items-center justify-center mb-7" >
           <TouchableOpacity
             onPress={centerAction.onPress}
             activeOpacity={0.8}
@@ -116,15 +116,15 @@ export default function BottomNavigation() {
               width: 54,
               height: 54,
               borderRadius: 32,
-              backgroundColor: 'red',
-              shadowColor: 'red',
+              backgroundColor: '#fd4a12',
+              shadowColor: '#fd4a12',
               shadowOffset: { width: 0, height: 4 },
               shadowOpacity: 0.3,
               shadowRadius: 12,
               elevation: 8,
             }}
           >
-            <View className="items-center justify-center">
+            <View className="items-center justify-center ">
               <Fontisto name="shopping-bag-1" size={26} color="white" />
             </View>
           </TouchableOpacity>

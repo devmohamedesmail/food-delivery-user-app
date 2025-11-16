@@ -119,6 +119,16 @@
     "minOrder": "Min. order:",
     "categories": "Categories"
   },
+  "notFound": {
+    "title": "Page Not Found",
+    "description": "Oops! The page you're looking for doesn't exist. It might have been moved or deleted.",
+    "suggestions": "What you can do:",
+    "checkUrl": "Check the URL for typos",
+    "goBack": "Go back to the previous page",
+    "goHome": "Return to the home page",
+    "homeButton": "Go to Home",
+    "backButton": "Go Back"
+  },
   "offers": {
     "title": "Special Offers",
     "availableDeals": "amazing deals",
@@ -201,6 +211,16 @@
     "searchForMeals": "Search for meals...",
     "view_cart": "View Cart"
   },
+  "stores":{
+    "loading": "Loading stores...",
+    "noStoresFound": "No stores found",
+    "noStoresAvailable": "No stores available",
+    "all": "All",
+    "noProductsFound": "No products found",
+    "noProductsAvailable": "No products available",
+    "tryDifferentSearch": "Try a different search or browse categories",
+    "tryAgainLater": "Please try again later"
+  },
   "account": {
     "swithchlanguage": "Switch Language",
     "settings": "Settings",
@@ -246,7 +266,11 @@
     "areYouSureClearCart": "Are you sure you want to remove all items from your cart?",
     "clear_all": "Clear All",
     "totalAmount": "Total Amount",
-    "item": "item"
+    "item": "item",
+    "addToCart": "Add to Cart",
+    "addedToCart": "Item added to cart",
+    "removedFromCart": "Item removed from cart",
+    "cartCleared": "Cart cleared successfully"
    
   
   },
@@ -291,7 +315,9 @@
     "locationPermissionMessage": "We need your location permission to get your current address",
     "locationError": "Location Error",
     "locationErrorMessage": "Unable to get your location. Please enter address manually.",
-    "locationSuccess": "Location retrieved successfully!"
+    "locationSuccess": "Location retrieved successfully!",
+    "phoneRequired": "Phone number is required",
+    "addressRequired": "Delivery address is required"
   },
   "orders": {
     "myOrders": "My Orders",

@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity, Text } from 'react-native';
 import BottomNavigation from './common/BottomNavigation';
 import { useRouter } from 'expo-router';
-import CustomHeader from '../components/custom/customheader';
+import CustomHeader from './custom/Header';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CreativeBottomNavigation from './common/CreativeBottomNavigation';

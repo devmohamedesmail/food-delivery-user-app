@@ -20,7 +20,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import SpecialOffers from '@/components/home/SpecialOffers';
 import BottomNavigation from '@/components/common/BottomNavigation';
 import useFetch from '@/hooks/useFetch';
-import { BusinessTypes } from '@/components/home/BusinessTypes';
+import { StoreTypes } from '@/components/home/StoreTypes';
 
 export default function Home() {
   const { t, i18n } = useTranslation();
@@ -79,9 +79,11 @@ export default function Home() {
 
 
   return (
-    <SafeAreaView className='flex-1 bg-white'>
+    <SafeAreaView
+      edges={['bottom']}
+      className='flex-1 bg-white'>
       {/* Creative Header with Gradient */}
-      <StatusBar barStyle="light-content" translucent backgroundColor="black" />
+      <StatusBar hidden={true} translucent={true} />
       <LinearGradient
         colors={['#fd4a12', '#FF6A3D', '#FFC24A']}
         start={{ x: 0, y: 0 }}
@@ -175,9 +177,9 @@ export default function Home() {
 
 
         {/* Service Cards - Circular Design */}
-        <HomeCategories />
+        {/* <HomeCategories /> */}
 
-        <BusinessTypes />
+        <StoreTypes />
 
         {/* Special Offers Section */}
         <SpecialOffers />
