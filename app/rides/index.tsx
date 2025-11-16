@@ -28,7 +28,7 @@ interface PlaceResult {
 }
 
 export default function Rides() {
-  const { t } = useTranslation();
+  const { t , i18n } = useTranslation();
   const router = useRouter();
   const mapRef = useRef<MapView>(null);
   const bottomSheetRef = useRef<BottomSheet>(null);

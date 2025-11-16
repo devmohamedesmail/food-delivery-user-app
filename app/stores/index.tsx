@@ -11,12 +11,16 @@ import useFetch from '@/hooks/useFetch'
 import StoreItem from '@/components/stores/StoreItem'
 import Loading from '@/components/common/Loading'
 import ErrorMessage from '@/components/common/ErrorMessage'
+import NoStores from '@/components/stores/NoStores'
 
 
 
 const Stores = () => {
-  const { storeTypeId } = useLocalSearchParams();
-  const { data, loading, error } = useFetch(`/store-types/${storeTypeId}/stores`);
+  // const { storeTypeId } = useLocalSearchParams();
+  const { storeType } = useLocalSearchParams();
+  const parsedStoreType = JSON.parse(storeType as string);
+
+  const { data, loading, error } = useFetch(`/store-types/${parsedStoreType.id}/stores`);
   const { t, i18n } = useTranslation();
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
@@ -38,12 +42,7 @@ const Stores = () => {
     <SafeAreaView
       edges={['bottom']}
       className="flex-1 bg-gray-50">
-      <StatusBar
-
-        translucent={true}
-        hidden={true}
-
-      />
+      <StatusBar translucent={true} hidden={true} />
 
 
       <View className='flex-1'>
@@ -60,7 +59,7 @@ const Stores = () => {
               <Ionicons name="arrow-back" size={22} color="white" />
             </TouchableOpacity>
             <Text className='text-white text-xl font-bold flex-1 text-center'>
-              {i18n.language === 'ar' ? 'المتاجر' : 'Stores'}
+              {i18n.language === 'ar' ? `${parsedStoreType.name_ar}` : `${parsedStoreType.name_en}`}
             </Text>
             <View className='w-10' />
           </View>
@@ -86,22 +85,14 @@ const Stores = () => {
         {/* Content */}
         {loading ? (
           <View className='flex-1 items-center justify-center'>
-            <Loading type='processing' 
-            message={t('stores.loading')} />
+            <Loading type='processing'
+              message={t('stores.loading')} />
 
           </View>
         ) : error ? (
           <ErrorMessage />
         ) : filteredBusinesses.length === 0 ? (
-          <View className='flex-1 items-center justify-center px-5'>
-            <Ionicons name="storefront-outline" size={64} color="#d1d5db" />
-            <Text className='text-gray-800 text-lg font-bold mt-4'>
-              {searchQuery ? 'No Results Found' : 'No Stores Available'}
-            </Text>
-            <Text className='text-gray-500 text-center mt-2'>
-              {searchQuery ? 'Try searching with different keywords' : 'Check back later for new stores'}
-            </Text>
-          </View>
+         <NoStores searchQuery={searchQuery} />
         ) : (
           <FlatList
             data={filteredBusinesses}

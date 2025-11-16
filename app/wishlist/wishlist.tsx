@@ -145,7 +145,7 @@ export default function WishlistScreen() {
 
         {/* Summary Card */}
         <View className="bg-white mx-4 rounded-xl p-4 mb-4 shadow-sm">
-          
+
 
           {/* Add All to Cart Button */}
           <TouchableOpacity
@@ -156,7 +156,7 @@ export default function WishlistScreen() {
             }}
           >
             <Text className="text-white text-center text-lg arabic-font">
-             
+
               {t('common.addToCartAll')}
             </Text>
           </TouchableOpacity>

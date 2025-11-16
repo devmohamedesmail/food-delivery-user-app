@@ -29,14 +29,16 @@ interface Product {
 }
 
 const Products = () => {
-    const { storeId } = useLocalSearchParams();
+    // const { storeId } = useLocalSearchParams();
+    const { storeItem } = useLocalSearchParams();
+    const parsedStoreItem = JSON.parse(storeItem as string);
     const { data: products,
         loading: productsLoading,
-        error: productsError } = useFetch(`/stores/${storeId}/products`);
+        error: productsError } = useFetch(`/stores/${parsedStoreItem.id}/products`);
     const {
         data: categories,
         loading: categoriesLoading,
-        error: categoriesError } = useFetch(`/stores/${storeId}/categories`);
+        error: categoriesError } = useFetch(`/stores/${parsedStoreItem.id}/categories`);
     const { t, i18n } = useTranslation();
     const router = useRouter();
     const dispatch = useAppDispatch();
@@ -87,7 +89,8 @@ const Products = () => {
                         <Ionicons name="arrow-back" size={22} color="white" />
                     </TouchableOpacity>
                     <Text className='text-white text-xl font-bold flex-1 text-center'>
-                        {i18n.language === 'ar' ? 'المنتجات' : 'Products'}
+                       {i18n.language === 'ar' ? 'المنتجات' : 'Products'} - {parsedStoreItem.name}
+                        
                     </Text>
                     <TouchableOpacity
                         onPress={() => router.push('/cart/cart')}

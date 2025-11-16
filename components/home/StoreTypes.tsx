@@ -51,44 +51,6 @@ export const StoreTypes = () => {
         className='flex flex-row justify-center'
       >
         {storetypes && storetypes.map((storeType: StoreType) => (
-          // <TouchableOpacity
-          //   key={storeType.id}
-          //   activeOpacity={0.7}
-          //   onPress={() => {
-          //     router.push({
-          //       pathname: '/stores',
-          //       params: { storeTypeId: storeType.id.toString() }
-          //     });
-          //   }}
-          //   className='items-center mx-4'
-          //   style={{ width: 80 }}
-          // >
-          //   {/* Circular Image */}
-          //   <View
-          //     className='w-24 h-24 rounded-md overflow-hidden mb-2 bg-gray-200'
-          //     style={{
-          //       shadowColor: '#000',
-          //       shadowOffset: { width: 0, height: 2 },
-          //       shadowOpacity: 0.1,
-          //       shadowRadius: 4,
-          //       elevation: 2,
-          //     }}
-          //   >
-          //     <Image
-          //       source={{ uri: storeType.image }}
-          //       className='w-full h-full'
-          //       resizeMode='cover'
-          //     />
-          //   </View>
-
-          //   {/* Name */}
-          //   <Text
-          //     className='font-semibold text-black text-md text-center mt-2'
-          //     numberOfLines={2}
-          //   >
-          //     {i18n.language === 'ar' ? storeType.name_ar : storeType.name_en}
-          //   </Text>
-          // </TouchableOpacity>
           <StoreTypeItem storeType={storeType} />
         ))}
       </View>

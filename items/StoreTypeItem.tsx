@@ -14,7 +14,8 @@ export default function StoreTypeItem({ storeType }: any) {
             onPress={() => {
                 router.push({
                     pathname: '/stores',
-                    params: { storeTypeId: storeType.id.toString() }
+                    // params: { storeTypeId: storeType.id.toString() }
+                    params: { storeType: JSON.stringify(storeType) }
                 });
             }}
             className='items-center mx-4'

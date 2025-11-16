@@ -13,6 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
+
 const statsData = [
   { label: 'Total Orders', value: '47', icon: 'bag-outline' },
   { label: 'Total Rides', value: '23', icon: 'car-outline' },
@@ -74,7 +75,30 @@ const Account = () => {
     <SafeAreaView className='flex-1' 
       edges={['bottom']}
     >
-      <CustomHeader title={t('account.myAccount')} />
+
+
+       <View className="bg-white px-5 pt-14 pb-4 border-b border-gray-100">
+                  <View className="flex-row items-center justify-between">
+                      <View className="flex-row items-center">
+                          <View className="bg-primary p-3 rounded-full mr-3">
+                              <FontAwesome name="user-circle-o" size={20} color="white" />
+                          </View>
+                          <View>
+                              <Text className="text-2xl font-bold text-black arabic-font">
+                                  {t('account.myAccount')}
+                              </Text>
+                          </View>
+                      </View>
+                      <TouchableOpacity 
+                          onPress={() => router.back()}
+                          className="bg-gray-100 p-2 rounded-full"
+                      >
+                          <Ionicons name="close" size={24} color="#000000" />
+                      </TouchableOpacity>
+                  </View>
+              </View>
+
+     
       <ScrollView className="flex-1 bg-gray-50">
         {/* Header */}
 

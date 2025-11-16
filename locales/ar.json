@@ -217,7 +217,11 @@
     "noProductsFound": "لا توجد منتجات",
     "noProductsAvailable": "لا توجد منتجات متاحة",
     "tryDifferentSearch": "حاول البحث بشكل مختلف أو تصفح الفئات",
-    "tryAgainLater": "يرجى المحاولة مرة أخرى لاحقاً"
+    "tryAgainLater": "يرجى المحاولة مرة أخرى لاحقاً",
+     "noResultsFound": "لا توجد نتائج لـ '{{searchQuery}}'",
+    "searchForStores": "ابحث عن المتاجر...",
+    "tryDifferentKeywords": "جرب كلمات مفتاحية مختلفة",
+    "checkBackLater": "تحقق مرة أخرى لاحقًا للحصول على متاجر !"
   },
   "account": {
     "switchLanguage": "تبديل اللغة",

@@ -5,15 +5,16 @@ import { useRouter } from 'expo-router';
 import { useTranslation } from 'react-i18next';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CreativeBottomNavigation from '../common/CreativeBottomNavigation';
+import BottomNavigation from '../common/BottomNavigation';
 
 
 export default function EmptyCart() {
     const router = useRouter();
     const {t}=useTranslation();
     return (
-        <SafeAreaView className="flex-1 bg-gray-50">
+        <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
             {/* Professional Cart Header */}
-            <View className="bg-white px-5 py-4 border-b border-gray-100">
+            <View className="bg-white px-5 pt-14 pb-4 border-b border-gray-100">
                 <View className="flex-row items-center justify-between">
                     <View className="flex-row items-center">
                         <View className="bg-primary/10 p-3 rounded-full mr-3">
@@ -47,13 +48,11 @@ export default function EmptyCart() {
                     />
                 </View>
                 <Text className="text-2xl font-bold text-gray-900 mb-2 text-center">{t('cart.title')}</Text>
-                <Text className="text-gray-500  mb-8 text-center">
-                    {t('cart.description')}
-                </Text>
+               
                 <TouchableOpacity
-                    onPress={() => router.push('/restaurants/restaurants')}
+                    onPress={() => router.push('/')}
                     activeOpacity={0.8}
-                    className="bg-primary px-8 py-4 rounded-2xl shadow-lg"
+                    className="bg-primary px-8 py-4 rounded-2xl shadow-lg mt-10"
                     style={{
                         shadowColor: '#FF6A3D',
                         shadowOffset: { width: 0, height: 4 },
@@ -63,9 +62,9 @@ export default function EmptyCart() {
                     }}
                 >
                     <View className="flex-row items-center justify-center">
-                        <Ionicons name="restaurant" size={22} color="white" />
+                        {/* <Ionicons name="restaurant" size={22} color="white" /> */}
                         <Text className="text-white text-center font-bold text-lg ml-2 arabic-font">
-                            {t('cart.browseRestaurants')}
+                            {t('navigation.home')}
                         </Text>
                         <Ionicons name="arrow-forward" size={20} color="white" className="ml-2" />
                     </View>
@@ -73,7 +72,7 @@ export default function EmptyCart() {
             </View>
 
 
-            <CreativeBottomNavigation />
+            <BottomNavigation />
         </SafeAreaView>
     )
 }

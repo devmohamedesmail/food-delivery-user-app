@@ -13,9 +13,9 @@ export default function EmptyWishlist() {
   const router = useRouter();
   const { t } = useTranslation();
   return (
-    <SafeAreaView className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
         {/* Professional Wishlist Header */}
-        <View className="bg-white px-5 py-4 border-b border-gray-100">
+        <View className="bg-white px-5 pt-14 pb-4 border-b border-gray-100">
             <View className="flex-row items-center justify-between">
                 <View className="flex-row items-center">
                     <View className="bg-primary/10 p-3 rounded-full mr-3">
@@ -24,9 +24,6 @@ export default function EmptyWishlist() {
                     <View>
                         <Text className="text-2xl font-bold text-black arabic-font">
                             {t('navigation.wishlist')}
-                        </Text>
-                        <Text className="text-sm text-gray-500 arabic-font">
-                            0 {t('wishlist.favorites') || 'favorites'}
                         </Text>
                     </View>
                 </View>
@@ -68,23 +65,15 @@ export default function EmptyWishlist() {
             <Text className="text-2xl font-bold text-black mb-2 text-center arabic-font">
                 {t('wishlist.emptyTitle')}
             </Text>
-            <Text className="text-gray-500 text-center mb-8 arabic-font leading-6">
-                {t('wishlist.emptySubtitle')}
-            </Text>
+           
 
-            {/* Helper Tip */}
-            <View className="p-4 rounded-xl mb-8 flex-row items-center" style={{ backgroundColor: '#FFF5F2' }}>
-                <Ionicons name="information-circle" size={20} color="#fd4a12" />
-                <Text className="text-sm text-gray-600 ml-2 flex-1 arabic-font">
-                    {t('wishlist.tip') || 'Tap the heart icon on any meal to add it to your favorites'}
-                </Text>
-            </View>
+          
 
             {/* Professional Button */}
             <TouchableOpacity 
-                onPress={() => router.push('/restaurants/restaurants')}
+                onPress={() => router.push('/')}
                 activeOpacity={0.8}
-                className="px-8 py-4 rounded-2xl shadow-lg w-full"
+                className="px-8 py-4 rounded-2xl shadow-lg w-full mt-10"
                 style={{
                     backgroundColor: '#fd4a12',
                     shadowColor: '#fd4a12',
@@ -95,16 +84,16 @@ export default function EmptyWishlist() {
                 }}
             >
                 <View className="flex-row items-center justify-center">
-                    <Ionicons name="restaurant" size={22} color="white" />
+                    {/* <Ionicons name="restaurant" size={22} color="white" /> */}
                     <Text className="text-white text-center font-bold text-lg ml-2 arabic-font">
-                        {t('wishlist.browseRestaurants')}
+                        {t('navigation.home')}
                     </Text>
                     <Ionicons name="arrow-forward" size={20} color="white" className="ml-2" />
                 </View>
             </TouchableOpacity>
         </View>
 
-       <CreativeBottomNavigation />
+       <BottomNavigation />
       </SafeAreaView>
   )
 }

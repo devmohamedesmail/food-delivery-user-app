@@ -219,7 +219,11 @@
     "noProductsFound": "No products found",
     "noProductsAvailable": "No products available",
     "tryDifferentSearch": "Try a different search or browse categories",
-    "tryAgainLater": "Please try again later"
+    "tryAgainLater": "Please try again later",
+    "noResultsFound": "No results found for '{{searchQuery}}'",
+    "searchForStores": "Search for stores...",
+    "tryDifferentKeywords": "Try different keywords",
+    "checkBackLater": "Check back later for great stores!"
   },
   "account": {
     "swithchlanguage": "Switch Language",

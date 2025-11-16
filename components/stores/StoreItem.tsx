@@ -35,7 +35,8 @@ export default function StoreItem({ item }: { item: StoreItem }) {
       onPress={() => {
         router.push({
           pathname: '/stores/products',
-          params: { storeId: item.id.toString() }
+          // params: { storeId: item.id.toString() }
+          params: { storeItem : JSON.stringify(item)}
         })
 
       }}
