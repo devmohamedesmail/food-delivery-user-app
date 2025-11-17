@@ -14,28 +14,7 @@ interface OrderItem {
     price: string;
 }
 
-interface Restaurant {
-    id: number;
-    name: string;
-    address: string;
-    phone: string;
-}
 
-interface Order {
-    id: number;
-    user_id: number;
-    restaurant_id: number;
-    order: string;
-    status: string;
-    total_price: string;
-    delivery_address: string;
-    placed_at: string;
-    delivered_at: string | null;
-    phone: string | null;
-    createdAt: string;
-    updatedAt: string;
-    restaurant: Restaurant;
-}
 
 const statusConfig = {
     pending: { color: 'bg-amber-100', textColor: 'text-amber-700', icon: 'time-outline' as const, borderColor: 'border-amber-200' },
@@ -49,19 +28,10 @@ const statusConfig = {
 
 
 export default function OrderUserItem({ item }: { item: any }) {
-    
-       const { t,i18n } = useTranslation();
-    const parseOrderItems = (orderString: string): OrderItem[] => {
-        try {
-            return JSON.parse(orderString);
-        } catch {
-            return [];
-        }
-    };
 
-    const orderItems = parseOrderItems(item.order);
+    const { t, i18n } = useTranslation();
     const statusStyle = statusConfig[item.status as keyof typeof statusConfig] || statusConfig.pending;
- 
+
 
     const formatDate = (dateString: string) => {
         const date = new Date(dateString);
@@ -100,7 +70,7 @@ export default function OrderUserItem({ item }: { item: any }) {
 
                 <View className="flex-row items-center mb-2">
                     <Ionicons name="storefront-outline" size={16} color="#6b7280" />
-                    <Text className="text-gray-700 font-medium ml-2">{item.restaurant.name}</Text>
+                    <Text className="text-gray-700 font-medium ml-2">{item?.store?.name}</Text>
                 </View>
 
                 <View className="flex-row items-center">
@@ -111,28 +81,28 @@ export default function OrderUserItem({ item }: { item: any }) {
 
             {/* Order Items */}
             <View className="p-4 border-b border-gray-100">
-                <Text className="text-gray-700 font-semibold mb-3">{t('orders.items')} ({orderItems.length})</Text>
-                {orderItems.slice(0, 3).map((orderItem, index) => (
+                <Text className="text-gray-700 font-semibold mb-3">{t('orders.items')} ({item.order.length})</Text>
+                {item.order.map((item:any, index:any) => (
                     <View key={index} className="flex-row justify-between items-center mb-2">
                         <View className="flex-row items-center flex-1">
                             <View className="bg-gray-100 w-8 h-8 rounded-lg justify-center items-center mr-3">
-                                <Text className="text-gray-600 font-bold text-xs">{orderItem.quantity}x</Text>
+                                <Text className="text-gray-600 font-bold text-xs">{item.quantity}x</Text>
                             </View>
-                            <Text className="text-gray-700 flex-1" numberOfLines={1}>{orderItem.name}</Text>
+                            <Text className="text-gray-700 flex-1" numberOfLines={1}>{item.name}</Text>
                         </View>
-                        <Text className="text-gray-900 font-semibold ml-2"> {config.CurrencySymbol} {orderItem.price}</Text>
+                        <Text className="text-gray-900 font-semibold ml-2"> {config.CurrencySymbol} {item.price}</Text>
                     </View>
                 ))}
-                {orderItems.length > 3 && (
-                    <Text className="text-blue-600 text-xs mt-2">+{orderItems.length - 3} more items</Text>
+                {item.order.length > 3 && (
+                    <Text className="text-blue-600 text-xs mt-2">+{item.order.length - 3} more items</Text>
                 )}
             </View>
 
             {/* Footer */}
             <View className="p-4">
-                <View className={`flex-row justify-between items-center mb-4  ${i18n.language === 'ar' ? 'flex-row-reverse':''} `}>
-                    <Text className="text-gray-600 font-medium arabic-font">{t('orders.totalAmount')}</Text>
-                    <Text className="text-gray-900  text-xl arabic-font"> {config.CurrencySymbol} {item.total_price} </Text>
+                <View className={`flex-row justify-between items-center mb-4  ${i18n.language === 'ar' ? 'flex-row-reverse' : ''} `}>
+                    <Text className="text-gray-600 font-medium ">{t('orders.totalAmount')}</Text>
+                    <Text className="text-gray-900  text-xl "> {config.CurrencySymbol} {item.total_price} </Text>
                 </View>
 
                 <View className="flex-row items-center mb-3">
@@ -144,21 +114,25 @@ export default function OrderUserItem({ item }: { item: any }) {
 
                 {/* Action Buttons */}
                 <View className="flex-row space-x-2">
+
                     {(item.status === 'preparing' || item.status === 'on_the_way') && (
                         <TouchableOpacity className="flex-1 bg-primary py-3 rounded-xl mr-2">
                             <Text className="text-white font-bold text-center">{t('orders.trackOrder')}</Text>
                         </TouchableOpacity>
                     )}
+
                     {item.status === 'delivered' && (
                         <TouchableOpacity className="flex-1 bg-green-500 py-3 rounded-xl">
                             <Text className="text-white font-bold text-center">{t('orders.orderAgain')}</Text>
                         </TouchableOpacity>
                     )}
+
                     {item.status === 'pending' && (
                         <TouchableOpacity className="flex-1 bg-red-50 border border-red-200 py-3 rounded-xl">
                             <Text className="text-red-600 font-bold text-center">{t('orders.cancelOrder')}</Text>
                         </TouchableOpacity>
                     )}
+
                 </View>
             </View>
         </View>

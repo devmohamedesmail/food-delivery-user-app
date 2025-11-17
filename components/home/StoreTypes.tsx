@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import useFetch from '@/hooks/useFetch';
 import { store } from '@/store';
 import StoreTypeItem from '@/items/StoreTypeItem';
+import Loading from '../common/Loading';
 
 interface StoreType {
   id: number;
@@ -23,8 +24,9 @@ export const StoreTypes = () => {
 
   if (loadingStoreTypes) {
     return (
-      <View className='px-5 py-6'>
-        <ActivityIndicator size="large" color="#fd4a12" />
+      
+      <View className='py-10'>
+        <Loading message={t('common.pleasewait')} />
       </View>
     );
   }
@@ -43,7 +45,7 @@ export const StoreTypes = () => {
 
       {/* Business Types Horizontal Scroll */}
       <View
-        className='flex flex-row justify-center'
+        className={`flex flex-row justify-start flex-wrap mb-4 px-5 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}
       >
         {storetypes && storetypes.map((storeType: StoreType) => (
           <StoreTypeItem key={storeType.id} storeType={storeType} />

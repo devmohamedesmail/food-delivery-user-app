@@ -3,14 +3,13 @@ import { View, Text, ScrollView, TouchableOpacity, Image, Alert } from 'react-na
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import CustomHeader from '../../components/custom/Header';
 import BottomNavigation from '../../components/common/BottomNavigation';
 import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { selectWishlistItems, selectWishlistTotalItems } from '../../store/hooks';
 import { removeFromWishlist, clearWishlist } from '../../store/slices/wishlistSlice';
 import { addToCart } from '../../store/slices/cartSlice';
 import { config } from '@/constants/config';
-import EmptyWishlist from '@/components/EmptyWishlist';
+import EmptyWishlist from '@/components/wishlist/EmptyWishlist';
 import { useTranslation } from 'react-i18next';
 
 export default function WishlistScreen() {

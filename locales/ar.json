@@ -38,7 +38,8 @@
     "check_connection": " يرجى التحقق من اتصالك بالإنترنت وحاول مرة أخرى. ",
     "try_again": " حاول مرة أخرى ",
     "pleaseWait": " يرجى الانتظار ",
-    "remove": "إزالة"
+    "remove": "إزالة",
+    "pleasewait": "يرجى الانتظار  ..."
   },
   "auth": {
     "welcomeBack": "مرحباً بعودتك!",
@@ -116,7 +117,8 @@
     "codeCopied": "تم نسخ الرمز!",
     "applyCoupon": "تطبيق الكوبون",
     "minOrder": "الحد الأدنى للطلب:",
-    "categories": " الاقسام "
+    "categories": " الاقسام ",
+    "fetching_location": "جاري جلب الموقع..."
   },
   "notFound": {
     "title": "الصفحة غير موجودة",
@@ -181,34 +183,6 @@
     "updateRoute": "تحديث المسار",
     "findRoute": "البحث عن المسار"
   },
-  "restaurants": {
-    "restaurants": "المطاعم",
-    "loading": "جاري تحميل المطاعم...",
-    "searchRestaurants": "ابحث عن المطاعم...",
-    "added_to_cart": "تمت الإضافة إلى السلة",
-    "add_to_cart_failed": "فشل في إضافة إلى السلة",
-    "add_to_cart": "أضف إلى السلة",
-    "viewMenu": " عرض القائمة",
-    "min": " دقيقة ",
-    "verified": " موثق ",
-    "open": " مفتوح ",
-    "closed": " مغلق ",
-    "restaurant": " مطعم ",
-    "found": " موجود ",
-    "add": " أضف إلى السلة ",
-      "noRestaurantsFound": " لا توجد مطاعم",
-    "noRestaurantsAvailable": " لا توجد مطاعم متاحة",
-    "tryAgainLater": " يرجى المحاولة مرة أخرى لاحقاً "
-  },
-  "menu": {
-    "addtocart": "أضف إلى السلة",
-    "noMealsFound": "لا توجد وجبات",
-    "noMealsAvailable": "لا توجد وجبات متاحة",
-    "tryDifferentSearch": "حاول البحث بشكل مختلف أو تصفح الفئات",
-    "tryAgainLater": "يرجى المحاولة مرة أخرى لاحقاً",
-    "searchForMeals": "ابحث عن الوجبات...",
-    "view_cart": "عرض السلة"
-  },
   "stores":{
     "loading": "جاري تحميل المتاجر...",
     "noStoresFound": " لا توجد متاجر",
@@ -242,7 +216,8 @@
     "restaurants": "المطاعم",
     "account": "الحساب",
     "cart": "عربة التسوق",
-    "wishlist": "  المفضلات "
+    "wishlist": "  المفضلات ",
+    "rides": "الرحلات"
   },
   "cart": {
     "title": "عربة التسوق فارغة",
@@ -273,6 +248,7 @@
     "addedToCart": "تمت الإضافة إلى السلة بنجاح! " ,
     "removedFromCart": " تمت الإزالة من السلة",
     "cartCleared": "تم مسح السلة بنجاح"
+
   },
   "wishlist": {
     "emptyTitle": "قائمة المفضلات فارغة",
@@ -317,7 +293,10 @@
     "locationErrorMessage": "تعذر الحصول على موقعك. يرجى إدخال العنوان يدويًا.",
     "locationSuccess": "تم الحصول على الموقع بنجاح!",
      "phoneRequired": " رقم الهاتف مطلوب",
-    "addressRequired": "عنوان التسليم مطلوب"
+    "addressRequired": "عنوان التسليم مطلوب",
+    "placingOrder": "جارٍ تقديم طلبك...",
+    "phoneMin": "يجب أن يكون رقم الهاتف 6 أحرف على الأقل",
+    "addressMin": "يجب أن يكون العنوان 6 أحرف على الأقل"
   },
   "orders": {
     "myOrders": "طلباتي",
@@ -427,5 +406,14 @@
     "callNow": "اتصل الآن",
     "sendEmail": "إرسال بريد إلكتروني",
     "browseArticles": "تصفح المقالات"
+  },
+   "notifications": {
+    "title": "الإشعارات",
+    "markAllRead": "وضع الكل كمقروء",
+    "noNotifications": "لا توجد إشعارات متاحة",
+    "noNotificationsMessage": "لقد اطلعت على كل شيء! تحقق مرة أخرى لاحقًا للحصول على تحديثات جديدة.",
+    "loadingNotifications": "جارٍ تحميل الإشعارات...",
+    "new": "جديد",
+    "earlier": "سابق"
   }
 }

@@ -27,6 +27,7 @@ export default function Order() {
     const { auth } = useContext(AuthContext);
     const [loadingLocation, setLoadingLocation] = useState(false);
     const cart = useAppSelector((state) => state.cart);
+    const [loading, setLoading] = useState(false);
 
 
     const formik = useFormik({
@@ -41,14 +42,12 @@ export default function Order() {
                 .min(6, t('order.phoneMin')),
             address: Yup.string()
                 .required(t('order.addressRequired'))
-                .min(10, t('order.addressMin')),
+                .min(6, t('order.addressMin')),
         }),
 
         onSubmit: async (values) => {
             try {
-                // Validate required fields
-                
-
+                setLoading(true);
                 if (cartItems.length === 0) {
                     Toast.show({
                         type: 'error',
@@ -67,22 +66,26 @@ export default function Order() {
                         quantity: item.quantity,
                         price: item.price
                     })),
-                    total_price: totalWithDelivery,
+                    total_price: Number(cart.store.delivery_fee) + Number(totalPrice.toFixed(2)),
                     delivery_address: values.address,
                     phone: values.phone,
                 })
 
+                setLoading(false);
                 Toast.show({
                     type: 'success',
                     text1: t('order.orderSuccesscreate'),
                     position: 'top',
                 })
             } catch (error) {
+                setLoading(false);
                 Toast.show({
                     type: 'error',
                     text1: t('order.orderErrorcreate'),
                     position: 'top',
                 })
+            }finally{
+                setLoading(false);
             }
         }
     })
@@ -152,8 +155,7 @@ export default function Order() {
 
 
 
-    const deliveryFee = 2.99;
-    const totalWithDelivery = totalPrice + deliveryFee;
+    
 
     return (
         <View className="flex-1 bg-gray-50">
@@ -278,6 +280,7 @@ export default function Order() {
 
 
                 </View>
+
                 <View className="bg-white mx-4 mt-4 rounded-xl p-4 shadow-sm">
                     <Text className={`text-lg  text-gray-900 mb-4 ${i18n.language === 'ar' ? 'arabic-font text-right' : ''}`}>
                         {t('order.deliveryInfo')}
@@ -308,7 +311,7 @@ export default function Order() {
 
                 {/* Order Summary */}
                 <View className="bg-white mx-4 mt-4 rounded-xl p-4 shadow-sm">
-                    <Text className={`text-lg  text-gray-900 mb-4 ${i18n.language === 'ar' ? 'arabic-font text-right' : ''}`}>
+                    <Text className={`text-lg  text-gray-900 mb-4 ${i18n.language === 'ar' ? 'text-right' : ''}`}>
                         {t('order.orderSummary')}
                     </Text>
 
@@ -322,7 +325,7 @@ export default function Order() {
                     <View className={`flex-row justify-between items-center mb-2 ${i18n.language === 'ar' ? ' flex-row-reverse' : ''}`}>
                         <Text className="text-gray-600">{t('order.deliveryFee')}</Text>
                         <Text className="font-semibold text-gray-900">
-                            {config.CurrencySymbol} {deliveryFee.toFixed(2)}
+                            {config.CurrencySymbol} {Number(cart.store.delivery_fee)}
                         </Text>
                     </View>
 
@@ -330,7 +333,7 @@ export default function Order() {
                         <View className={`flex-row justify-between items-center mb-2 ${i18n.language === 'ar' ? ' flex-row-reverse' : ''}`}>
                             <Text className="text-lg font-bold text-gray-900">{t('order.total')}</Text>
                             <Text className="text-lg font-bold text-gray-900">
-                                {config.CurrencySymbol} {totalWithDelivery.toFixed(2)}
+                                {config.CurrencySymbol} {Number(cart.store.delivery_fee) + Number(totalPrice.toFixed(2))}
                             </Text>
                         </View>
                     </View>
@@ -341,7 +344,9 @@ export default function Order() {
 
                 <View className='mb-8 px-4'>
                     <CustomButton
-                        title={t('order.placeOrder')}
+                        title={loading ? t('order.placingOrder') : t('order.placeOrder')}
+                        disabled={formik.isSubmitting}
+                        loading={formik.isSubmitting}
                         onPress={formik.handleSubmit as any}
                         icon={<MaterialIcons name="done" size={24} color="white" />}
 

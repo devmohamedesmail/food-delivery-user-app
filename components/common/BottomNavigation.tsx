@@ -29,8 +29,8 @@ export default function BottomNavigation() {
     },
     {
       icon: <Ionicons name="car" size={24} />,
-      label: t('navigation.restaurants'),
-      isActive: pathname.includes('/restaurants'),
+      label: t('navigation.transport'),
+      isActive: pathname.includes('/rides'),
       onPress: () => router.push('/rides'),
     },
   ];

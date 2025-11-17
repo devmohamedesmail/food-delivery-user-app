@@ -3,6 +3,9 @@ import { View, Text, ScrollView, TouchableOpacity, Animated } from 'react-native
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import BottomNavigation from '@/components/common/BottomNavigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { t } from 'i18next';
+import FilterButton from '@/components/notifications/FilterButton';
 
 type Notification = {
     id: number;
@@ -109,32 +112,7 @@ export default function Notifications() {
         setNotificationList(prev => prev.filter(notif => notif.id !== id));
     };
 
-    const FilterButton = ({ title, value, count }: { title: string; value: typeof filter; count?: number }) => (
-        <TouchableOpacity
-            onPress={() => setFilter(value)}
-            className={`px-4 py-2.5 rounded-lg mr-3 border ${filter === value
-                    ? 'bg-blue-600 border-blue-600 shadow-sm'
-                    : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700'
-                }`}
-            activeOpacity={0.7}
-        >
-            <View className="flex-row items-center">
-                <Text className={`font-medium text-sm ${filter === value
-                        ? 'text-white'
-                        : 'text-gray-700 dark:text-gray-300'
-                    }`}>
-                    {title}
-                </Text>
-                {count && count > 0 && (
-                    <View className="ml-2 bg-red-500 rounded-full min-w-[20px] h-5 items-center justify-center px-1">
-                        <Text className="text-white text-xs font-semibold">
-                            {count > 99 ? '99+' : count}
-                        </Text>
-                    </View>
-                )}
-            </View>
-        </TouchableOpacity>
-    );
+
 
     const NotificationCard = ({ notification }: { notification: Notification }) => {
         const getPriorityIndicator = (priority: string) => {
@@ -242,13 +220,15 @@ export default function Notifications() {
     };
 
     return (
-        <View className="flex-1 bg-gray-50 dark:bg-black">
+        <SafeAreaView className="flex-1 bg-gray-50 dark:bg-black"
+        edges={['bottom']}
+        >
             {/* Header */}
             <View className="bg-white dark:bg-gray-900 px-4 pt-12 pb-6 border-b border-gray-200 dark:border-gray-800">
                 <View className="flex-row items-center justify-between">
                     <View className="flex-1">
                         <Text className="text-2xl font-bold text-gray-900 dark:text-white">
-                            Notifications
+                            {t('notifications.title')}
                         </Text>
                         <Text className="text-gray-500 dark:text-gray-400 mt-1 text-sm">
                             {unreadCount > 0 ? `${unreadCount} unread message${unreadCount > 1 ? 's' : ''}` : 'All caught up!'}
@@ -257,10 +237,10 @@ export default function Notifications() {
                     {unreadCount > 0 && (
                         <TouchableOpacity
                             onPress={() => setNotificationList(prev => prev.map(n => ({ ...n, isRead: true })))}
-                            className="bg-blue-600 px-4 py-2 rounded-lg shadow-sm"
+                            className="bg-primary px-4 py-2 rounded-lg shadow-sm"
                             activeOpacity={0.8}
                         >
-                            <Text className="text-white font-medium text-sm">Mark All Read</Text>
+                            <Text className="text-white font-medium text-sm">{t('notifications.markAllRead')}</Text>
                         </TouchableOpacity>
                     )}
                 </View>
@@ -273,11 +253,12 @@ export default function Notifications() {
                     showsHorizontalScrollIndicator={false}
                     contentContainerStyle={{ paddingRight: 20 }}
                 >
-                    <FilterButton title="All" value="all" />
-                    <FilterButton title="Unread" value="unread" count={unreadCount} />
-                    <FilterButton title="Rides" value="ride" />
-                    <FilterButton title="Promos" value="promo" />
-                    <FilterButton title="Food" value="food" />
+                    <FilterButton title="All" value="all" filter={filter} setFilter={setFilter} />
+                    <FilterButton title="Unread" value="unread" count={unreadCount} filter={filter} setFilter={setFilter} />
+                    <FilterButton title="Rides" value="ride" filter={filter} setFilter={setFilter} />
+                    <FilterButton title="Promos" value="promo" filter={filter} setFilter={setFilter} />
+                    <FilterButton title="Food" value="food" filter={filter} setFilter={setFilter} />
+                    <FilterButton title="Account" value="account" filter={filter} setFilter={setFilter} />
                 </ScrollView>
             </View>
 
@@ -311,6 +292,6 @@ export default function Notifications() {
                 )}
             </ScrollView>
             <BottomNavigation />
-        </View>
+        </SafeAreaView>
     );
 }

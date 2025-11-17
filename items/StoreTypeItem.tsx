@@ -14,20 +14,19 @@ export default function StoreTypeItem({ storeType }: any) {
             onPress={() => {
                 router.push({
                     pathname: '/stores',
-                    // params: { storeTypeId: storeType.id.toString() }
                     params: { storeType: JSON.stringify(storeType) }
                 });
             }}
-            className='items-center mx-4'
-            style={{ width: 80 }}
+            className='items-center bg-gray-100 m-1 pb-4 rounded-md'
+            style={{ width: '31%'  }}
         >
             {/* Circular Image */}
             <View
-                className='w-32 h-32 rounded-md overflow-hidden mb-2 bg-red-600 p-5'
+                className='w-full h-32 rounded-lg overflow-hidden mb-2 '
             >
                 <Image
                     source={{ uri: storeType.image }}
-                    className='w-full h-full '
+                    className='w-full h-full rounded-lg'
                     resizeMode='cover'
                 />
             </View>

@@ -18,6 +18,8 @@ import AuthProvider from '@/context/auth_context';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Intro from '@/components/common/Into';
 import { View, ActivityIndicator } from 'react-native';
+import { SocketProvider } from '@/context/SocketContext';
+import OrderStatusListener from '@/components/common/OrderStatusListener';
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -95,8 +97,10 @@ function RootLayoutNav() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>
+        <SocketProvider storeId={5}>
         <ReduxProvider>
           <SafeAreaProvider>
+            <OrderStatusListener />
             <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
               <Stack screenOptions={{ headerShown: false }}>
                  <Stack.Screen name="index" options={{ headerShown: false }} />
@@ -106,6 +110,7 @@ function RootLayoutNav() {
             </ThemeProvider>
           </SafeAreaProvider>
         </ReduxProvider>
+        </SocketProvider>
       </AuthProvider>
     </GestureHandlerRootView>
   );

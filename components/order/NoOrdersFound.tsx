@@ -12,12 +12,7 @@ export default function NoOrdersFound() {
             <Ionicons name="receipt-outline" size={80} color="#d1d5db" />
             <Text className="text-gray-900 font-bold text-xl mt-4">{t('orders.noOrders')}</Text>
             <Text className="text-gray-500 text-center mt-2">{t('orders.noOrdersDescription')}</Text>
-            <TouchableOpacity
-                className="bg-blue-600 px-6 py-3 rounded-xl mt-6"
-                onPress={() => router.push('/restaurants/restaurants')}
-            >
-                <Text className="text-white font-bold">{t('home.restaurants')}</Text>
-            </TouchableOpacity>
+            
         </View>
     )
 }

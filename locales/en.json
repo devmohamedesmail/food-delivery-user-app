@@ -38,7 +38,8 @@
     "check_connection": "Please check your internet connection and try again.",
     "try_again": "Try Again",
     "pleaseWait": "Please wait",
-    "remove": "Remove"
+    "remove": "Remove",
+    "pleasewait": "Please wait..."
    
   },
   "auth": {
@@ -117,7 +118,8 @@
     "codeCopied": "Code Copied!",
     "applyCoupon": "Apply Coupon",
     "minOrder": "Min. order:",
-    "categories": "Categories"
+    "categories": "Categories",
+    "fetching_location": "Fetching location..."
   },
   "notFound": {
     "title": "Page Not Found",
@@ -183,34 +185,6 @@
     "findRoute": "Find Route"
   
   },
-  "restaurants": {
-    "restaurants": "Restaurants",
-    "loading": "Loading restaurants...",
-    "searchRestaurants": "Search restaurants...",
-    "added_to_cart": "Added to cart",
-    "add_to_cart_failed": "Failed to add to cart",
-    "add_to_cart": "Add to Cart",
-    "viewMenu": "View Menu",
-    "min": "min",
-    "verified": "Verified",
-    "open": "Open",
-    "closed": "Closed",
-    "restaurant": "restaurant",
-    "found": "found",
-    "add":" Add To Cart",
-    "noRestaurantsFound": "No restaurants found",
-    "noRestaurantsAvailable": "No restaurants available",
-    "tryAgainLater": "Please try again later"
-  },
-  "menu": {
-    "addtocart": "Add to Cart",
-    "noMealsFound": "No meals found",
-    "noMealsAvailable": "No meals available",
-    "tryDifferentSearch": "Try a different search or browse categories",
-    "tryAgainLater": "Please try again later",
-    "searchForMeals": "Search for meals...",
-    "view_cart": "View Cart"
-  },
   "stores":{
     "loading": "Loading stores...",
     "noStoresFound": "No stores found",
@@ -244,7 +218,8 @@
     "restaurants": "Restaurants",
     "account": "Account",
     "cart": "Cart",
-    "wishlist": "Wishlist"
+    "wishlist": "Wishlist",
+    "rides": "Rides"
   },
   "cart": {
     "title": "Your cart is empty",
@@ -321,7 +296,10 @@
     "locationErrorMessage": "Unable to get your location. Please enter address manually.",
     "locationSuccess": "Location retrieved successfully!",
     "phoneRequired": "Phone number is required",
-    "addressRequired": "Delivery address is required"
+    "addressRequired": "Delivery address is required",
+    "placingOrder": "Placing your order...",
+    "phoneMin": "Phone number must be at least 6 characters",
+    "addressMin": "Address must be at least 6 characters"
   },
   "orders": {
     "myOrders": "My Orders",
@@ -431,5 +409,14 @@
     "callNow": "Call Now",
     "sendEmail": "Send Email",
     "browseArticles": "Browse Articles"
+  },
+  "notifications": {
+    "title": "Notifications",
+    "markAllRead": "Mark All Read",
+    "noNotifications": "No notifications available",
+    "noNotificationsMessage": "You're all caught up! Check back later for new updates.",
+    "loadingNotifications": "Loading notifications...",
+    "new": "New",
+    "earlier": "Earlier"
   }
 }
