@@ -33,11 +33,6 @@ export const StoreTypes = () => {
     return null;
   }
 
-  const handleStoreTypePress = (storeType: StoreType) => {
-    // Navigate to store type screen
-    router.push(`/stores`);
-
-  };
 
   return (
     <View className='mb-6'>
@@ -51,7 +46,7 @@ export const StoreTypes = () => {
         className='flex flex-row justify-center'
       >
         {storetypes && storetypes.map((storeType: StoreType) => (
-          <StoreTypeItem storeType={storeType} />
+          <StoreTypeItem key={storeType.id} storeType={storeType} />
         ))}
       </View>
     </View>

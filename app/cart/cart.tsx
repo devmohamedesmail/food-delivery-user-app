@@ -2,10 +2,9 @@ import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity,Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { useAppSelector, useAppDispatch, selectCart } from '../../store/hooks';
 import { selectCartItems, selectCartTotalPrice, selectCartTotalItems } from '../../store/hooks';
 import { clearCart } from '../../store/slices/cartSlice';
-import BottomNavigation from '../../components/common/BottomNavigation';
 import EmptyCart from '@/components/cart/EmptyCart';
 import { useTranslation } from 'react-i18next';
 import { config } from '@/constants/config';
@@ -19,12 +18,19 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 export default function Cart() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+ 
+
   const cartItems = useAppSelector(selectCartItems);
   const totalPrice = useAppSelector(selectCartTotalPrice);
   const totalItems = useAppSelector(selectCartTotalItems);
   const { t ,i18n} = useTranslation();
   const {auth} = useAuth();
- 
+  const cart = useAppSelector(selectCart);
+
+
+
+console.log(typeof cart.store.delivery_fee);
+console.log(typeof totalPrice);
 
 
 
@@ -101,7 +107,7 @@ export default function Cart() {
               {t('cart.totalAmount')}
             </Text>
             <Text className="text-white text-2xl font-bold" style={{ fontFamily: 'Cairo_700Bold' }}>
-              {config.CurrencySymbol} {(totalPrice + 2.99).toFixed(2)}
+              {config.CurrencySymbol} {(totalPrice + Number(cart.store.delivery_fee)).toFixed(2)}
             </Text>
           </View>
           <View 
@@ -115,33 +121,39 @@ export default function Cart() {
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         {/* Cart Items */}
-        <View className="px-4 py-4">
+        {/* <View className="px-4 py-4">
           {cartItems.map((item) => (
+            <CartItem key={item.id} item={item} />
+          ))}
+        </View> */}
+
+         <View className="px-4 py-4">
+          {cart.items.map((item) => (
             <CartItem key={item.id} item={item} />
           ))}
         </View>
 
         {/* Order Summary */}
         <View className="bg-white mx-4 rounded-xl p-4 mb-4 shadow-sm">
-          <Text className={`text-lg text-gray-900 mb-4 ${i18n.language === 'ar' ? 'arabic-font text-right' : ''}`}>
+          <Text className={`text-lg text-gray-900 mb-4 ${i18n.language === 'ar' ? 'text-right' : ''}`}>
             {t('cart.orderSummary')}
           </Text>
 
           <View className={`flex-row justify-between items-center mb-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
-            <Text className="text-gray-600 arabic-font text-sm">{t('cart.subtotal')} ({totalItems} {t('cart.items')})</Text>
-            <Text className="font-semibold text-gray-900">{config.CurrencySymbol} {totalPrice.toFixed(2)}</Text>
+            {/* <Text className="text-gray-600 arabic-font text-sm">{t('cart.subtotal')} ({totalItems} {t('cart.items')})</Text>
+            <Text className="font-semibold text-gray-900">{config.CurrencySymbol} {totalPrice.toFixed(2)}</Text> */}
           </View>
           
           <View className={`flex-row justify-between items-center mb-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
-            <Text className="text-gray-600 arabic-font text-sm">{t('cart.deliveryFee')}</Text>
-            <Text className="font-semibold text-gray-900">{config.CurrencySymbol} 2.99</Text>
+            <Text className="text-gray-600  text-sm">{t('cart.deliveryFee')}</Text>
+            <Text className="font-semibold text-gray-900">{config.CurrencySymbol} {cart.store.delivery_fee}</Text>
           </View>
           
           <View className="border-t border-gray-200 pt-2 mt-2">
             <View className={`flex-row justify-between items-center  ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
-              <Text className="text-lg text-gray-900 arabic-font-bold">{t('cart.total')}</Text>
+              <Text className="text-lg text-gray-900 ">{t('cart.total')}</Text>
               <Text className="text-lg font-bold text-gray-900">
-                {config.CurrencySymbol} {(totalPrice + 2.99).toFixed(2)}
+                {config.CurrencySymbol} {(totalPrice + Number(cart.store.delivery_fee)).toFixed(2)}
               </Text>
             </View>
           </View>

@@ -1,9 +1,9 @@
 import React from 'react'
-import { TouchableOpacity, View, Text, Image } from 'react-native'
+import { TouchableOpacity, View, Text, Image, Alert } from 'react-native'
 import { Ionicons } from '@expo/vector-icons'
 import { config } from '@/constants/config'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { addToCart, removeFromCart } from '@/store/slices/cartSlice';
+import { addToCart, removeFromCart, clearCart } from '@/store/slices/cartSlice';
 import { useTranslation } from 'react-i18next'
 import { Toast } from 'toastify-react-native';
 
@@ -23,10 +23,12 @@ interface Product {
 }
 
 
-export default function ProductItem({ item }: { item: any }) {
+export default function ProductItem({ item, store }: { item: any, store: any }) {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const cartItems = useAppSelector((state) => state.cart.items);
+    const cartStore = useAppSelector((state) => state.cart.store);
+
 
 
     const getCartQuantity = (productId: number) => {
@@ -34,21 +36,94 @@ export default function ProductItem({ item }: { item: any }) {
         return item ? item.quantity : 0;
     };
 
-    const handleAddToCart = (product: Product) => {
-        const price = product.on_sale && product.sale_price ? product.sale_price : product.price;
+
+
+
+    // const handleAddToCart = (product: Product) => {
+    //     const price = product.on_sale && product.sale_price ? product.sale_price : product.price;
+    //     dispatch(addToCart({
+    //         id: product.id.toString(),
+    //         name: product.name,
+    //         description: product.description,
+    //         price: price,
+    //         image: product.image,
+    //     }));
+
+    //     Toast.show({
+    //         type: 'success',
+    //         text1: t('cart.addedToCart'),
+    //     })
+    // };
+
+   const handleAddToCart = (product: Product) => {
+    const price = product.on_sale && product.sale_price ? product.sale_price : product.price;
+
+    // لو السلة فاضية → أضف مباشرة
+    if (cartItems.length === 0) {
         dispatch(addToCart({
+            product: {
+                id: product.id.toString(),
+                name: product.name,
+                description: product.description,
+                price,
+                image: product.image,
+                store_id: store.id,
+            },
+            store: store
+        }));
+        Toast.show({ type: "success", text1: t("cart.addedToCart") });
+        return;
+    }
+
+    // مقارنة المتاجر باستخدام cartStore
+    if (cartStore && cartStore.id !== store.id) {
+        Alert.alert(
+            t("cart.differentStoreTitle"),
+            t("cart.differentStoreMessage"),
+            [
+                { text: t("cart.cancel"), style: "cancel" },
+                {
+                    text: t("cart.clearAndContinue"),
+                    style: "destructive",
+                    onPress: () => {
+                        dispatch(clearCart());
+                        dispatch(addToCart({
+                            product: {
+                                id: product.id.toString(),
+                                name: product.name,
+                                description: product.description,
+                                price,
+                                image: product.image,
+                                store_id: store.id,
+                            },
+                            store
+                        }));
+                        Toast.show({ type: "success", text1: t('cart.addedToCart') });
+                    }
+                }
+            ]
+        );
+        return;
+    }
+
+    // نفس المتجر → أضف طبيعي
+    dispatch(addToCart({
+        product: {
             id: product.id.toString(),
             name: product.name,
             description: product.description,
-            price: price,
+            price,
             image: product.image,
-        }));
-        
-        Toast.show({
-            type: 'success',
-            text1: t('cart.addedToCart'),
-        })
-    };
+            store_id: store.id,
+        },
+        store
+    }));
+
+    Toast.show({ type: "success", text1: t("cart.addedToCart") });
+};
+
+
+
 
     const handleRemoveFromCart = (productId: number) => {
         dispatch(removeFromCart(productId.toString()));

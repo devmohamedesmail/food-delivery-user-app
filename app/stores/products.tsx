@@ -1,14 +1,11 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState, useMemo } from 'react';
-import { View, Text, FlatList, Image, TouchableOpacity, TextInput, ActivityIndicator, StatusBar } from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, TextInput, StatusBar } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '@/store/hooks';
-import { addToCart, removeFromCart } from '@/store/slices/cartSlice';
-import { Toast } from 'toastify-react-native';
-import { config } from '@/constants/config';
 import useFetch from '@/hooks/useFetch';
 import Loading from '@/components/common/Loading';
 import ErrorMessage from '@/components/common/ErrorMessage';
@@ -89,8 +86,8 @@ const Products = () => {
                         <Ionicons name="arrow-back" size={22} color="white" />
                     </TouchableOpacity>
                     <Text className='text-white text-xl font-bold flex-1 text-center'>
-                       {i18n.language === 'ar' ? 'المنتجات' : 'Products'} - {parsedStoreItem.name}
-                        
+                        {i18n.language === 'ar' ? 'المنتجات' : 'Products'} - {parsedStoreItem.name}
+
                     </Text>
                     <TouchableOpacity
                         onPress={() => router.push('/cart/cart')}
@@ -168,7 +165,7 @@ const Products = () => {
             ) : (
                 <FlatList
                     data={filteredProducts}
-                    renderItem={({ item }) => <ProductItem item={item} />}
+                    renderItem={({ item }) => <ProductItem item={item} store={parsedStoreItem} />}
                     keyExtractor={(item) => item.id.toString()}
                     contentContainerStyle={{ paddingTop: 10, paddingBottom: 20 }}
                     showsVerticalScrollIndicator={false}

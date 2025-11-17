@@ -2,26 +2,41 @@ import React from 'react'
 import { View, Text, Image, TouchableOpacity, Alert } from 'react-native'
 import { useAppSelector, useAppDispatch } from '../store/hooks';
 import { selectCartItems } from '../store/hooks';
-import { addToCart, removeFromCart, deleteFromCart, clearCart } from '../store/slices/cartSlice';
+import { addToCart, removeFromCart, deleteFromCart, clearCart, updateQuantity } from '../store/slices/cartSlice';
 import { Ionicons } from '@expo/vector-icons';
 import { config } from '@/constants/config';
 import { useTranslation } from 'react-i18next';
 
 export default function CartItem({ item }: any) {
+    
     const dispatch = useAppDispatch();
     const cartItems = useAppSelector(selectCartItems);
     const { t } = useTranslation();
 
-    const handleIncreaseQuantity = (itemId: string) => {
-        const item = cartItems.find(cartItem => cartItem.id === itemId);
-        if (item) {
-            dispatch(addToCart(item));
-        }
-    };
+    // const handleIncreaseQuantity = (itemId: string) => {
+    //     const item = cartItems.find(cartItem => cartItem.id === itemId);
+    //     if (item) {
+    //         dispatch(addToCart(item));
+    //     }
+    // };
 
-    const handleDecreaseQuantity = (itemId: string) => {
-        dispatch(removeFromCart(itemId));
-    };
+    // const handleDecreaseQuantity = (itemId: string) => {
+    //     dispatch(removeFromCart(itemId));
+    // };
+
+    const handleIncreaseQuantity = (itemId: string) => {
+    const item = cartItems.find(cartItem => cartItem.id === itemId);
+    if (item) {
+        dispatch(updateQuantity({ id: itemId, quantity: item.quantity + 1 }));
+    }
+};
+
+const handleDecreaseQuantity = (itemId: string) => {
+    const item = cartItems.find(cartItem => cartItem.id === itemId);
+    if (item) {
+        dispatch(updateQuantity({ id: itemId, quantity: item.quantity - 1 }));
+    }
+};
 
     const handleRemoveItem = (itemId: string, itemName: string) => {
         Alert.alert(

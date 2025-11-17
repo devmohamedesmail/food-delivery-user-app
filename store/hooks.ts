@@ -6,6 +6,9 @@ export const useAppDispatch = () => useDispatch<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 // Selectors for cart
+export const selectCart = (state: RootState) => state.cart;
+export const selectCartStore = (state: RootState) => state.cart.store;
+
 export const selectCartItems = (state: RootState) => state.cart.items;
 export const selectCartTotalItems = (state: RootState) => state.cart.totalItems;
 export const selectCartTotalPrice = (state: RootState) => state.cart.totalPrice;

@@ -20,14 +20,14 @@ import * as Yup from 'yup';
 
 export default function Order() {
     const router = useRouter();
-    const dispatch = useAppDispatch();
     const cartItems = useAppSelector(selectCartItems);
     const totalPrice = useAppSelector(selectCartTotalPrice);
     const totalItems = useAppSelector(selectCartTotalItems);
     const { t, i18n } = useTranslation();
     const { auth } = useContext(AuthContext);
     const [loadingLocation, setLoadingLocation] = useState(false);
-    // console.log("cartItems", cartItems);
+    const cart = useAppSelector((state) => state.cart);
+
 
     const formik = useFormik({
         initialValues: {
@@ -47,14 +47,7 @@ export default function Order() {
         onSubmit: async (values) => {
             try {
                 // Validate required fields
-                if (!values.phone || !values.address) {
-                    Toast.show({
-                        type: 'error',
-                        text1: 'Please fill in all required fields',
-                        position: 'bottom',
-                    });
-                    return;
-                }
+                
 
                 if (cartItems.length === 0) {
                     Toast.show({
@@ -67,7 +60,7 @@ export default function Order() {
 
                 const response = await axios.post(`${config.URL}/orders/create`, {
                     user_id: auth?.user?.id || 1,
-                    restaurant_id: 2,
+                    store_id: cart.store.id,
                     order: cartItems.map(item => ({
                         id: parseInt(item.id),
                         name: item.name,
@@ -82,14 +75,13 @@ export default function Order() {
                 Toast.show({
                     type: 'success',
                     text1: t('order.orderSuccesscreate'),
-                    position: 'bottom',
+                    position: 'top',
                 })
             } catch (error) {
-                console.log("Order Error:", error);
                 Toast.show({
                     type: 'error',
                     text1: t('order.orderErrorcreate'),
-                    position: 'bottom',
+                    position: 'top',
                 })
             }
         }
