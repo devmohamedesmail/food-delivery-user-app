@@ -3,6 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native'
 import { useTranslation } from 'react-i18next'
 import { useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function PrivacyPolicy() {
   const { t, i18n } = useTranslation()
@@ -73,16 +74,16 @@ export default function PrivacyPolicy() {
   ]
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
       {/* Header */}
-      <View className="bg-white pt-12 pb-6 px-6 shadow-sm">
+      <View className="bg-white pt-16 pb-6 px-6 shadow-sm">
         <View className="flex-row items-center mb-4">
           <TouchableOpacity 
             onPress={() => router.back()}
             className="mr-4 p-2 bg-gray-100 rounded-full"
           >
             <Ionicons 
-              name={isRTL ? "arrow-forward" : "arrow-back"} 
+              name={isRTL ? "arrow-back" : "arrow-back"} 
               size={24} 
               color="#111827" 
             />
@@ -222,6 +223,6 @@ export default function PrivacyPolicy() {
           </Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </SafeAreaView>
   )
 }

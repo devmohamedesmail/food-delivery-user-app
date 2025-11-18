@@ -1,6 +1,6 @@
 import { AuthContext } from '@/context/auth_context'
 import React, { useContext, useState, useMemo } from 'react'
-import { View, Text, ScrollView, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native'
+import { View, Text, ScrollView, TouchableOpacity, FlatList, ActivityIndicator, StatusBar } from 'react-native'
 import useFetch from '@/hooks/useFetch';
 import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,6 +11,8 @@ import Loading from '@/components/custom/customloading';
 import ErrorMessage from '@/components/common/ErrorMessage';
 import OrderUserItem from '@/items/OrderUserItem';
 import BottomNavigation from '@/components/common/BottomNavigation';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 type OrderStatus = 'all' | 'pending' | 'accepted' | 'preparing' | 'on_the_way' | 'delivered' | 'cancelled';
 
@@ -44,8 +46,8 @@ export default function Orders() {
     const { auth } = useContext(AuthContext);
     const { data, loading, error } = useFetch(`/orders/user/${auth?.user?.id}`);
     const { t } = useTranslation();
-    const router = useRouter();
     const [activeTab, setActiveTab] = useState<OrderStatus>('all');
+    const router = useRouter();
 
     const tabs: { key: OrderStatus; label: string; count?: number }[] = [
         { key: 'all', label: t('orders.all') },
@@ -57,12 +59,12 @@ export default function Orders() {
         { key: 'cancelled', label: t('orders.cancelled') },
     ];
 
-    
+
     const orders = data?.orders || [];
     const pagination = data?.pagination;
 
 
-    
+
 
     const filteredOrders = useMemo(() => {
         if (!orders || orders.length === 0) return [];
@@ -85,77 +87,87 @@ export default function Orders() {
     }
 
     return (
-        <View className="flex-1 bg-gray-50">
-            <CustomHeader title={t('orders.myOrders')} />
+        <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
+            <StatusBar hidden={true} />
+            {/* <CustomHeader title={t('orders.myOrders')} /> */}
+            <View className='flex flex-row justify-between items-center pt-16 pb-5 px-5'>
+                <TouchableOpacity onPress={() => router.back()} className='bg-gray-200 rounded-full h-10 w-10 flex items-center justify-center'>
+                    <Ionicons name="arrow-back" size={24} color="black" />
+                </TouchableOpacity>
+
+
+                <Text className='font-bold text-2xl'>{t('orders.myOrders')}</Text>
+                
+            </View>
 
             {loading ? (<Loading message={t('orders.ordersfetching')} />) : (
                 <>
 
 
-                {/* Header */}
-                <View className="bg-white pt-12 pb-4 px-4 border-b border-gray-100">
+                    {/* Header */}
+                    <View className="bg-white pt-12 pb-4 px-4 border-b border-gray-100">
 
 
-                    {/* Tabs */}
-                    <ScrollView
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        className="flex-row -mx-4 px-4"
-                    >
-                        {tabs.map((tab) => {
-                            const count = getStatusCounts(tab.key);
-                            const isActive = activeTab === tab.key;
+                        {/* Tabs */}
+                        <ScrollView
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                            className="flex-row -mx-4 px-4"
+                        >
+                            {tabs.map((tab) => {
+                                const count = getStatusCounts(tab.key);
+                                const isActive = activeTab === tab.key;
 
-                            return (
-                                <TouchableOpacity
-                                    key={tab.key}
-                                    onPress={() => setActiveTab(tab.key)}
-                                    className={`mr-2 px-4 py-2 rounded-full border ${isActive
-                                        ? 'bg-primary border-primary'
-                                        : 'bg-white border-gray-200'
-                                        }`}
-                                >
-                                    <View className="flex-row items-center">
-                                        <Text className={`font-semibold  ${isActive ? 'text-white' : 'text-gray-700'
-                                            }`}>
-                                            {tab.label}
-                                        </Text>
-                                        {count > 0 && (
-                                            <View className={`ml-2 px-2 py-0.5 rounded-full ${isActive ? 'bg-secondary' : 'bg-gray-100'
+                                return (
+                                    <TouchableOpacity
+                                        key={tab.key}
+                                        onPress={() => setActiveTab(tab.key)}
+                                        className={`mr-2 px-4 py-2 rounded-full border ${isActive
+                                            ? 'bg-primary border-primary'
+                                            : 'bg-white border-gray-200'
+                                            }`}
+                                    >
+                                        <View className="flex-row items-center">
+                                            <Text className={`font-semibold  ${isActive ? 'text-white' : 'text-gray-700'
                                                 }`}>
-                                                <Text className={`text-xs font-bold ${isActive ? 'text-white' : 'text-gray-600'
+                                                {tab.label}
+                                            </Text>
+                                            {count > 0 && (
+                                                <View className={`ml-2 px-2 py-0.5 rounded-full ${isActive ? 'bg-secondary' : 'bg-gray-100'
                                                     }`}>
-                                                    {count}
-                                                </Text>
-                                            </View>
-                                        )}
-                                    </View>
-                                </TouchableOpacity>
-                            );
-                        })}
-                    </ScrollView>
-                </View>
+                                                    <Text className={`text-xs font-bold ${isActive ? 'text-white' : 'text-gray-600'
+                                                        }`}>
+                                                        {count}
+                                                    </Text>
+                                                </View>
+                                            )}
+                                        </View>
+                                    </TouchableOpacity>
+                                );
+                            })}
+                        </ScrollView>
+                    </View>
 
-                {/* Orders List */}
-                {filteredOrders.length === 0 ? (
-                    <NoOrdersFound />
-                ) : (
-                    <FlatList
-                        data={Array.isArray(filteredOrders) ? filteredOrders : []}
-                        renderItem={({ item }) => item && <OrderUserItem item={item} />}
-                        keyExtractor={(item) => item.id.toString()}
-                        contentContainerStyle={{ paddingTop: 16, paddingBottom: 20 }}
-                        showsVerticalScrollIndicator={false}
-                    />
-                )}
-
-
-
-            </>)}
+                    {/* Orders List */}
+                    {filteredOrders.length === 0 ? (
+                        <NoOrdersFound />
+                    ) : (
+                        <FlatList
+                            data={Array.isArray(filteredOrders) ? filteredOrders : []}
+                            renderItem={({ item }) => item && <OrderUserItem item={item} />}
+                            keyExtractor={(item) => item.id.toString()}
+                            contentContainerStyle={{ paddingTop: 16, paddingBottom: 20 }}
+                            showsVerticalScrollIndicator={false}
+                        />
+                    )}
 
 
-<BottomNavigation />
 
-        </View>
+                </>)}
+
+
+            <BottomNavigation />
+
+        </SafeAreaView>
     );
 }

@@ -39,8 +39,8 @@
     "try_again": "Try Again",
     "pleaseWait": "Please wait",
     "remove": "Remove",
-    "pleasewait": "Please wait..."
-   
+    "pleasewait": "Please wait...",
+    "confirming": "Confirming..."
   },
   "auth": {
     "welcomeBack": "Welcome back!",
@@ -111,7 +111,7 @@
     "viewAll": "See All",
     "claimNow": "Claim Now",
     "popularRestaurants": "Popular Restaurants",
-    "availableCoupons":"Available Coupons",
+    "availableCoupons": "Available Coupons",
     "hotDeals": "Hot Deals 🔥",
     "couponCode": "Coupon Code",
     "copyCode": "Copy Code",
@@ -183,9 +183,8 @@
     "confirmBooking": "Confirm Booking",
     "updateRoute": "Update Route",
     "findRoute": "Find Route"
-  
   },
-  "stores":{
+  "stores": {
     "loading": "Loading stores...",
     "noStoresFound": "No stores found",
     "noStoresAvailable": "No stores available",
@@ -250,8 +249,6 @@
     "addedToCart": "Item added to cart",
     "removedFromCart": "Item removed from cart",
     "cartCleared": "Cart cleared successfully"
-   
-  
   },
   "wishlist": {
     "emptyTitle": "Your wishlist is empty",
@@ -326,7 +323,10 @@
     "cancelOrder": "Cancel Order",
     "placedAt": "Placed at",
     "deliveredAt": "Delivered at",
-    "ordersfetching": "Fetching your orders..."
+    "ordersfetching": "Fetching your orders...",
+    "orderCancelledSuccessfully": "Order cancelled successfully!",
+    "orderCancellationFailed": "Failed to cancel the order. Please try again.",
+    "areYouSureCancel": "Are you sure you want to cancel this order?"
   },
   "onboarding": {
     "skip": "Skip",

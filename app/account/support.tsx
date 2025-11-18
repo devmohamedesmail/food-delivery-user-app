@@ -12,6 +12,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ContactOption {
   icon: keyof typeof Ionicons.glyphMap;
@@ -150,7 +151,7 @@ export default function support() {
   ];
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
       {/* Header */}
       <View
         className="bg-white pt-14 pb-6 px-5"
@@ -169,7 +170,7 @@ export default function support() {
             style={{ marginRight: isRTL ? 0 : 16, marginLeft: isRTL ? 16 : 0 }}
           >
             <Ionicons
-              name={isRTL ? "chevron-forward" : "chevron-back"}
+              name={isRTL ? "chevron-back" : "chevron-back"}
               size={28}
               color="#10b981"
             />
@@ -262,7 +263,7 @@ export default function support() {
               }}
             >
               <View
-                className="w-12 h-12 rounded-xl items-center justify-center"
+                className="w-12 h-12 rounded-xl items-center mx-2 justify-center"
                 style={{ backgroundColor: topic.bgColor }}
               >
                 <Ionicons name={topic.icon} size={24} color={topic.color} />
@@ -280,7 +281,7 @@ export default function support() {
                 <Text className="text-sm text-gray-500">{topic.description}</Text>
               </View>
               <Ionicons
-                name={isRTL ? "chevron-back" : "chevron-forward"}
+                name={isRTL ? "chevron-forward" : "chevron-forward"}
                 size={20}
                 color="#9ca3af"
               />
@@ -326,6 +327,6 @@ export default function support() {
           </View>
         </View>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
