@@ -8,6 +8,7 @@ import { useAuth } from '@/context/auth_context';
 import { useAppSelector, selectCartTotalItems } from '@/store/hooks';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { getCurrentLocation } from '@/services/google';
+import NotificationBtn from './NotificationBtn';
 
 export default function Header() {
     const { t } = useTranslation();
@@ -62,15 +63,7 @@ export default function Header() {
 
 
           <View className="flex-row items-center">
-            <TouchableOpacity
-              onPress={() => router.push('/notifications')}
-              className="w-11 h-11 rounded-full bg-white/20 items-center justify-center mr-2 border border-white/30"
-            >
-              <FontAwesome name="bell" size={20} color="white" />
-              <View className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full items-center justify-center border-2 border-white">
-                <Text className="text-[10px] text-white font-bold">3</Text>
-              </View>
-            </TouchableOpacity>
+           <NotificationBtn/>
 
             <TouchableOpacity
               onPress={() => router.push('/cart/cart')}

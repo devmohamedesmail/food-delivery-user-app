@@ -17,16 +17,17 @@ export default function StoreTypeItem({ storeType }: any) {
                     params: { storeType: JSON.stringify(storeType) }
                 });
             }}
-            className='items-center bg-gray-100 m-1 pb-4 rounded-md'
+            className='items-center m-1 pb-4 rounded-md'
             style={{ width: '31%'  }}
         >
             {/* Circular Image */}
             <View
-                className='w-full h-32 rounded-lg overflow-hidden mb-2 '
+                className='w-32 h-32 overflow-hidden bg-gray-100 mb-2 flex items-center justify-center border border-primary border-dashed rounded-full p-2'
             >
                 <Image
                     source={{ uri: storeType.image }}
-                    className='w-full h-full rounded-lg'
+                    className='rounded-lg m-2'
+                    style={{ width: 75, height: 75 }}
                     resizeMode='cover'
                 />
             </View>

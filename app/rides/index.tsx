@@ -1,14 +1,12 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert, Dimensions, ActivityIndicator, ScrollView, } from 'react-native';
+import { View, Text, Alert, Dimensions} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import MapView, { Marker, Polyline, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView from 'react-native-maps';
 import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import useFetch from '@/hooks/useFetch';
 import BottomSheet, { BottomSheetScrollView } from '@gorhom/bottom-sheet';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { config } from '@/constants/config';
-import { useRouter } from 'expo-router';
 import { getMyLocation, MyLocationResult } from '@/services/location';
 import Header from '@/components/rides/Header';
 import LocateMeButton from '@/components/rides/LocateMeButton';
@@ -16,8 +14,9 @@ import VehichlesOptions from '@/components/rides/VehichlesOptions';
 import ActionButtons from '@/components/rides/ActionButtons';
 import OriginInput from '@/components/rides/OriginInput';
 import DestinationInput from '@/components/rides/DestinationInput';
+import MapSection from '@/components/rides/MapSection';
 
-const { width, height } = Dimensions.get('window');
+
 const GOOGLE_API_KEY = "AIzaSyCWrI-BwVYZE6D7wzFCVeEuaKr6VR-6FGI";
 
 interface LocationCoords {
@@ -25,16 +24,25 @@ interface LocationCoords {
   longitude: number;
 }
 
-interface PlaceResult {
-  description: string;
-  place_id: string;
+interface Driver {
+  id: number;
+  latitude: number;
+  longitude: number;
 }
 
 export default function Rides() {
   const { t, i18n } = useTranslation();
-  const router = useRouter();
   const mapRef = useRef<MapView>(null);
   const bottomSheetRef = useRef<BottomSheet>(null);
+
+  // make location region state
+  const [mapRegion, setMapRegion] = useState<{
+    latitude: number;
+    longitude: number;
+    latitudeDelta: number;
+    longitudeDelta: number;
+  } | null>(null);
+
 
   // Location states
   const [origin, setOrigin] = useState<LocationCoords | null>(null);
@@ -46,10 +54,7 @@ export default function Rides() {
   // Search states
   const [originInput, setOriginInput] = useState('');
   const [destinationInput, setDestinationInput] = useState('');
-  const [originSuggestions, setOriginSuggestions] = useState<PlaceResult[]>([]);
-  const [destinationSuggestions, setDestinationSuggestions] = useState<PlaceResult[]>([]);
-  const [showOriginSuggestions, setShowOriginSuggestions] = useState(false);
-  const [showDestinationSuggestions, setShowDestinationSuggestions] = useState(false);
+
 
   // Route states
   const [distance, setDistance] = useState('');
@@ -61,48 +66,38 @@ export default function Rides() {
 
   const { data: vehiclesData, loading: vehiclesLoading, error: vehiclesError } = useFetch('/vehicles');
 
+  // ===========================================================================================
+  // fake drivers data
+  const [fakeDrivers, setFakeDrivers] = useState<Driver[]>([]);
+  const generateFakeDrivers = (center: { latitude: number; longitude: number }) => {
+  const drivers = [];
+
+  for (let i = 0; i < 5; i++) {
+    const randomLat = center.latitude + (Math.random() - 0.5) * 0.01; // حول 1km
+    const randomLng = center.longitude + (Math.random() - 0.5) * 0.01;
+
+    drivers.push({
+      id: i + 1,
+      latitude: randomLat,
+      longitude: randomLng,
+    });
+  }
+
+  setFakeDrivers(drivers);
+};
+
+useEffect(() => {
+  if (currentLocation) {
+    generateFakeDrivers(currentLocation);
+  }
+}, [currentLocation]);
+
+
+//===========================================================================================
+
+
   // Bottom Sheet snap points
   const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
-
-  // Get user's current location
-  // const getMyLocation = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const { status } = await Location.requestForegroundPermissionsAsync();
-  //     if (status !== 'granted') {
-  //       Alert.alert('Permission Denied', 'Please enable location permissions');
-  //       return;
-  //     }
-
-  //     const location = await Location.getCurrentPositionAsync({});
-  //     const { latitude, longitude } = location.coords;
-
-  //     setOrigin({ latitude, longitude });
-  //     setCurrentLocation({ latitude, longitude });
-
-  //     // Reverse geocode to get address
-  //     const addressResponse = await axios.get(
-  //       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GOOGLE_API_KEY}`
-  //     );
-
-  //     if (addressResponse.data.results[0]) {
-  //       const address = addressResponse.data.results[0].formatted_address;
-  //       setOriginAddress(address);
-  //       setOriginInput(address);
-  //     }
-
-  //     mapRef.current?.animateToRegion({
-  //       latitude,
-  //       longitude,
-  //       latitudeDelta: 0.01,
-  //       longitudeDelta: 0.01,
-  //     });
-  //   } catch (error) {
-  //     Alert.alert('Error', 'Failed to get your location');
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
 
   const fetchMyLocation = async () => {
@@ -114,13 +109,21 @@ export default function Rides() {
       setOriginAddress(result.address);
       setOriginInput(result.address);
 
+      // Update map region
+      setMapRegion({
+        ...result.coords,
+        latitudeDelta: 0.01,
+        longitudeDelta: 0.01,
+      });
+
+      // Center map
       mapRef.current?.animateToRegion({
         ...result.coords,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01,
       });
     } catch (error: any) {
-      Alert.alert('خطأ', error.message);
+      Alert.alert('Error', error.message);
     } finally {
       setLoading(false);
     }
@@ -141,29 +144,29 @@ export default function Rides() {
   };
 
   // Search places using Google Places Autocomplete
-  const searchPlaces = async (input: string, isOrigin: boolean) => {
-    if (input.length < 3) {
-      isOrigin ? setOriginSuggestions([]) : setDestinationSuggestions([]);
-      return;
-    }
+  // const searchPlaces = async (input: string, isOrigin: boolean) => {
+  //   if (input.length < 3) {
+  //     isOrigin ? setOriginSuggestions([]) : setDestinationSuggestions([]);
+  //     return;
+  //   }
 
-    try {
-      const response = await axios.get(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${input}&key=${GOOGLE_API_KEY}`
-      );
+  //   try {
+  //     const response = await axios.get(
+  //       `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${input}&key=${GOOGLE_API_KEY}`
+  //     );
 
-      if (response.data.predictions) {
-        const suggestions = response.data.predictions.map((pred: any) => ({
-          description: pred.description,
-          place_id: pred.place_id,
-        }));
+  //     if (response.data.predictions) {
+  //       const suggestions = response.data.predictions.map((pred: any) => ({
+  //         description: pred.description,
+  //         place_id: pred.place_id,
+  //       }));
 
-        isOrigin ? setOriginSuggestions(suggestions) : setDestinationSuggestions(suggestions);
-      }
-    } catch (error) {
-      console.error('Places search error:', error);
-    }
-  };
+  //       isOrigin ? setOriginSuggestions(suggestions) : setDestinationSuggestions(suggestions);
+  //     }
+  //   } catch (error) {
+  //     console.error('Places search error:', error);
+  //   }
+  // };
 
   // Get place details and coordinates
   const getPlaceDetails = async (placeId: string, isOrigin: boolean) => {
@@ -179,14 +182,14 @@ export default function Rides() {
         setOrigin({ latitude: location.lat, longitude: location.lng });
         setOriginAddress(address);
         setOriginInput(address);
-        setShowOriginSuggestions(false);
-        setOriginSuggestions([]);
+        // setShowOriginSuggestions(false);
+        // setOriginSuggestions([]);
       } else {
         setDestination({ latitude: location.lat, longitude: location.lng });
         setDestinationAddress(address);
         setDestinationInput(address);
-        setShowDestinationSuggestions(false);
-        setDestinationSuggestions([]);
+        // setShowDestinationSuggestions(false);
+        // setDestinationSuggestions([]);
       }
     } catch (error) {
       console.error('Place details error:', error);
@@ -298,57 +301,15 @@ export default function Rides() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <View className="flex-1 bg-white">
         {/* Map with Street View */}
-        <MapView
-          ref={mapRef}
-          provider={PROVIDER_GOOGLE}
-          style={{ width, height }}
-          initialRegion={{
-            latitude: 37.78825,
-            longitude: -122.4324,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
-          }}
-          showsUserLocation={true}
-          showsMyLocationButton={false}
-          showsCompass={true}
-          showsScale={true}
-          showsBuildings={true}
-          showsTraffic={true}
-          showsIndoors={true}
-          mapType="standard"
-        >
-          {origin && (
-            <Marker
-              coordinate={origin}
-              title="Pickup Location"
-              pinColor="green"
-            >
-              <View className="bg-green-500 p-3 rounded-full shadow-lg">
-                <Ionicons name="location" size={24} color="white" />
-              </View>
-            </Marker>
-          )}
+        <MapSection
+          origin={origin}
+          destination={destination}
+          routeCoordinates={routeCoordinates}
+          mapRegion={mapRegion}
+          mapRef={mapRef}
+          fakeDrivers={fakeDrivers}
 
-          {destination && (
-            <Marker
-              coordinate={destination}
-              title="Destination"
-              pinColor="red"
-            >
-              <View className="bg-red-500 p-3 rounded-full shadow-lg">
-                <Ionicons name="flag" size={24} color="white" />
-              </View>
-            </Marker>
-          )}
-
-          {routeCoordinates.length > 0 && (
-            <Polyline
-              coordinates={routeCoordinates}
-              strokeWidth={5}
-              strokeColor="#fd4a12"
-            />
-          )}
-        </MapView>
+        />
 
 
         {/* Professional Header */}
@@ -371,61 +332,6 @@ export default function Rides() {
               {t('rides.bookARide')}
             </Text>
 
-            {/* Origin Input */}
-            {/* <View className="mb-4">
-              <View className="bg-gray-50 rounded-2xl p-4 flex-row items-center">
-                <View className="bg-green-500 w-3 h-3 rounded-full mr-3" />
-                <View className="flex-1">
-                  <Text className={`text-black text-xs mb-1 ${i18n.language === 'ar' ? 'text-right' : ''}`}>
-                    {t('rides.pickupLocation')}
-                  </Text>
-                  <TextInput
-                    value={originInput}
-                    onChangeText={(text) => {
-                      setOriginInput(text);
-                      searchPlaces(text, true);
-                      setShowOriginSuggestions(true);
-                    }}
-                    placeholder={t('rides.enterPickupLocation')}
-                    className="text-gray-900 font-medium"
-                  />
-                </View>
-                <TouchableOpacity
-                  onPress={getMyLocation}
-                  className="bg-green-100 p-2 rounded-full ml-2"
-                >
-                  {loading ? (
-                    <ActivityIndicator size="small" color="#10B981" />
-                  ) : (
-                    <Ionicons name="locate" size={20} color="#10B981" />
-                  )}
-                </TouchableOpacity>
-              </View>
-
-              
-              {showOriginSuggestions && originSuggestions.length > 0 && (
-                <View className="bg-white mt-2 rounded-xl border border-gray-200 max-h-48">
-                  <ScrollView>
-                    {originSuggestions.map((suggestion, index) => (
-                      <TouchableOpacity
-                        key={index}
-                        onPress={() => getPlaceDetails(suggestion.place_id, true)}
-                        className="p-3 border-b border-gray-100"
-                      >
-                        <View className="flex-row items-center">
-                          <Ionicons name="location-outline" size={20} color="#6B7280" />
-                          <Text className="text-gray-900 ml-3 flex-1" numberOfLines={1}>
-                            {suggestion.description}
-                          </Text>
-                        </View>
-                      </TouchableOpacity>
-                    ))}
-                  </ScrollView>
-                </View>
-              )}
-            </View> */}
-
-
 
             <OriginInput
               originInput={originInput}
@@ -435,7 +341,7 @@ export default function Rides() {
               getPlaceDetails={getPlaceDetails}
             />
 
-        
+
 
             <DestinationInput
               destinationInput={destinationInput}
@@ -470,7 +376,7 @@ export default function Rides() {
               </View>
             )}
 
-        
+
             <VehichlesOptions
               vehiclesData={vehiclesData}
               distanceValue={distanceValue}

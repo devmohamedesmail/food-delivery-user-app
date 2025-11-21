@@ -21,9 +21,7 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false)
   const [rememberMe, setRememberMe] = useState(false)
   const { handle_login } = useContext(AuthContext)
-  // console.log(auth)
-
-  // Formik form handling with Yup validation
+  
 
   const formik = useFormik({
     initialValues: {
@@ -109,8 +107,8 @@ export default function Login() {
 
             {/* Logo/Brand Section */}
             <View className="items-center  mb-3">
-              <View className="mb-4">
-                {/* <Logo /> */}
+              <View className="mb-4 rounded-full overflow-hidden">
+                <Logo />
               </View>
               <Text
                 className="text-3xl text-white mb-2"

@@ -1,8 +1,5 @@
 
-import React, { useState } from 'react'
-
-import { View, StatusBar, } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler';
+import { View, StatusBar , ScrollView } from 'react-native'
 import FeaturedMeals from '@/components/home/FeaturedMeals';
 import Copouns from '@/components/home/Copouns';
 import FeaturedResturants from '@/components/home/FeaturedResturants';
@@ -24,6 +21,7 @@ export default function Home() {
       <Header />
 
       <ScrollView className='flex-1' showsVerticalScrollIndicator={false}>
+        
         <StoreTypes />
         <SpecialOffers />
         <FeaturedMeals />

@@ -140,8 +140,8 @@ export default function Register() {
 
                         {/* Logo/Brand Section */}
                         <View className="items-center mb-3">
-                            <View className="mb-4">
-                                {/* <Logo /> */}
+                            <View className="mb-4 rounded-full overflow-hidden">
+                                <Logo />
                             </View>
                             <Text
                                 className="text-3xl text-white mb-2"
