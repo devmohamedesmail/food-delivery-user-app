@@ -92,7 +92,7 @@ const Stores = () => {
         ) : error ? (
           <ErrorMessage />
         ) : filteredBusinesses.length === 0 ? (
-         <NoStores searchQuery={searchQuery} />
+          <NoStores searchQuery={searchQuery} />
         ) : (
           <FlatList
             data={filteredBusinesses}

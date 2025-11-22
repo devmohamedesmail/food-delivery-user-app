@@ -29,11 +29,6 @@ export default function Cart() {
 
 
 
-console.log(typeof cart.store.delivery_fee);
-console.log(typeof totalPrice);
-
-
-
   const handleClearCart = () => {
     Alert.alert(
        t('cart.clearCart'),

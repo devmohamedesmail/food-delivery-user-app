@@ -1,8 +1,8 @@
 
 import { View, StatusBar , ScrollView } from 'react-native'
-import FeaturedMeals from '@/components/home/FeaturedMeals';
+import SaleProducts from '@/components/home/SaleProducts';
 import Copouns from '@/components/home/Copouns';
-import FeaturedResturants from '@/components/home/FeaturedResturants';
+import FeaturedStores from '@/components/home/FeaturedStores';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import SpecialOffers from '@/components/home/SpecialOffers';
 import BottomNavigation from '@/components/common/BottomNavigation';
@@ -24,9 +24,10 @@ export default function Home() {
         
         <StoreTypes />
         <SpecialOffers />
-        <FeaturedMeals />
+        <SaleProducts />
         <Copouns />
-        <FeaturedResturants />
+      
+        <FeaturedStores />
         <View className='h-20' />
       </ScrollView>
 

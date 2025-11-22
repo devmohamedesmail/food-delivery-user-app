@@ -37,29 +37,58 @@ export default function ProductItem({ item, store }: { item: any, store: any }) 
     };
 
 
+    const handleAddToCart = (product: Product) => {
+        const price = product.on_sale && product.sale_price ? product.sale_price : product.price;
 
+        //  if cart is empty, add directly     
+        if (cartItems.length === 0) {
+            dispatch(addToCart({
+                product: {
+                    id: product.id.toString(),
+                    name: product.name,
+                    description: product.description,
+                    price,
+                    image: product.image,
+                    store_id: store.id,
+                },
+                store: store
+            }));
+            Toast.show({ type: "success", text1: t("cart.addedToCart") });
+            return;
+        }
 
-    // const handleAddToCart = (product: Product) => {
-    //     const price = product.on_sale && product.sale_price ? product.sale_price : product.price;
-    //     dispatch(addToCart({
-    //         id: product.id.toString(),
-    //         name: product.name,
-    //         description: product.description,
-    //         price: price,
-    //         image: product.image,
-    //     }));
+        // مقارنة المتاجر باستخدام cartStore
+        if (cartStore && cartStore.id !== store.id) {
+            Alert.alert(
+                t("cart.differentStoreTitle"),
+                t("cart.differentStoreMessage"),
+                [
+                    { text: t("cart.cancel"), style: "cancel" },
+                    {
+                        text: t("cart.clearAndContinue"),
+                        style: "destructive",
+                        onPress: () => {
+                            dispatch(clearCart());
+                            dispatch(addToCart({
+                                product: {
+                                    id: product.id.toString(),
+                                    name: product.name,
+                                    description: product.description,
+                                    price,
+                                    image: product.image,
+                                    store_id: store.id,
+                                },
+                                store
+                            }));
+                            Toast.show({ type: "success", text1: t('cart.addedToCart') });
+                        }
+                    }
+                ]
+            );
+            return;
+        }
 
-    //     Toast.show({
-    //         type: 'success',
-    //         text1: t('cart.addedToCart'),
-    //     })
-    // };
-
-   const handleAddToCart = (product: Product) => {
-    const price = product.on_sale && product.sale_price ? product.sale_price : product.price;
-
-    // لو السلة فاضية → أضف مباشرة
-    if (cartItems.length === 0) {
+        // نفس المتجر → أضف طبيعي
         dispatch(addToCart({
             product: {
                 id: product.id.toString(),
@@ -69,58 +98,11 @@ export default function ProductItem({ item, store }: { item: any, store: any }) 
                 image: product.image,
                 store_id: store.id,
             },
-            store: store
+            store
         }));
+
         Toast.show({ type: "success", text1: t("cart.addedToCart") });
-        return;
-    }
-
-    // مقارنة المتاجر باستخدام cartStore
-    if (cartStore && cartStore.id !== store.id) {
-        Alert.alert(
-            t("cart.differentStoreTitle"),
-            t("cart.differentStoreMessage"),
-            [
-                { text: t("cart.cancel"), style: "cancel" },
-                {
-                    text: t("cart.clearAndContinue"),
-                    style: "destructive",
-                    onPress: () => {
-                        dispatch(clearCart());
-                        dispatch(addToCart({
-                            product: {
-                                id: product.id.toString(),
-                                name: product.name,
-                                description: product.description,
-                                price,
-                                image: product.image,
-                                store_id: store.id,
-                            },
-                            store
-                        }));
-                        Toast.show({ type: "success", text1: t('cart.addedToCart') });
-                    }
-                }
-            ]
-        );
-        return;
-    }
-
-    // نفس المتجر → أضف طبيعي
-    dispatch(addToCart({
-        product: {
-            id: product.id.toString(),
-            name: product.name,
-            description: product.description,
-            price,
-            image: product.image,
-            store_id: store.id,
-        },
-        store
-    }));
-
-    Toast.show({ type: "success", text1: t("cart.addedToCart") });
-};
+    };
 
 
 

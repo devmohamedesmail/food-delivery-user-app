@@ -6,7 +6,6 @@ import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useAuth } from '@/context/auth_context';
 import { useAppSelector, selectCartTotalItems } from '@/store/hooks';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { getCurrentLocation } from '@/services/google';
 import NotificationBtn from './NotificationBtn';
 
