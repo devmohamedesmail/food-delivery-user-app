@@ -119,7 +119,10 @@
     "applyCoupon": "Apply Coupon",
     "minOrder": "Min. order:",
     "categories": "Categories",
-    "fetching_location": "Fetching location..."
+    "fetching_location": "Fetching location...",
+    "book_ride_now": "Book a ride now",
+    "find_food_nearby": "Find food nearby",
+    "store_types_title":"Your Neighborhood, Your Market"
   },
   "notFound": {
     "title": "Page Not Found",
@@ -174,6 +177,7 @@
     "bookARide": "Book a Ride",
     "pickupLocation": "Pickup Location",
     "destination": "Destination",
+    "distinationLocation": "Destination Location",
     "selectRideType": "Select Ride Type",
     "distance": "Distance",
     "duration": "Duration",
@@ -296,7 +300,11 @@
     "addressRequired": "Delivery address is required",
     "placingOrder": "Placing your order...",
     "phoneMin": "Phone number must be at least 6 characters",
-    "addressMin": "Address must be at least 6 characters"
+    "addressMin": "Address must be at least 6 characters",
+    "noAreaFound": "No area found",
+    "noAreaFoundDescription": "We couldn't find any delivery areas matching your address.",
+    "selectyourArea": "Select your area",
+    "searchArea": "Search area..."
   },
   "orders": {
     "myOrders": "My Orders",

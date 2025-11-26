@@ -59,8 +59,8 @@ export default function DestinationInput({ destinationInput, setDestinationInput
                 }}
                 onPress={getMyLocation}
                 loading={loading}
-                label={t('rides.pickupLocation')}
-                placeholder={t('rides.enterPickupLocation')}
+                label={t('rides.distinationLocation')}
+                placeholder={t('rides.enterDestination')}
                 icon={<MaterialIcons name="transfer-within-a-station" size={24} color="black" />}
 
             />

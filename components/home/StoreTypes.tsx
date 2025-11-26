@@ -1,11 +1,11 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, Image, ActivityIndicator, ScrollView } from 'react-native'
+import { View, Text} from 'react-native'
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
 import useFetch from '@/hooks/useFetch';
-import { store } from '@/store';
 import StoreTypeItem from '@/items/StoreTypeItem';
 import Loading from '../common/Loading';
+import Skeleton from '../ui/Skeleton';
 
 interface StoreType {
   id: number;
@@ -19,14 +19,24 @@ interface StoreType {
 export const StoreTypes = () => {
   const { data:storetypes, loading:loadingStoreTypes, error:errorStoreTypes } = useFetch('/store-types/place/1');
   const { t, i18n } = useTranslation();
-  const router = useRouter();
 
 
   if (loadingStoreTypes) {
     return (
-      
+  
       <View className='py-10'>
-        <Loading message={t('common.pleasewait')} />
+       {/* <Skeleton width={150} height={20} rounded={12} className='mb-4 mx-5' /> */}
+       <View className='flex flex-row justify-between gap-1 flex-wrap mb-4 px-5'>
+         {[1,2,3,4,5,6].map((item) => (
+           <Skeleton 
+             key={item}
+             width="32%" 
+             height={130} 
+             rounded={100} 
+             className=' mb-4' 
+           />
+         ))}
+       </View>
       </View>
     );
   }
@@ -39,13 +49,13 @@ export const StoreTypes = () => {
   return (
     <View className='mb-6'>
 
-      <Text className={`text-md text-black my-4 px-5 ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
-        {t('home.categories')}
+      <Text className={`text-xl font-semibold text-black my-4 px-5 ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
+        {t('home.store_types_title')}
       </Text>
 
       {/* Business Types Horizontal Scroll */}
       <View
-        className={`flex flex-row justify-start flex-wrap mb-4 px-5 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}
+        className={`flex flex-row justify-start flex-wrap mb-4 px-3 gap-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}
       >
         {storetypes && storetypes.map((storeType: StoreType) => (
           <StoreTypeItem key={storeType.id} storeType={storeType} />

@@ -119,7 +119,10 @@
     "applyCoupon": "تطبيق الكوبون",
     "minOrder": "الحد الأدنى للطلب:",
     "categories": " الاقسام ",
-    "fetching_location": "جاري جلب الموقع..."
+    "fetching_location": "جاري جلب الموقع...",
+    "book_ride_now": "احجز رحلة الآن",
+    "find_food_nearby": "ابحث عن طعام بالقرب منك",
+    "store_types_title": " كل اللي محتاجه قريب منك  "
   },
   "notFound": {
     "title": "الصفحة غير موجودة",
@@ -149,7 +152,7 @@
     "loadingMore": "جاري التحميل..."
   },
   "rides": {
-    "bookRide": "احجز رحلة",
+    "bookRide": "احجز  توصيله",
     "from": "من",
     "to": "إلى",
     "enterPickupLocation": "أدخل موقع الاستلام",
@@ -172,8 +175,9 @@
     "ecoFriendlyRides": "رحلات صديقة للبيئة",
     "away": "بعيد",
     "bookARide": "احجز رحلة",
-    "pickupLocation": "موقع الاستلام",
+    "pickupLocation": "  مكان الركوب ",
     "destination": "الوجهة",
+    "distinationLocation": "مكان الوصول",
     "selectRideType": "اختر نوع الرحلة",
     "distance": "المسافة",
     "duration": "المدة",
@@ -296,7 +300,11 @@
     "addressRequired": "عنوان التسليم مطلوب",
     "placingOrder": "جارٍ تقديم طلبك...",
     "phoneMin": "يجب أن يكون رقم الهاتف 6 أحرف على الأقل",
-    "addressMin": "يجب أن يكون العنوان 6 أحرف على الأقل"
+    "addressMin": "يجب أن يكون العنوان 6 أحرف على الأقل",
+    "noAreaFound": "لم يتم العثور على منطقة",
+    "noAreaFoundDescription": "لم نتمكن من العثور على أي مناطق توصيل تطابق عنوانك.",
+    "selectyourArea": "اختر منطقتك",
+    "searchArea": "ابحث في المنطقة..."
   },
   "orders": {
     "myOrders": "طلباتي",

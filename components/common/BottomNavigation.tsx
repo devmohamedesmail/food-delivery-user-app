@@ -4,9 +4,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import NavigationItem from '@/items/NavigationItem';
 import { useTranslation } from 'react-i18next';
 import { useRouter, usePathname } from 'expo-router';
-import Ionicons from '@expo/vector-icons/Ionicons';
 import Fontisto from '@expo/vector-icons/Fontisto';
-import Feather from '@expo/vector-icons/Feather';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { AuthContext } from '@/context/auth_context';
 import Svg, { Path } from 'react-native-svg';
@@ -27,21 +25,21 @@ export default function BottomNavigation() {
       isActive: pathname === '/',
       onPress: () => router.push('/'),
     },
-    {
-      icon: <Ionicons name="car" size={24} />,
-      label: t('navigation.transport'),
-      isActive: pathname.includes('/rides'),
-      onPress: () => router.push('/rides'),
-    },
+    // {
+    //   icon: <Ionicons name="car" size={24} />,
+    //   label: t('navigation.transport'),
+    //   isActive: pathname.includes('/rides'),
+    //   onPress: () => router.push('/rides'),
+    // },
   ];
 
   const rightNavItems = [
-    {
-      icon: <Feather name="heart" size={24} />,
-      label: t('navigation.wishlist'),
-      isActive: pathname.includes('/wishlist'),
-      onPress: () => router.push('/wishlist/wishlist'),
-    },
+    // {
+    //   icon: <Feather name="heart" size={24} />,
+    //   label: t('navigation.wishlist'),
+    //   isActive: pathname.includes('/wishlist'),
+    //   onPress: () => router.push('/wishlist/wishlist'),
+    // },
     {
       icon: <FontAwesome name="user-o" size={22} />,
       label: t('navigation.account'),
@@ -52,7 +50,7 @@ export default function BottomNavigation() {
 
   const centerAction = {
     isActive: pathname.includes('/cart'),
-    onPress: () => router.push('/cart/cart'),
+    onPress: () => router.push('/cart'),
   };
 
   return (
@@ -87,7 +85,7 @@ export default function BottomNavigation() {
             Q 0,0 0,20
             Z
           `}
-          fill="white"
+          fill="#f8f9fa"
         />
       </Svg>
 

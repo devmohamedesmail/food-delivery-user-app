@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks';
 import { addToCart, clearCart } from '@/store/slices/cartSlice';
 import { Toast } from 'toastify-react-native';
 import { Alert } from 'react-native';
+import Skeleton from '../ui/Skeleton';
 
 export default function SaleProducts() {
     const { t, i18n } = useTranslation();
@@ -17,16 +18,9 @@ export default function SaleProducts() {
     const dispatch = useAppDispatch();
     const cartItems = useAppSelector((state) => state.cart.items);
     const cartStore = useAppSelector((state) => state.cart.store);
-    const { data, loading, error } = useFetch('/products/sale/products')
+    const { data, loading } = useFetch('/products/sale/products')
 
   
-
-
-
-
-
-
-
     const handleAddToCart = (product: any , store: any) => {
         const price = product.on_sale && product.sale_price ? product.sale_price : product.price;
 
@@ -96,7 +90,7 @@ export default function SaleProducts() {
 
     return (
         <>
-            {data && !loading && data.length > 0 ? (
+            
                 <View className='px-5 mb-6 py-3'>
                     <View className={`flex-row justify-between items-center mb-4 ${i18n.language === 'ar' ? 'flex-row-reverse' : 'flex-row'}`}>
                         <Text className='text-xl font-bold text-black arabic-font'>
@@ -113,9 +107,10 @@ export default function SaleProducts() {
 
 
                         {loading ? (
-                            <View className='flex-row items-center justify-center py-8 px-4'>
-                                <ActivityIndicator size="large" color="#fd4a12" />
-                                <Text className='text-gray-400 ml-3 text-center'>{t('home.loading')}</Text>
+                            <View className='flex-row items-center flex-wrap justify-center py-8 px-4'>
+                               {[1,2,3,4,5,6,7,8].map((item) => (
+                                 <Skeleton key={item} width={150} height={150} rounded={20} className='mx-2' />
+                               ))} 
                             </View>
                         ) : (
                             <>
@@ -234,7 +229,7 @@ export default function SaleProducts() {
                         )}
                     </ScrollView>
                 </View>
-            ) : (<></>)}
+          
         </>
     )
 }

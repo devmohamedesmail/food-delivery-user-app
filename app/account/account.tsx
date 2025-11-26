@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useTranslation } from 'react-i18next';
 import AccountItem from '@/items/AccountItem';
 import { Toast } from 'toastify-react-native';
-import CustomHeader from '@/components/custom/Header';
+import CustomHeader from '@/components/ui/Header';
 import BottomNavigation from '@/components/common/BottomNavigation';
 import { AuthContext } from '@/context/auth_context';
 import { useRouter } from 'expo-router';

@@ -6,7 +6,7 @@ import { TouchableOpacity, Text, View, Image } from 'react-native'
 export default function StoreTypeItem({ storeType }: any) {
 
     const router = useRouter()
-    const { t, i18n } = useTranslation()
+    const { i18n } = useTranslation()
     return (
         <TouchableOpacity
             key={storeType.id}
@@ -17,17 +17,17 @@ export default function StoreTypeItem({ storeType }: any) {
                     params: { storeType: JSON.stringify(storeType) }
                 });
             }}
-            className='items-center m-1 pb-4 rounded-md'
-            style={{ width: '31%'  }}
+            className='items-center  pb-3 p-0 rounded-xl overflow-hidden'
+            style={{ width: '32%' }}
         >
             {/* Circular Image */}
             <View
-                className='w-32 h-32 overflow-hidden bg-gray-100 mb-2 flex items-center justify-center border border-primary border-dashed rounded-full p-2'
+                className='w-full h-34 rounded-full overflow-hidden mb-2 flex items-center justify-center '
             >
                 <Image
                     source={{ uri: storeType.image }}
-                    className='rounded-lg m-2'
-                    style={{ width: 75, height: 75 }}
+                    className='rounded-full'
+                    style={{ width: '100%', height: 130 }}
                     resizeMode='cover'
                 />
             </View>

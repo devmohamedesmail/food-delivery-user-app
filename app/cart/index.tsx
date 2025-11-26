@@ -9,7 +9,7 @@ import EmptyCart from '@/components/cart/EmptyCart';
 import { useTranslation } from 'react-i18next';
 import { config } from '@/constants/config';
 import CartItem from '@/items/CartItem';
-import CustomButton from '@/components/custom/Button';
+import CustomButton from '@/components/ui/Button';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useAuth } from '@/context/auth_context';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -48,33 +48,21 @@ export default function Cart() {
 
   return (
     <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
-      {/* Creative Header */}
+      
       <View 
-        className="pt-14 pb-8 px-5"
-        style={{ backgroundColor: '#242424' }}
-      >
-        {/* Top Row - Back Button & Clear Cart */}
+        className="pt-14 pb-8 px-5 bg-white">
+       
         <View className="flex-row items-center justify-between mb-6">
           <TouchableOpacity 
             onPress={() => router.back()}
-            className='w-11 h-11 rounded-2xl items-center justify-center'
-            style={{
-              backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              borderWidth: 1,
-              borderColor: 'rgba(255, 255, 255, 0.2)',
-            }}
+            className='w-11 h-11 rounded-2xl items-center bg-gray-200 justify-center'
           >
-            <Ionicons name="arrow-back" size={22} color="white" />
+            <Ionicons name="arrow-back" size={22} color="black" />
           </TouchableOpacity>
 
           <TouchableOpacity 
             onPress={handleClearCart}
-            className='flex-row items-center px-4 py-2 rounded-2xl'
-            style={{
-              backgroundColor: 'rgba(253, 74, 18, 0.15)',
-              borderWidth: 1,
-              borderColor: 'rgba(253, 74, 18, 0.3)',
-            }}
+            className='flex-row items-center px-4 py-2 rounded-2xl bg-red-600'
           >
             <Ionicons name="trash-outline" size={18} color="white" />
             <Text className="text-sm font-semibold ml-2 arabic-font text-white">
@@ -85,43 +73,15 @@ export default function Cart() {
 
         {/* Title & Items Count */}
         <View className="mb-4">
-          <Text className="text-3xl text-center text-white mb-2">
+          <Text className="text-3xl text-center text-black font-extrabold mb-2">
             {t('navigation.cart')}
           </Text>
          
         </View>
-
-        {/* Total Price Card */}
-        <View 
-          className="rounded-2xl p-4 flex-row items-center justify-between border border-white/10 "
-         
-        >
-          <View>
-            <Text className="text-white text-md mb-1 " >
-              
-              {t('cart.totalAmount')}
-            </Text>
-            <Text className="text-white text-2xl font-bold" style={{ fontFamily: 'Cairo_700Bold' }}>
-              {config.CurrencySymbol} {(totalPrice + Number(cart.store.delivery_fee)).toFixed(2)}
-            </Text>
-          </View>
-          <View 
-            className="w-12 h-12 rounded-full items-center justify-center"
-            style={{ backgroundColor: 'rgba(253, 74, 18, 0.2)' }}
-          >
-            <Ionicons name="wallet" size={24} color="white" />
-          </View>
-        </View>
       </View>
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        {/* Cart Items */}
-        {/* <View className="px-4 py-4">
-          {cartItems.map((item) => (
-            <CartItem key={item.id} item={item} />
-          ))}
-        </View> */}
-
+        
          <View className="px-4 py-4">
           {cart.items.map((item) => (
             <CartItem key={item.id} item={item} />
@@ -130,25 +90,22 @@ export default function Cart() {
 
         {/* Order Summary */}
         <View className="bg-white mx-4 rounded-xl p-4 mb-4 shadow-sm">
-          <Text className={`text-lg text-gray-900 mb-4 ${i18n.language === 'ar' ? 'text-right' : ''}`}>
+          <Text className={`text-lg text-black text-center mb-4 font-extrabold`}>
             {t('cart.orderSummary')}
           </Text>
 
-          <View className={`flex-row justify-between items-center mb-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
-            {/* <Text className="text-gray-600 arabic-font text-sm">{t('cart.subtotal')} ({totalItems} {t('cart.items')})</Text>
-            <Text className="font-semibold text-gray-900">{config.CurrencySymbol} {totalPrice.toFixed(2)}</Text> */}
-          </View>
+         
           
-          <View className={`flex-row justify-between items-center mb-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
+          {/* <View className={`flex-row justify-between items-center mb-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
             <Text className="text-gray-600  text-sm">{t('cart.deliveryFee')}</Text>
             <Text className="font-semibold text-gray-900">{config.CurrencySymbol} {cart.store.delivery_fee}</Text>
-          </View>
+          </View> */}
           
           <View className="border-t border-gray-200 pt-2 mt-2">
             <View className={`flex-row justify-between items-center  ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}>
-              <Text className="text-lg text-gray-900 ">{t('cart.total')}</Text>
-              <Text className="text-lg font-bold text-gray-900">
-                {config.CurrencySymbol} {(totalPrice + Number(cart.store.delivery_fee)).toFixed(2)}
+              <Text className="text-lg text-black ">{t('cart.total')}</Text>
+              <Text className="text-lg font-bold text-black">
+                {config.CurrencySymbol} {totalPrice.toFixed(2)}
               </Text>
             </View>
           </View>
@@ -214,7 +171,7 @@ export default function Cart() {
         <View className="px-4 pb-4">
              <CustomButton 
                title={auth ? t('cart.proceedToCheckout') : t('cart.loginToCheckout')} 
-               onPress={() => auth ? router.push('/order/order') : router.push('/auth/login')} 
+               onPress={() => auth ? router.push('/order') : router.push('/auth/login')} 
                icon={<MaterialIcons name="shopping-cart-checkout" size={24} color="white" />} />
         </View>
 

@@ -4,9 +4,9 @@ import { Ionicons } from '@expo/vector-icons'
 import { useTranslation } from 'react-i18next'
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
-import CustomInput from '@/components/custom/Input'
+import CustomInput from '@/components/ui/Input'
 import { AuthContext } from '@/context/auth_context'
-import CustomButton from '@/components/custom/Button'
+import CustomButton from '@/components/ui/Button'
 import Logo from '@/components/common/logo'
 
 

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Ionicons } from '@expo/vector-icons';
 import { config } from '@/constants/config';
 import CustomModal from '@/components/common/CustomModal';
-import Button from '@/components/custom/Button';
+import Button from '@/components/ui/Button';
 import axios from 'axios';
 import { Toast } from 'toastify-react-native';
 

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { View, Text, Alert, Dimensions} from 'react-native';
+import { View, Text, Alert} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import MapView from 'react-native-maps';
 import axios from 'axios';

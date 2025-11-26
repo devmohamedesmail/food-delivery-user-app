@@ -1,22 +1,23 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, ScrollView, TouchableOpacity, Modal, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useAppSelector, useAppDispatch } from '../../store/hooks';
+import { useAppSelector } from '../../store/hooks';
 import { selectCartItems, selectCartTotalPrice, selectCartTotalItems } from '../../store/hooks';
 import { useTranslation } from 'react-i18next';
 import { config } from '@/constants/config';
 import { useFormik } from 'formik';
-import Input from '@/components/custom/Input';
-import CustomButton from '@/components/custom/Button';
-import CartItem from '@/items/CartItem';
+import Input from '@/components/ui/Input';
+import CustomButton from '@/components/ui/Button';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import axios from 'axios';
 import { AuthContext } from '@/context/auth_context';
 import { Toast } from 'toastify-react-native';
-import * as Location from 'expo-location';
 import * as Yup from 'yup';
+import Button from '@/components/ui/Button';
+import AntDesign from '@expo/vector-icons/AntDesign';
+import useFetch from '@/hooks/useFetch';
+import NoAreaFound from '@/components/order/NoAreaFound';
 
 export default function Order() {
     const router = useRouter();
@@ -25,9 +26,16 @@ export default function Order() {
     const totalItems = useAppSelector(selectCartTotalItems);
     const { t, i18n } = useTranslation();
     const { auth } = useContext(AuthContext);
-    const [loadingLocation, setLoadingLocation] = useState(false);
     const cart = useAppSelector((state) => state.cart);
     const [loading, setLoading] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
+    const { data: areas } = useFetch('/areas/place/1');
+    const [searchQuery, setSearchQuery] = useState('');
+    const [selectedArea, setSelectedArea] = useState<any>(null);
+
+    const filteredAreas = areas?.filter((area: any) =>
+        area.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
 
 
     const formik = useFormik({
@@ -84,79 +92,13 @@ export default function Order() {
                     text1: t('order.orderErrorcreate'),
                     position: 'top',
                 })
-            }finally{
+            } finally {
                 setLoading(false);
             }
         }
     })
 
-    // Get Current Location
-    const getCurrentLocation = async () => {
-        try {
-            setLoadingLocation(true);
-
-            // Request permission
-            const { status } = await Location.requestForegroundPermissionsAsync();
-
-            if (status !== 'granted') {
-                Alert.alert(
-                    t('order.locationPermission'),
-                    t('order.locationPermissionMessage'),
-                    [{ text: 'OK' }]
-                );
-                setLoadingLocation(false);
-                return;
-            }
-
-            // Get current position
-            const location = await Location.getCurrentPositionAsync({
-                accuracy: Location.Accuracy.High,
-            });
-
-            // Reverse geocode to get address
-            const [address] = await Location.reverseGeocodeAsync({
-                latitude: location.coords.latitude,
-                longitude: location.coords.longitude,
-            });
-
-            // Format address
-            const formattedAddress = [
-                address.name,
-                address.street,
-                address.city,
-                address.region,
-                address.country
-            ].filter(Boolean).join(', ');
-
-            // Set address in formik
-            formik.setFieldValue('address', formattedAddress || `${location.coords.latitude}, ${location.coords.longitude}`);
-
-            Toast.success(t('order.locationSuccess'));
-            setLoadingLocation(false);
-        } catch (error) {
-            console.log('Location Error:', error);
-            Alert.alert(
-                t('order.locationError'),
-                t('order.locationErrorMessage'),
-                [{ text: 'OK' }]
-            );
-            setLoadingLocation(false);
-        }
-    };
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
+ 
     return (
         <View className="flex-1 bg-gray-50">
             {/* Creative Header */}
@@ -198,9 +140,9 @@ export default function Order() {
                     <Text className="text-3xl text-center arabic-font text-white mb-2" >
                         {t('order.title')}
                     </Text>
-                    <Text className="text-white/60 text-sm arabic-font text-center">
+                    {/* <Text className="text-white/60 text-sm arabic-font text-center">
                         {t('order.reviewAndConfirm')}
-                    </Text>
+                    </Text> */}
                 </View>
 
 
@@ -209,26 +151,13 @@ export default function Order() {
 
 
             <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-                {/* Order Items Section */}
-                <View className="bg-white mx-4 mt-4 rounded-xl shadow-sm">
-                    <View className="p-4 border-b border-gray-100">
-                        <Text className="text-lg font-bold text-gray-900 mb-1">
-                            {t('order.orderItems')}
-                        </Text>
-                        <Text className="text-sm text-gray-500">
-                            {totalItems} {t('order.itemsCount')}
-                        </Text>
-                    </View>
-
-                    {cartItems.map((item) => (
-                        <CartItem key={item.id} item={item} />
-                    ))}
-                </View>
-
                 {/* Customer Information */}
                 <View className="bg-white mx-4 mt-4 rounded-xl p-4 shadow-sm">
-                    <Text className={`text-lg arabic-font text-gray-900 mb-4 ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
-                        {t('order.customerInfo')}
+
+
+
+                    <Text className={`text-xl arabic-font text-black font-extrabold text-center mb-4 `}>
+                        {t('order.deliveryInfo')}
                     </Text>
 
 
@@ -241,77 +170,79 @@ export default function Order() {
                         error={formik.touched.phone && formik.errors.phone ? formik.errors.phone : undefined}
                     />
 
-                    <Input
+                    {/* <Input
                         label={t('order.deliveryAddress')}
                         placeholder={t('order.enterDeliveryAddress')}
                         value={formik.values.address}
                         onChangeText={formik.handleChange('address')}
                         error={formik.touched.address && formik.errors.address ? formik.errors.address : undefined}
-                    />
+                    /> */}
 
 
-                    <TouchableOpacity
-                        onPress={getCurrentLocation}
-                        disabled={loadingLocation}
-                        className="mt-3 rounded-2xl p-4 flex-row items-center justify-center"
-                        style={{
-                            backgroundColor: loadingLocation ? '#f3f4f6' : 'rgba(253, 74, 18, 0.1)',
-                            borderWidth: 1,
-                            borderColor: loadingLocation ? '#e5e7eb' : 'rgba(253, 74, 18, 0.3)',
-                        }}
-                    >
-                        {loadingLocation ? (
-                            <>
-                                <Ionicons name="hourglass" size={20} color="#9CA3AF" />
-                                <Text className="ml-2 font-semibold arabic-font" >
-                                    {t('order.gettingLocation')}
-                                </Text>
-                            </>
-                        ) : (
-                            <>
-                                <Ionicons name="location" size={20} color="#fd4a12" />
-                                <Text className="ml-2 font-semibold arabic-font" >
-                                    {t('order.useMyLocation')}
-                                </Text>
-                            </>
-                        )}
-                    </TouchableOpacity>
 
+                    <Button title={t('order.selectyourArea')} onPress={() => { setModalVisible(true) }} />
+
+                    <Modal
+                        animationType="slide"
+                        transparent={true}
+                        visible={modalVisible}>
+                        <View className='bg-white shadow-sm h-96 rounded-t-2xl  w-full border-t-2 border-t-primary' style={{
+                            position: 'absolute',
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            borderTopLeftRadius: 20,
+                            borderTopRightRadius: 20,
+                            padding: 20,
+                        }}>
+
+
+                            <View className='flex flex-row justify-end'>
+                                <TouchableOpacity onPress={() => { setModalVisible(false) }}
+                                    className='bg-red-600 w-8 h-8 rounded-full flex items-center justify-center'>
+                                    <AntDesign name="close" size={14} color="white" />
+                                </TouchableOpacity>
+                            </View>
+
+                            <TextInput
+                                value={searchQuery}
+                                onChangeText={setSearchQuery}
+                                placeholder={t('order.searchArea')}
+                                className='border border-primary rounded-full px-3 py-4 bg-white mt-4'
+                            />
+
+
+                            <ScrollView className="mt-4 mb-4">
+                                {filteredAreas && filteredAreas.length > 0 ? (
+                                    filteredAreas.map((area: any) => (
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                formik.setFieldValue('address', area.name);
+                                                setSelectedArea(area);
+                                                setModalVisible(false);
+                                            }}
+
+                                            key={area.id} className="py-3 border-b border-b-gray-300">
+                                            <Text>{area.name}</Text>
+                                        </TouchableOpacity>
+                                    ))
+                                ) : (
+                                    <NoAreaFound />
+                                )}
+                            </ScrollView>
+
+                        </View>
+
+                    </Modal>
 
 
                 </View>
 
-                <View className="bg-white mx-4 mt-4 rounded-xl p-4 shadow-sm">
-                    <Text className={`text-lg  text-gray-900 mb-4 ${i18n.language === 'ar' ? 'arabic-font text-right' : ''}`}>
-                        {t('order.deliveryInfo')}
-                    </Text>
 
-                    <View className="flex-row items-center mb-3">
-                        <Ionicons name="location-outline" size={20} color="#6B7280" />
-                        <View className="ml-3 flex-1">
-                            <Text className="text-sm font-medium text-gray-700">
-                                {t('order.deliveryAddress')}
-                            </Text>
-                            <Text className="text-gray-600">
-                                {formik.values.address}
-                            </Text>
-                        </View>
-                    </View>
-
-                    <View className="flex-row items-center">
-                        <Ionicons name="time-outline" size={20} color="#6B7280" />
-                        <View className="ml-3 flex-1">
-                            <Text className="text-sm font-medium text-gray-700">
-                                {t('order.estimatedTime')}
-                            </Text>
-                            <Text className="text-gray-600">25-35 {t('order.minutes')}</Text>
-                        </View>
-                    </View>
-                </View>
 
                 {/* Order Summary */}
                 <View className="bg-white mx-4 mt-4 rounded-xl p-4 shadow-sm">
-                    <Text className={`text-lg  text-gray-900 mb-4 ${i18n.language === 'ar' ? 'text-right' : ''}`}>
+                    <Text className={`text-xl  text-black mb-4 text-center font-extrabold `}>
                         {t('order.orderSummary')}
                     </Text>
 
@@ -325,7 +256,7 @@ export default function Order() {
                     <View className={`flex-row justify-between items-center mb-2 ${i18n.language === 'ar' ? ' flex-row-reverse' : ''}`}>
                         <Text className="text-gray-600">{t('order.deliveryFee')}</Text>
                         <Text className="font-semibold text-gray-900">
-                            {config.CurrencySymbol} {Number(cart.store.delivery_fee)}
+                            {config.CurrencySymbol} {selectedArea?.price}
                         </Text>
                     </View>
 
