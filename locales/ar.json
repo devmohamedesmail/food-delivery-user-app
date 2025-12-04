@@ -41,7 +41,11 @@
     "remove": "إزالة",
     "pleasewait": "يرجى الانتظار  ...",
     "confirming": "جارٍ التأكيد...",
-    "currency": "ج.م"
+    "currency": "ج.م",
+    "yes": "نعم",
+    "no": " لا ",
+    "ok": " موافق ",
+    "close": "إغلاق"
   },
   "auth": {
     "welcomeBack": "مرحباً بعودتك!",

@@ -27,13 +27,7 @@ interface Product {
   attributes?: Attribute[];
 }
 
-export default function ProductItem({
-  item,
-  store,
-}: {
-  item: Product;
-  store: any;
-}) {
+export default function ProductItem({item,store}: { item: Product; store: any}) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector((state) => state.cart.items);
@@ -44,6 +38,7 @@ export default function ProductItem({
     value: string;
     price: number;
   } | null>(null);
+
   const [modalQuantity, setModalQuantity] = useState(1);
 
   const toggleModal = () => {
@@ -54,7 +49,7 @@ export default function ProductItem({
     }
   };
 
-  // حساب الكمية في السلة
+ // get quantity in cart
   const getCartQuantity = (productId: number) => {
     const filteredItems = cartItems.filter(
       (cartItem) => cartItem.id === productId.toString()
@@ -62,7 +57,7 @@ export default function ProductItem({
     return filteredItems.reduce((sum, item) => sum + item.quantity, 0);
   };
 
-  // إضافة المنتج للسلة
+// add to cart function
   const handleAddToCart = (
     product: Product,
     quantity: number = 1,
@@ -89,14 +84,16 @@ export default function ProductItem({
               price: finalPrice,
               image: product.image,
               store_id: store.id,
+              store_name: store.name,
               selectedAttribute: attribute,
             },
             store: store,
           })
         );
       }
-      Toast.show({ type: "success", text1: t("cart.addedToCart") });
-      toggleModal();
+      Toast.show({ 
+        type: "success", text1: t("cart.addedToCart") });
+        toggleModal();
       return;
     }
 
@@ -123,6 +120,7 @@ export default function ProductItem({
                       price: finalPrice,
                       image: product.image,
                       store_id: store.id,
+                      store_name: store.name,
                       selectedAttribute: attribute,
                     },
                     store,
@@ -149,6 +147,7 @@ export default function ProductItem({
             price: finalPrice,
             image: product.image,
             store_id: store.id,
+            store_name: store.name,
             selectedAttribute: attribute,
           },
           store,
@@ -162,13 +161,8 @@ export default function ProductItem({
 
   // عند الضغط على زر الإضافة
   const handleAddButtonPress = () => {
-    // لو فيه صفات، افتح المودال
-    if (item.attributes && item.attributes.length > 0) {
-      setModalVisible(true);
-    } else {
-      // لو مفيش صفات، أضف مباشرة
-      handleAddToCart(item, 1);
-    }
+    // افتح المودال دايماً لاختيار الكمية
+    setModalVisible(true);
   };
 
   const quantity = getCartQuantity(item.id);
@@ -192,20 +186,15 @@ export default function ProductItem({
         </View>
       )}
 
-      {/* بادج الكمية في السلة */}
-      {quantity > 0 && (
-        <View className="absolute top-2 right-2 bg-primary rounded-full w-8 h-8 items-center justify-center">
-          <Text className="text-white font-bold text-sm">{quantity}</Text>
-        </View>
-      )}
+    
 
-      {/* محتوى المنتج */}
+     
       <View className="my-2 px-2">
         <Text className="text-black text-center font-semibold mt-2">
           {item.name}
         </Text>
 
-        {/* السعر */}
+        {/* price */}
         <View className="flex-row justify-center items-center mt-1">
           {item.on_sale && item.sale_price ? (
             <>
@@ -223,7 +212,7 @@ export default function ProductItem({
           )}
         </View>
 
-        {/* عرض الكمية في السلة */}
+        {/*    Quantity */}
         {quantity > 0 && (
           <View className="flex-row justify-center items-center mt-2">
             <MaterialIcons name="shopping-cart" size={16} color="#22c55e" />
@@ -328,19 +317,25 @@ export default function ProductItem({
           {/* زر التأكيد */}
           <TouchableOpacity
             onPress={() => {
-              if (selectedAttribute) {
-                handleAddToCart(item, modalQuantity, selectedAttribute);
+              // لو المنتج له صفات، لازم يختار صفة
+              if (item.attributes && item.attributes.length > 0) {
+                if (selectedAttribute) {
+                  handleAddToCart(item, modalQuantity, selectedAttribute);
+                } else {
+                  Toast.show({
+                    type: "error",
+                    text1: t("cart.selectAttributeError"),
+                  });
+                }
               } else {
-                Toast.show({
-                  type: "error",
-                  text1: t("cart.selectAttributeError"),
-                });
+                // لو مفيش صفات، أضف عادي
+                handleAddToCart(item, modalQuantity);
               }
             }}
             className={`py-3 rounded-full ${
-              selectedAttribute ? "bg-primary" : "bg-gray-300"
+              (item.attributes && item.attributes.length > 0 && !selectedAttribute) ? "bg-gray-300" : "bg-primary"
             }`}
-            disabled={!selectedAttribute}
+            disabled={item.attributes && item.attributes.length > 0 && !selectedAttribute}
           >
             <Text className="text-white text-center font-bold">
               {t("cart.confirmAdd")}

@@ -41,7 +41,12 @@
     "remove": "Remove",
     "pleasewait": "Please wait...",
     "confirming": "Confirming...",
-    "currency": "EGP"
+    "currency": "EGP",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "close": "Close"
+    
   },
   "auth": {
     "welcomeBack": "Welcome back!",

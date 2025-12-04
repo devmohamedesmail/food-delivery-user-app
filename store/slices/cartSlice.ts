@@ -10,6 +10,7 @@ export interface CartItem {
   category?: string;
   discount?: number;
   store_id: number;
+  store_name?: string;
   selectedAttribute?: {
     name: string;
     value: string;
@@ -35,8 +36,13 @@ const initialState: CartState = {
 
 const calculateTotals = (items: CartItem[]) => {
   const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
+  // const totalPrice = items.reduce((sum, item) => {
+  //   const price = item.discount ? item.price * (1 - item.discount / 100) : item.price;
+  //   return sum + (price * item.quantity);
+  // }, 0);
+
   const totalPrice = items.reduce((sum, item) => {
-    const price = item.discount ? item.price * (1 - item.discount / 100) : item.price;
+    const price = item.selectedAttribute ? item.selectedAttribute.price : item.price;
     return sum + (price * item.quantity);
   }, 0);
 
@@ -47,19 +53,7 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    // addToCart: (state, action: PayloadAction<Omit<CartItem, 'quantity'>>) => {
-    //   const existingItem = state.items.find(item => item.id === action.payload.id);
 
-    //   if (existingItem) {
-    //     existingItem.quantity += 1;
-    //   } else {
-    //     state.items.push({ ...action.payload, quantity: 1 });
-    //   }
-
-    //   const totals = calculateTotals(state.items);
-    //   state.totalItems = totals.totalItems;
-    //   state.totalPrice = totals.totalPrice;
-    // },
 
     addToCart: (state, action: PayloadAction<{ product: Omit<CartItem, 'quantity'>; store: any }>) => {
       const { product, store } = action.payload;

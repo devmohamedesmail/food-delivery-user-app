@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "expo-router";
 import { useTranslation } from "react-i18next";
-import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { LinearGradient } from "expo-linear-gradient";
 import { useAuth } from "@/context/auth_context";
 import { useAppSelector, selectCartTotalItems } from "@/store/hooks";
-import { getCurrentLocation } from "@/services/google";
 import NotificationBtn from "./NotificationBtn";
 
 export default function Header() {

@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { View, Text, TouchableOpacity } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useTranslation } from "react-i18next";
-import { useRouter, usePathname } from "expo-router";
+import { useRouter } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { AuthContext } from "@/context/auth_context";
 import Ionicons from "@expo/vector-icons/Ionicons";
+
+import { useAppSelector, selectCartTotalItems } from "@/store/hooks";
 
 const NavItem = ({ icon, label, onPress }: any) => {
   return (
@@ -22,7 +24,7 @@ const NavItem = ({ icon, label, onPress }: any) => {
 export default function BottomNavigation() {
   const { t } = useTranslation();
   const router = useRouter();
-  const pathname = usePathname();
+  const totalItems = useAppSelector(selectCartTotalItems);
   const { auth } = useContext(AuthContext);
 
 
@@ -39,9 +41,9 @@ export default function BottomNavigation() {
 
         <TouchableOpacity onPress={()=>router.push('/cart')}>
           <View className="flex items-center relative ">
-            <Ionicons name="bag" size={20} color="black" />
+            <Ionicons name="bag" size={25} color="#fd4a12" />
             <Text>{t("navigation.cart")}</Text>
-            <Text className="absolute -top-2 right-1 bg-red-500 text-white text-xs font-bold px-1 rounded-full">3</Text>
+            <Text className="absolute -top-2 right-1 bg-red-500 text-white text-xs font-bold px-1 rounded-full">{totalItems}</Text>
           </View>
         </TouchableOpacity>
         

@@ -86,30 +86,8 @@ const Products = () => {
         <NoProducts searchQuery={searchQuery} />
       ) : null}
 
-      {/* Products List */}
-      {/* {productsLoading ? (
-        <View className="flex-1 items-center justify-center">
-          <Loading type="processing" message={t("stores.loading")} />
-        </View>
-      ) : productsError ? (
-        <ErrorMessage />
-      ) : filteredProducts.length === 0 ? (
-        <NoProducts searchQuery={searchQuery} />
-      ) : (
-        <FlatList
-          data={filteredProducts}
-          numColumns={2}
-          columnWrapperStyle={{ justifyContent: "space-between" ,gap: 10 }}
-          renderItem={({ item }) => (
-            <ProductItem item={item} store={parsedStoreItem} />
-          )}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={{ paddingTop: 10, paddingBottom: 20 }}
-          showsVerticalScrollIndicator={false}
-        />
-      )} */}
-
-      <View className="px-2">
+   
+      <View className="px-2 flex-1 pb-3">
         <FlatList
           data={filteredProducts}
           numColumns={2}

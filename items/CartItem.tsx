@@ -13,7 +13,6 @@ import { Ionicons } from "@expo/vector-icons";
 import { config } from "@/constants/config";
 import { useTranslation } from "react-i18next";
 
-
 export default function CartItem({ item }: any) {
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector(selectCartItems);
@@ -64,13 +63,14 @@ export default function CartItem({ item }: any) {
       <View className="flex-row">
         {/* Item Image */}
         <View className="w-20 h-20 rounded-xl bg-gray-200 overflow-hidden mr-4">
-         
-          {item.image ?  ( <Image
-            source={{ uri: item.image }}
-            style={{ width: "100%", height: "100%", resizeMode: "cover" }}
-          />):(
+          {item.image ? (
+            <Image
+              source={{ uri: item.image }}
+              style={{ width: "100%", height: "100%", resizeMode: "cover" }}
+            />
+          ) : (
             <View className="flex-1 flex items-center justify-center">
-                <Ionicons name="image-outline" size={24} color="black" />
+              <Ionicons name="image-outline" size={24} color="black" />
             </View>
           )}
         </View>
@@ -92,12 +92,13 @@ export default function CartItem({ item }: any) {
             </TouchableOpacity>
           </View>
 
-
           <View className="flex-row items-center justify-between">
             {/* Price */}
             <Text className="text-lg font-bold text-gray-900">
               {config.CurrencySymbol} {(item.price * item.quantity).toFixed(2)}
             </Text>
+
+           
 
             {/* Quantity Controls */}
             <View className="flex-row items-center bg-gray-200 rounded-full p-1 px-2">
@@ -120,6 +121,10 @@ export default function CartItem({ item }: any) {
               </TouchableOpacity>
             </View>
           </View>
+           <View className="flex flex-row ">
+              <Text>{item?.selectedAttribute?.price} </Text>
+              <Text> {item?.selectedAttribute?.value} </Text>
+            </View>
         </View>
       </View>
     </View>
