@@ -40,7 +40,8 @@
     "pleaseWait": "Please wait",
     "remove": "Remove",
     "pleasewait": "Please wait...",
-    "confirming": "Confirming..."
+    "confirming": "Confirming...",
+    "currency": "EGP"
   },
   "auth": {
     "welcomeBack": "Welcome back!",
@@ -122,7 +123,8 @@
     "fetching_location": "Fetching location...",
     "book_ride_now": "Book a ride now",
     "find_food_nearby": "Find food nearby",
-    "store_types_title":"Your Neighborhood, Your Market"
+    "store_types_title":"Your Neighborhood, Your Market",
+    "noOffers": "No offers available"
   },
   "notFound": {
     "title": "Page Not Found",
@@ -252,7 +254,14 @@
     "addToCart": "Add to Cart",
     "addedToCart": "Item added to cart",
     "removedFromCart": "Item removed from cart",
-    "cartCleared": "Cart cleared successfully"
+    "cartCleared": "Cart cleared successfully",
+    "differentStoreTitle": "Different Store",
+    "differentStoreMessage": "You have items from another store in your cart. Do you want to clear the cart and continue?",
+    "clearAndContinue": "Clear & Continue",
+    "selectAttribute": "Select Options",
+    "selectAttributeError": "Please select an option first",
+    "confirmAdd": "Add to Cart",
+    "inCart": "In Cart"
   },
   "wishlist": {
     "emptyTitle": "Your wishlist is empty",

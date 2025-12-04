@@ -40,7 +40,8 @@
     "pleaseWait": " يرجى الانتظار ",
     "remove": "إزالة",
     "pleasewait": "يرجى الانتظار  ...",
-    "confirming": "جارٍ التأكيد..."
+    "confirming": "جارٍ التأكيد...",
+    "currency": "ج.م"
   },
   "auth": {
     "welcomeBack": "مرحباً بعودتك!",
@@ -122,7 +123,8 @@
     "fetching_location": "جاري جلب الموقع...",
     "book_ride_now": "احجز رحلة الآن",
     "find_food_nearby": "ابحث عن طعام بالقرب منك",
-    "store_types_title": " كل اللي محتاجه قريب منك  "
+    "store_types_title": " كل اللي محتاجه قريب منك  ",
+    "noOffers": "لا توجد عروض متاحة"
   },
   "notFound": {
     "title": "الصفحة غير موجودة",
@@ -252,7 +254,14 @@
     "addToCart": "أضف إلى السلة",
     "addedToCart": "تمت الإضافة إلى السلة بنجاح! ",
     "removedFromCart": " تمت الإزالة من السلة",
-    "cartCleared": "تم مسح السلة بنجاح"
+    "cartCleared": "تم مسح السلة بنجاح",
+    "differentStoreTitle": "محل مختلف",
+    "differentStoreMessage": "عندك منتجات من محل تاني في السلة. عايز تفضي السلة وتكمل؟",
+    "clearAndContinue": "فضي السلة وكمل",
+    "selectAttribute": "اختار المواصفات",
+    "selectAttributeError": "لازم تختار مواصفات الأول",
+    "confirmAdd": "أضف للسلة",
+    "inCart": "في السلة"
   },
   "wishlist": {
     "emptyTitle": "قائمة المفضلات فارغة",

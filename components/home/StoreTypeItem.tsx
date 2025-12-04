@@ -18,16 +18,16 @@ export default function StoreTypeItem({ storeType }: any) {
                 });
             }}
             className='items-center  pb-3 p-0 rounded-xl overflow-hidden'
-            style={{ width: '32%' }}
+            style={{ width: '30%' }}
         >
             {/* Circular Image */}
             <View
-                className='w-full h-34 rounded-full overflow-hidden mb-2 flex items-center justify-center '
+                className='w-full h-30 rounded-full overflow-hidden mb-2 flex items-center justify-center '
             >
                 <Image
                     source={{ uri: storeType.image }}
                     className='rounded-full'
-                    style={{ width: '100%', height: 130 }}
+                    style={{ width: '100%', height: 125 }}
                     resizeMode='cover'
                 />
             </View>

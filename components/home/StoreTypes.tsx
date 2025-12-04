@@ -1,10 +1,8 @@
 import React from 'react'
 import { View, Text} from 'react-native'
 import { useTranslation } from 'react-i18next';
-import { useRouter } from 'expo-router';
 import useFetch from '@/hooks/useFetch';
-import StoreTypeItem from '@/items/StoreTypeItem';
-import Loading from '../common/Loading';
+import StoreTypeItem from '@/components/home/StoreTypeItem';
 import Skeleton from '../ui/Skeleton';
 
 interface StoreType {
@@ -17,7 +15,11 @@ interface StoreType {
 }
 
 export const StoreTypes = () => {
-  const { data:storetypes, loading:loadingStoreTypes, error:errorStoreTypes } = useFetch('/store-types/place/1');
+  const { 
+    data:storetypes, 
+    loading:loadingStoreTypes, 
+    error:errorStoreTypes } = useFetch('/store-types/place/1');
+
   const { t, i18n } = useTranslation();
 
 
@@ -49,13 +51,11 @@ export const StoreTypes = () => {
   return (
     <View className='mb-6'>
 
-      <Text className={`text-xl font-semibold text-black my-4 px-5 ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
+      <Text className={`text-xl font-semibol py-5 text-black my-2 px-5 ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
         {t('home.store_types_title')}
       </Text>
-
-      {/* Business Types Horizontal Scroll */}
       <View
-        className={`flex flex-row justify-start flex-wrap mb-4 px-3 gap-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}
+        className={`flex flex-row justify-start flex-wrap mb-4 mt-5 px-3 gap-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}
       >
         {storetypes && storetypes.map((storeType: StoreType) => (
           <StoreTypeItem key={storeType.id} storeType={storeType} />

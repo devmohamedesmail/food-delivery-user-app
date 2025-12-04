@@ -119,29 +119,16 @@ export default function StoreItem({ item }: { item: StoreItem }) {
                 </Text>
               </View>
             </View>
-            <View className='bg-orange-50 rounded-full px-3 py-1 flex-row items-center'>
+            {/* <View className='bg-orange-50 rounded-full px-3 py-1 flex-row items-center'>
               <Ionicons name="star" size={14} color="#fd4a12" />
               <Text className='text-sm font-bold ml-1' style={{ color: '#fd4a12' }}>
                 {parseFloat(item.rating).toFixed(1)}
               </Text>
-            </View>
+            </View> */}
           </View>
 
           {/* Info Row */}
-          <View className='flex-row items-center justify-between pt-3 border-t border-gray-100'>
-            <View className='flex-row items-center'>
-              <Ionicons name="time-outline" size={16} color="#6b7280" />
-              <Text className='text-xs text-gray-600 ml-1'>{item.delivery_time}</Text>
-            </View>
-            <View className='flex-row items-center'>
-              <Ionicons name="bicycle-outline" size={16} color="#6b7280" />
-              <Text className='text-xs text-gray-600 ml-1'>{config.CurrencySymbol}{item.delivery_fee}</Text>
-            </View>
-            <View className='flex-row items-center'>
-              <Ionicons name="chatbubble-outline" size={16} color="#6b7280" />
-              <Text className='text-xs text-gray-600 ml-1'>{item.review_count}</Text>
-            </View>
-          </View>
+         
         </View>
       </View>
     </TouchableOpacity>

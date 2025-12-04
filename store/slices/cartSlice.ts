@@ -10,7 +10,11 @@ export interface CartItem {
   category?: string;
   discount?: number;
   store_id: number;
-
+  selectedAttribute?: {
+    name: string;
+    value: string;
+    price: number;
+  };
 }
 
 interface CartState {
@@ -71,7 +75,17 @@ const cartSlice = createSlice({
       }
 
       // same store → add item
-      const existingItem = state.items.find(item => item.id === product.id);
+      // Create unique key based on product id and selected attribute
+      const uniqueKey = product.selectedAttribute 
+        ? `${product.id}_${product.selectedAttribute.value}`
+        : product.id;
+      
+      const existingItem = state.items.find(item => {
+        const itemKey = item.selectedAttribute 
+          ? `${item.id}_${item.selectedAttribute.value}`
+          : item.id;
+        return itemKey === uniqueKey;
+      });
 
       if (existingItem) {
         existingItem.quantity += 1;
