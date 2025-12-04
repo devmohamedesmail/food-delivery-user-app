@@ -28,7 +28,7 @@ export default function Cart() {
       <Header />
 
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
-        <View className="px-4 py-4 flex flex-row gap-4">
+        <View className="px-4 py-4 flex flex-row flex-wrap gap-4">
           {cart.items.map((item) => (
             <CartItem key={item.id} item={item} />
           ))}

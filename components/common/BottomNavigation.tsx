@@ -50,7 +50,8 @@ export default function BottomNavigation() {
         <NavItem
           icon={<FontAwesome name="user-o" size={20} color="black" />}
           label={t("navigation.account")}
-          onPress={() => router.push(auth ? "/account/account" : "/auth/login")}
+          // onPress={() => router.push(auth ? "/account/account" : "/auth/login")}
+          onPress={() => router.push( "/account/account")}
         />
       </View>
     </View>

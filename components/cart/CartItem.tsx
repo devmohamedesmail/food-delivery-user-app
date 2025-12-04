@@ -43,7 +43,7 @@ export default function CartItem({ item }: any) {
 
   return (
     <>
-      <View className="w-1/2 bg-gray-50 rounded-lg overflow-hidden space-y-4">
+      <View className="w-[48%] bg-gray-50 rounded-lg overflow-hidden">
         <View className="relative">
           {item.image ? (
             <Image

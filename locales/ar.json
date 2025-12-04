@@ -98,7 +98,9 @@
     "phone_invalid": "رقم الهاتف غير صالح",
     "phone_required": "رقم الهاتف مطلوب",
     "password_min": "يجب أن تكون كلمة المرور مكونة من 6 أحرف على الأقل",
-    "password_required": "كلمة المرور مطلوبة"
+    "password_required": "كلمة المرور مطلوبة",
+    "login_prompt": "يرجى تسجيل الدخول للوصول إلى حسابك.",
+    "login": "تسجيل الدخول"
   },
   "home": {
     "restaurants": "المطاعم",

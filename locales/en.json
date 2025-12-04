@@ -99,7 +99,9 @@
     "phone_invalid": "Phone number is invalid",
     "phone_required": "Phone number is required",
     "password_min": "Password must be at least 6 characters",
-    "password_required": "Password is required"
+    "password_required": "Password is required",
+    "login_prompt": "Please log in to access your account.",
+    "login": "Login"
   },
   "home": {
     "restaurants": "Restaurants",
