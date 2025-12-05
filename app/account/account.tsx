@@ -1,31 +1,18 @@
 import React, { useContext } from "react";
-import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  Switch,
-} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import AccountItem from "@/items/AccountItem";
 import { Toast } from "toastify-react-native";
-import CustomHeader from "@/components/ui/Header";
 import BottomNavigation from "@/components/common/BottomNavigation";
 import { AuthContext } from "@/context/auth_context";
 import { useRouter } from "expo-router";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Layout from "@/components/ui/Layout";
 import Header from "@/components/account/Header";
 import ProfileInfo from "@/components/account/ProfileInfo";
-
-const statsData = [
-  { label: "Total Orders", value: "47", icon: "bag-outline" },
-  { label: "Total Rides", value: "23", icon: "car-outline" },
-  { label: "Savings", value: "$89", icon: "wallet-outline" },
-];
+import SettingItem from "@/components/account/SettingItem";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import Colors from "@/constants/Colors";
 
 const Account = () => {
   const { t, i18n } = useTranslation();
@@ -64,47 +51,53 @@ const Account = () => {
 
         {/* Menu Items */}
         <View className="mb-8">
-          <Text className="text-gray-800 text-lg arabic-font mx-4 mb-4">
+          <Text className="text-black text-lg arabic-font text-right mx-4 mb-4">
             {t("account.settings")}
           </Text>
 
-          <AccountItem
+          <SettingItem
             title={t("account.privacyPolicy")}
-            icon="person-outline"
+            icon={
+              <MaterialIcons
+                name="privacy-tip"
+                size={24}
+                color={Colors.light.tabIconSelected}
+              />
+            }
             type="navigation"
             onPress={() => router.push("/account/privacy-policy")}
           />
-          <AccountItem
+
+          <SettingItem
             title={t("account.helpSupport")}
-            icon="person-outline"
+            icon={
+              <MaterialIcons name="support-agent" size={24} color={Colors.light.tabIconSelected} />
+            }
             type="navigation"
             onPress={() => router.push("/account/support")}
           />
+
+
         </View>
 
         {/* Menu Items */}
         <View className="mb-8">
-          <Text className="text-gray-800 text-lg arabic-font mx-4 mb-4">
+          <Text className="text-black text-right text-lg arabic-font mx-4 mb-4">
             {t("account.settings")}
           </Text>
 
-          <AccountItem
-            title={t("account.editProfile")}
-            icon="person-outline"
-            type="navigation"
-          />
-          <AccountItem
-            title={t("account.orderHistory")}
-            icon="person-outline"
-            type="navigation"
-            onPress={() => router.push("/account/orders")}
-          />
-          <AccountItem
+        
+
+           <SettingItem
             title={t("account.switchLanguage")}
-            icon="language"
+            icon={
+              <MaterialIcons name="language" size={24} color={Colors.light.tabIconSelected} />
+            }
             type="navigation"
             onPress={handle_switchLanguage}
           />
+
+
         </View>
 
         {/* Sign Out Button */}

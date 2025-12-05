@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next'
 import { useRouter } from 'expo-router'
 import { Ionicons } from '@expo/vector-icons'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import Layout from '@/components/ui/Layout'
 
 export default function PrivacyPolicy() {
   const { t, i18n } = useTranslation()
@@ -74,8 +75,8 @@ export default function PrivacyPolicy() {
   ]
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
-      {/* Header */}
+    <Layout>
+       {/* Header */}
       <View className="bg-white pt-16 pb-6 px-6 shadow-sm">
         <View className="flex-row items-center mb-4">
           <TouchableOpacity 
@@ -102,17 +103,7 @@ export default function PrivacyPolicy() {
           </View>
         </View>
 
-        {/* Privacy Icon Banner */}
-        <View className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-2xl flex-row items-center">
-          <View className="bg-green-100 p-3 rounded-full mr-4">
-            <Ionicons name="shield-checkmark" size={32} color="#10b981" />
-          </View>
-          <Text 
-            className={`flex-1 text-gray-700 ${isRTL ? 'arabic-font text-right' : ''}`}
-          >
-            Your privacy and data security are our top priorities
-          </Text>
-        </View>
+       
       </View>
 
       {/* Content */}
@@ -204,25 +195,7 @@ export default function PrivacyPolicy() {
         </View>
       </ScrollView>
 
-      {/* Bottom Action Buttons (Optional) */}
-      <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex-row space-x-3">
-        <TouchableOpacity 
-          className="flex-1 bg-gray-100 py-4 rounded-xl mr-2"
-          onPress={() => router.back()}
-        >
-          <Text className="text-gray-700 font-bold text-center">
-            {t('privacy.decline')}
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-          className="flex-1 bg-green-600 py-4 rounded-xl"
-          onPress={() => router.back()}
-        >
-          <Text className="text-white font-bold text-center">
-            {t('privacy.accept')}
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      
+    </Layout>
   )
 }

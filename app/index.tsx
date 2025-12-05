@@ -6,6 +6,7 @@ import BottomNavigation from "@/components/common/BottomNavigation";
 import { StoreTypes } from "@/components/home/StoreTypes";
 import Header from "@/components/home/Header";
 import Layout from "@/components/ui/Layout";
+import SpecialOffers from "@/components/home/SpecialOffers";
 
 export default function Home() {
   return (
@@ -13,6 +14,7 @@ export default function Home() {
       <Header />
       <ScrollView className="flex-1" showsVerticalScrollIndicator={false}>
         <StoreTypes />
+        <SpecialOffers />
         <SaleProducts />
         <Copouns />
         <FeaturedStores />

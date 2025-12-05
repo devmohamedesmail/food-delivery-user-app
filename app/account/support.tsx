@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTranslation } from "react-i18next";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import Layout from "@/components/ui/Layout";
 
 interface ContactOption {
   icon: keyof typeof Ionicons.glyphMap;
@@ -151,8 +152,8 @@ export default function support() {
   ];
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-50" edges={["bottom"]}>
-      {/* Header */}
+    <Layout>
+       {/* Header */}
       <View
         className="bg-white pt-14 pb-6 px-5"
         style={{
@@ -327,6 +328,6 @@ export default function support() {
           </View>
         </View>
       </ScrollView>
-    </SafeAreaView>
+    </Layout>
   );
 }

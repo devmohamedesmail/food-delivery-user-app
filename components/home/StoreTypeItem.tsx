@@ -27,7 +27,7 @@ export default function StoreTypeItem({ storeType }: any) {
                 <Image
                     source={{ uri: storeType.image }}
                     className='rounded-full'
-                    style={{ width: '100%', height: 125 }}
+                    style={{ width: '100%', height: 120 }}
                     resizeMode='cover'
                 />
             </View>

@@ -1,49 +1,45 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next';
-import { View, Text, TouchableOpacity } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import { View, Image } from 'react-native';
 import Swiper from 'react-native-swiper';
+import banner1 from '../../assets/images/banners/1.png';
+import banner2 from '../../assets/images/banners/2.png';
+import banner3 from '../../assets/images/banners/3.png';
+import banner4 from '../../assets/images/banners/4.png';
+import banner5 from '../../assets/images/banners/5.png';
+import banner6 from '../../assets/images/banners/6.png';
 
 export default function SpecialOffers() {
-    const { t, i18n } = useTranslation();
     const offers = [
         {
             id: 1,
-            title: t('home.specialOffer') || 'Special Offer',
-            discount: '50% OFF',
-            description: t('home.firstOrder') || 'On your first order',
-            gradient: ['#FF6B6B', '#fd4a12'] as const,
+            image : banner1,
         },
         {
             id: 2,
-            title: t('home.freeDelivery') || 'Free Delivery',
-            discount: 'FREE',
-            description: t('home.ordersAbove') || 'Orders above $20',
-            gradient: ['#4ECDC4', '#45B7D1'] as const,
+            image : banner2,
         },
         {
             id: 3,
-            title: t('home.weekendDeal') || 'Weekend Deal',
-            discount: '30% OFF',
-            description: t('home.allRestaurants') || 'All restaurants',
-            gradient: ['#FFB347', '#FFC24A'] as const,
+            image : banner3,
+        },
+        {
+            id: 4,
+            image : banner4,
+        },
+        {
+            id: 5,
+            image : banner5,
+        },
+        {
+            id: 6,
+            image : banner6,
         },
     ];
 
     return (
-        <View className='px-5 mb-6'>
-            <View className='justify-between flex-row-reverse items-center mb-4'>
-                 {/* <TouchableOpacity>
-                    <Text className='text-primary font-semibold arabic-font'>
-                        {t('home.viewAll')}
-                    </Text>
-                </TouchableOpacity> */}
-                <Text className='text-xl font-bold text-black arabic-font text-right'>
-                    {t('home.specialOffers')}
-                </Text>
-               
-            </View>
-
+        <View className='px-3 mb-6'>
+        
             <View style={{ height: 180 }}>
                 <Swiper
                     autoplay
@@ -67,41 +63,11 @@ export default function SpecialOffers() {
                 >
                     {offers.map((offer) => (
                         <View key={offer.id} className='px-1'>
-                            <LinearGradient
-                                colors={offer.gradient}
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 1 }}
-                                className='rounded-3xl p-6 h-40'
-                                style={{
-                                    shadowColor: offer.gradient[0],
-                                    shadowOffset: { width: 0, height: 6 },
-                                    shadowOpacity: 0.3,
-                                    shadowRadius: 12,
-                                    elevation: 6,
-                                }}
-                            >
-                                <View className='flex-row justify-between items-start'>
-                                    <View className='flex-1'>
-                                        <Text className='text-white/90 text-sm font-semibold arabic-font mb-2'>
-                                            {offer.title}
-                                        </Text>
-                                        <Text className='text-white text-4xl font-bold mb-2'>
-                                            {offer.discount}
-                                        </Text>
-                                        <Text className='text-white/90 text-base arabic-font mb-4'>
-                                            {offer.description}
-                                        </Text>
-                                        <TouchableOpacity className='bg-white rounded-full px-6 py-2 self-start'>
-                                            <Text className='text-gray-800 font-bold arabic-font'>
-                                                {t('home.claimNow')}
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View className='w-24 h-24 rounded-full bg-white/20 items-center justify-center'>
-                                        <Text className='text-6xl'>🎁</Text>
-                                    </View>
-                                </View>
-                            </LinearGradient>
+                            <Image
+                                source={offer.image}
+                                className='w-full h-52 rounded-3xl'
+                                resizeMode='cover'
+                            />
                         </View>
                     ))}
                 </Swiper>
