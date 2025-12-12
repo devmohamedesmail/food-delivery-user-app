@@ -34,7 +34,6 @@ export const StoreTypes = () => {
              key={item}
              width="32%" 
              height={130} 
-             rounded={100} 
              className=' mb-4' 
            />
          ))}
@@ -51,11 +50,11 @@ export const StoreTypes = () => {
   return (
     <View className='mb-6'>
 
-      <Text className={`text-xl font-semibol py-5 text-black my-2 px-5 ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
+      <Text className={`text-xl font-extrabold py-5 text-black my-1 px-5 ${i18n.language === 'ar' ? 'text-right' : 'text-left'}`}>
         {t('home.store_types_title')}
       </Text>
       <View
-        className={`flex flex-row justify-start flex-wrap mb-4 mt-5 px-3 gap-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}
+        className={`flex flex-row justify-start flex-wrap mb-4 mt-1 px-3 gap-2 ${i18n.language === 'ar' ? 'flex-row-reverse' : ''}`}
       >
         {storetypes && storetypes.map((storeType: StoreType) => (
           <StoreTypeItem key={storeType.id} storeType={storeType} />

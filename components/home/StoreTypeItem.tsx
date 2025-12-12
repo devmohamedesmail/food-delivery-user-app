@@ -10,31 +10,28 @@ export default function StoreTypeItem({ storeType }: any) {
     return (
         <TouchableOpacity
             key={storeType.id}
-            activeOpacity={0.7}
             onPress={() => {
                 router.push({
                     pathname: '/stores',
                     params: { storeType: JSON.stringify(storeType) }
                 });
             }}
-            className='items-center  pb-3 p-0 rounded-xl overflow-hidden'
+            className='items-center mb-2  rounded-xl overflow-hidden'
             style={{ width: '30%' }}
         >
             {/* Circular Image */}
             <View
-                className='w-full h-30 rounded-full overflow-hidden mb-2 flex items-center justify-center '
+                className='w-full h-36 rounded-2xl overflow-hidden mb-2 flex items-center justify-center '
             >
                 <Image
                     source={{ uri: storeType.image }}
-                    className='rounded-full'
-                    style={{ width: '100%', height: 120 }}
+                    className='rounded-2xl'
+                    style={{ width: '100%', height: '100%' }}
                     resizeMode='cover'
                 />
             </View>
-
-            {/* Name */}
             <Text
-                className='font-semibold text-black text-md text-center mt-2'
+                className='font-extrabold text-black text-md text-center mt-2'
                 numberOfLines={2}
             >
                 {i18n.language === 'ar' ? storeType.name_ar : storeType.name_en}
