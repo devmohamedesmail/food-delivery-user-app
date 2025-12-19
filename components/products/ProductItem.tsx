@@ -27,7 +27,7 @@ interface Product {
   attributes?: Attribute[];
 }
 
-export default function ProductItem({item,store}: { item: Product; store: any}) {
+export default function ProductItem({ item, store }: { item: Product; store: any }) {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const cartItems = useAppSelector((state) => state.cart.items);
@@ -49,7 +49,7 @@ export default function ProductItem({item,store}: { item: Product; store: any}) 
     }
   };
 
- // get quantity in cart
+  // get quantity in cart
   const getCartQuantity = (productId: number) => {
     const filteredItems = cartItems.filter(
       (cartItem) => cartItem.id === productId.toString()
@@ -57,7 +57,7 @@ export default function ProductItem({item,store}: { item: Product; store: any}) 
     return filteredItems.reduce((sum, item) => sum + item.quantity, 0);
   };
 
-// add to cart function
+  // add to cart function
   const handleAddToCart = (
     product: Product,
     quantity: number = 1,
@@ -67,7 +67,7 @@ export default function ProductItem({item,store}: { item: Product; store: any}) 
       product.on_sale && product.sale_price
         ? product.sale_price
         : product.price;
-    
+
     // السعر النهائي = سعر المنتج + سعر الصفة المختارة
     const finalPrice = attribute ? basePrice + attribute.price : basePrice;
 
@@ -91,9 +91,10 @@ export default function ProductItem({item,store}: { item: Product; store: any}) 
           })
         );
       }
-      Toast.show({ 
-        type: "success", text1: t("cart.addedToCart") });
-        toggleModal();
+      Toast.show({
+        type: "success", text1: t("cart.addedToCart")
+      });
+      toggleModal();
       return;
     }
 
@@ -171,24 +172,28 @@ export default function ProductItem({item,store}: { item: Product; store: any}) 
 
   return (
     <View className="w-1/2 mb-5 bg-white rounded-lg overflow-hidden relative">
-      {/* صورة المنتج */}
-      {item.image ? (
-        <Image
-          source={{ uri: item.image }}
-          className="w-full h-44"
-          resizeMode="cover"
-        />
-      ) : (
-        <View className="bg-gray-200 h-44 items-center justify-center">
-          <Text className="text-gray-600 text-xl text-center mt-1">
-            {store.name}
-          </Text>
-        </View>
-      )}
+      {/* product Image */}
 
-    
 
-     
+      <View className="">
+        {item.image ? (
+          <Image
+            source={{ uri: item.image }}
+            className="w-full h-40 object-cover"
+            resizeMode="cover"
+          />
+        ) : (
+          <View className="bg-gray-200 h-44 items-center justify-center">
+            <Text className="text-gray-600 text-xl text-center mt-1">
+              {store.name}
+            </Text>
+          </View>
+        )}
+      </View>
+
+
+
+
       <View className="my-2 px-2">
         <Text className="text-black text-center font-semibold mt-2">
           {item.name}
@@ -272,21 +277,18 @@ export default function ProductItem({item,store}: { item: Product; store: any}) 
                           price: attrValue.price,
                         })
                       }
-                      className={`p-3 rounded-lg mb-2 flex-row justify-between items-center ${
-                        isSelected ? "bg-primary" : "bg-gray-100"
-                      }`}
+                      className={`p-3 rounded-lg mb-2 flex-row justify-between items-center ${isSelected ? "bg-primary" : "bg-gray-100"
+                        }`}
                     >
                       <Text
-                        className={`font-medium ${
-                          isSelected ? "text-white" : "text-black"
-                        }`}
+                        className={`font-medium ${isSelected ? "text-white" : "text-black"
+                          }`}
                       >
                         {attrValue.value}
                       </Text>
                       <Text
-                        className={`font-bold ${
-                          isSelected ? "text-white" : "text-primary"
-                        }`}
+                        className={`font-bold ${isSelected ? "text-white" : "text-primary"
+                          }`}
                       >
                         +{attrValue.price} {t("common.currency")}
                       </Text>
@@ -332,9 +334,8 @@ export default function ProductItem({item,store}: { item: Product; store: any}) 
                 handleAddToCart(item, modalQuantity);
               }
             }}
-            className={`py-3 rounded-full ${
-              (item.attributes && item.attributes.length > 0 && !selectedAttribute) ? "bg-gray-300" : "bg-primary"
-            }`}
+            className={`py-3 rounded-full ${(item.attributes && item.attributes.length > 0 && !selectedAttribute) ? "bg-gray-300" : "bg-primary"
+              }`}
             disabled={item.attributes && item.attributes.length > 0 && !selectedAttribute}
           >
             <Text className="text-white text-center font-bold">

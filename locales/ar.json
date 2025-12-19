@@ -431,7 +431,9 @@
     "chatNow": "دردش الآن",
     "callNow": "اتصل الآن",
     "sendEmail": "إرسال بريد إلكتروني",
-    "browseArticles": "تصفح المقالات"
+    "browseArticles": "تصفح المقالات",
+      "chatWithUsDesc": "احصل على مساعدة فورية عبر الدردشة",
+    "chatwhatsApp": "الدردشة على واتساب"
   },
   "notifications": {
     "title": "الإشعارات",
@@ -441,5 +443,40 @@
     "loadingNotifications": "جارٍ تحميل الإشعارات...",
     "new": "جديد",
     "earlier": "سابق"
+  },
+  "reviews": {
+    "title": "التقييمات والمراجعات",
+    "addReview": "إضافة تقييم",
+    "writeReview": "اكتب تقييم",
+    "yourRating": "تقييمك",
+    "yourReview": "مراجعتك",
+    "writeYourReview": "اكتب مراجعتك هنا...",
+    "submitReview": "إرسال التقييم",
+    "cancelReview": "إلغاء",
+    "noReviews": "لا توجد تقييمات بعد",
+    "noReviewsMessage": "كن أول من يشارك تجربته!",
+    "ratingRequired": "يرجى تحديد التقييم",
+    "reviewRequired": "يرجى كتابة مراجعة",
+    "reviewSubmitted": "تم إرسال التقييم بنجاح!",
+    "reviewError": "فشل في إرسال التقييم",
+    "stars": "نجوم",
+    "ago": "منذ",
+    "helpful": "مفيد",
+    "notHelpful": "غير مفيد",
+    "reply": "رد",
+    "edit": "تعديل",
+    "delete": "حذف",
+    "excellent": "ممتاز",
+    "veryGood": "جيد جداً",
+    "good": "جيد",
+    "fair": "مقبول",
+    "poor": "ضعيف",
+    "overallRating": "التقييم الإجمالي",
+    "basedOnReviews": "بناءً على {{count}} تقييم",
+    "filterByRating": "تصفية حسب التقييم",
+    "allReviews": "جميع التقييمات",
+    "mostRecent": "الأحدث",
+    "highestRated": "الأعلى تقييماً",
+    "lowestRated": "الأقل تقييماً"
   }
 }

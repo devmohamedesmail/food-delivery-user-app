@@ -1,7 +1,7 @@
 import BottomNavigation from "@/components/common/BottomNavigation";
 import { useLocalSearchParams } from "expo-router/build/hooks";
 import React, { useState, useMemo } from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList , Text } from "react-native";
 import { useTranslation } from "react-i18next";
 import useFetch from "@/hooks/useFetch";
 import StoreItem from "@/components/stores/StoreItem";
@@ -49,13 +49,21 @@ const Stores = () => {
           <NoStores searchQuery={searchQuery} />
         ) : null}
 
-        <FlatList
-          data={filteredBusinesses}
-          renderItem={({ item }) => StoreItem({ item })}
-          keyExtractor={(item) => item.id.toString()}
-          contentContainerStyle={{ paddingTop: 20, paddingBottom: 100 }}
-          showsVerticalScrollIndicator={false}
-        />
+        <View style={{ flex: 1 }} className="">
+          <FlatList
+            data={filteredBusinesses}
+            numColumns={2}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => <StoreItem item={item} />}
+            columnWrapperStyle={{ gap: 1 }}
+            contentContainerStyle={{
+              paddingHorizontal: 16,
+              paddingTop: 20,
+              paddingBottom: 120, 
+            }}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       </View>
 
       <BottomNavigation />

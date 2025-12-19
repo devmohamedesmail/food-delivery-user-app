@@ -432,7 +432,9 @@
     "chatNow": "Chat Now",
     "callNow": "Call Now",
     "sendEmail": "Send Email",
-    "browseArticles": "Browse Articles"
+    "browseArticles": "Browse Articles",
+    "chatWithUsDesc": "Get instant help via chat",
+    "chatwhatsApp": "Chat On WhatsApp"
   },
   "notifications": {
     "title": "Notifications",
@@ -442,5 +444,40 @@
     "loadingNotifications": "Loading notifications...",
     "new": "New",
     "earlier": "Earlier"
+  },
+  "reviews": {
+    "title": "Reviews & Ratings",
+    "addReview": "Add Review",
+    "writeReview": "Write a Review",
+    "yourRating": "Your Rating",
+    "yourReview": "Your Review",
+    "writeYourReview": "Write your review here...",
+    "submitReview": "Submit Review",
+    "cancelReview": "Cancel",
+    "noReviews": "No Reviews Yet",
+    "noReviewsMessage": "Be the first to share your experience!",
+    "ratingRequired": "Please select a rating",
+    "reviewRequired": "Please write a review",
+    "reviewSubmitted": "Review submitted successfully!",
+    "reviewError": "Failed to submit review",
+    "stars": "stars",
+    "ago": "ago",
+    "helpful": "Helpful",
+    "notHelpful": "Not Helpful",
+    "reply": "Reply",
+    "edit": "Edit",
+    "delete": "Delete",
+    "excellent": "Excellent",
+    "veryGood": "Very Good",
+    "good": "Good",
+    "fair": "Fair",
+    "poor": "Poor",
+    "overallRating": "Overall Rating",
+    "basedOnReviews": "based on {{count}} reviews",
+    "filterByRating": "Filter by Rating",
+    "allReviews": "All Reviews",
+    "mostRecent": "Most Recent",
+    "highestRated": "Highest Rated",
+    "lowestRated": "Lowest Rated"
   }
 }
