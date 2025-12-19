@@ -208,7 +208,8 @@
     "noResultsFound": "لا توجد نتائج لـ '{{searchQuery}}'",
     "searchForStores": "ابحث عن المتاجر...",
     "tryDifferentKeywords": "جرب كلمات مفتاحية مختلفة",
-    "checkBackLater": "تحقق مرة أخرى لاحقًا للحصول على متاجر !"
+    "checkBackLater": "تحقق مرة أخرى لاحقًا للحصول على متاجر !",
+    "reviews": " تقييمات "
   },
   "account": {
     "switchLanguage": "تبديل اللغة",
@@ -477,6 +478,20 @@
     "allReviews": "جميع التقييمات",
     "mostRecent": "الأحدث",
     "highestRated": "الأعلى تقييماً",
-    "lowestRated": "الأقل تقييماً"
+    "lowestRated": "الأقل تقييماً",
+    "loginToReview": "تسجيل الدخول للتقييم",
+    "loginToReviewMessage": "يرجى تسجيل الدخول لمشاركة تجربتك وكتابة تقييم",
+    "successTitle": "شكراً لك!",
+    "successMessage": "تم إرسال تقييمك بنجاح. نشكرك على مشاركة تجربتك!",
+    "submitting": "جاري الإرسال...",
+    "errorTitle": "عذراً!",
+    "errorMessage": "لم نتمكن من إرسال تقييمك. يرجى المحاولة مرة أخرى.",
+    "viewReviews": "عرض التقييمات",
+    "pleaseSelectRating": "يرجى اختيار تقييم",
+    "ratingMustBeBetween": "يجب أن يكون التقييم بين 1 و 5",
+    "reviewMustBeAtLeast": "يجب أن تكون المراجعة على الأقل 10 أحرف",
+    "reviewMustBeLessThan": "يجب أن تكون المراجعة أقل من 500 حرف",
+    "ratingIsRequired": "التقييم مطلوب",
+    "reviewIsRequired": "تعليق المراجعة مطلوب"
   }
 }

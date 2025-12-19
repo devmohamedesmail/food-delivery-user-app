@@ -17,7 +17,7 @@ const Stores = () => {
   const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Filter businesses based on search query
+  // Filter Stores based on search query
   const filteredBusinesses = useMemo(() => {
     if (!data) return [];
     if (!searchQuery.trim()) return data;

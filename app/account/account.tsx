@@ -16,7 +16,7 @@ import Colors from "@/constants/Colors";
 
 const Account = () => {
   const { t, i18n } = useTranslation();
-  const { auth } = useContext(AuthContext);
+  const { auth , handle_logout } = useContext(AuthContext);
   const router = useRouter();
 
   const handle_switchLanguage = () => {
@@ -39,6 +39,21 @@ const Account = () => {
       });
     }
   };
+
+  const logout = () =>{
+    // Logic to logout
+    try {
+      auth.signOut();
+      router.push("/");
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: t("account.logout_failed"),
+        position: "top",
+        visibilityTime: 2000,
+      });
+    }
+  }
 
   return (
     <Layout>
@@ -104,7 +119,9 @@ const Account = () => {
 
         {auth ? (
           <View className="mx-4 mb-8">
-            <TouchableOpacity className="bg-red-500 p-4 rounded-xl flex-row items-center justify-center">
+            <TouchableOpacity 
+            onPress={logout}
+            className="bg-red-500 p-4 rounded-xl flex-row items-center justify-center">
               <Ionicons name="log-out-outline" size={20} color="white" />
               <Text className="text-white font-bold text-base ml-2">
                 {t("account.logout")}

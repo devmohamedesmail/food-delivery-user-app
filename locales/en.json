@@ -209,7 +209,8 @@
     "noResultsFound": "No results found for '{{searchQuery}}'",
     "searchForStores": "Search for stores...",
     "tryDifferentKeywords": "Try different keywords",
-    "checkBackLater": "Check back later for great stores!"
+    "checkBackLater": "Check back later for great stores!",
+    "reviews": "reviews"
   },
   "account": {
     "swithchlanguage": "Switch Language",
@@ -478,6 +479,20 @@
     "allReviews": "All Reviews",
     "mostRecent": "Most Recent",
     "highestRated": "Highest Rated",
-    "lowestRated": "Lowest Rated"
+    "lowestRated": "Lowest Rated",
+    "loginToReview": "Login to Review",
+    "loginToReviewMessage": "Please sign in to share your experience and write a review",
+    "successTitle": "Thank You!",
+    "successMessage": "Your review has been submitted successfully. Thank you for sharing your experience!",
+    "submitting": "Submitting...",
+    "errorTitle": "Oops!",
+    "errorMessage": "We couldn't submit your review. Please try again.",
+    "viewReviews": "View Reviews",
+    "pleaseSelectRating": "Please select a rating",
+    "ratingMustBeBetween": "Rating must be between 1 and 5",
+    "reviewMustBeAtLeast": "Review must be at least 10 characters",
+    "reviewMustBeLessThan": "Review must be less than 500 characters",
+    "ratingIsRequired": "Rating is required",
+    "reviewIsRequired": "Review comment is required"
   }
 }

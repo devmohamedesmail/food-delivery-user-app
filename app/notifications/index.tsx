@@ -57,9 +57,9 @@ export default function Notifications() {
                 className="flex-1 px-4"
                 contentContainerStyle={{ paddingTop: 16, paddingBottom: 32 }}
             >
-                {parsedNotifications.length === 0 ? <EmptyNotification /> : (
+                {parsedNotifications?.length === 0 ? <EmptyNotification /> : (
                     <>
-                        {parsedNotifications.map((item: any) => (
+                        {parsedNotifications && parsedNotifications.length > 0 && parsedNotifications.map((item: any) => (
                             <TouchableOpacity key={item.id} className=' border-b-gray-200 border-b mb-2 p-3 rounded-md py-5'>
                                 <View className='flex flex-row justify-end items-center'>
                                     <View className='flex-1 items-end mr-4'>

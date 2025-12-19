@@ -3,6 +3,7 @@ import React from 'react'
 import { TouchableOpacity, View, Text, Image } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient'
 import { Ionicons } from '@expo/vector-icons'
+import { useTranslation } from 'react-i18next'
 
 
 
@@ -22,19 +23,22 @@ interface StoreItem {
   is_active: boolean;
   is_verified: boolean;
   business_type_id: number;
+  avg_rating: string;
+  total_reviews: number;
 }
 
 export default function StoreItem({ item }: { item: StoreItem }) {
-
- 
+  const {t}=useTranslation()
   const router = useRouter();
+
+
   return (
     <TouchableOpacity
       activeOpacity={0.9}
       onPress={() => {
         router.push({
           pathname: '/stores/products',
-          params: { storeItem : JSON.stringify(item)}
+          params: { storeItem: JSON.stringify(item) }
         })
 
       }}
@@ -53,7 +57,7 @@ export default function StoreItem({ item }: { item: StoreItem }) {
         <View className='w-full h-48  p-2' >
           <Image source={{ uri: item.logo }} className='w-full h-full rounded-2xl' resizeMode='cover' />
         </View>
-        
+
         <View className='pt-10 px-4 pb-4'>
           {/* Name and Rating */}
           <View className='flex-row items-start justify-between mb-2'>
@@ -68,16 +72,29 @@ export default function StoreItem({ item }: { item: StoreItem }) {
                 </Text>
               </View>
             </View>
-            {/* <View className='bg-orange-50 rounded-full px-3 py-1 flex-row items-center'>
-              <Ionicons name="star" size={14} color="#fd4a12" />
-              <Text className='text-sm font-bold ml-1' style={{ color: '#fd4a12' }}>
-                {parseFloat(item.rating).toFixed(1)}
-              </Text>
-            </View> */}
+
           </View>
 
+
+          <View className=''>
+            <View className='bg-orange-50 rounded-full px-3 py-1 flex-row items-center'>
+              <Ionicons name="star" size={14} color="#fd4a12" />
+              <Text className='text-sm font-bold ml-1' style={{ color: '#fd4a12' }}>
+                {parseFloat(item.avg_rating).toFixed(1)}
+              </Text>
+            </View>
+            <View className='flex flex-row items-center mt-2'>
+              <Text className='text-xs'>
+               
+                ( {item.total_reviews} )
+              </Text>
+              <Text className='ml-1 text-gray-500 text-xs'>
+                {t('stores.reviews')}
+              </Text>
+            </View>
+          </View>
           {/* Info Row */}
-         
+
         </View>
       </View>
     </TouchableOpacity>

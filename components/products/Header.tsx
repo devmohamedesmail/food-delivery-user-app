@@ -36,14 +36,17 @@ export default function Header({ parsedStoreItem, searchQuery, setSearchQuery }:
 
 
         <TouchableOpacity
-          onPress={() => router.push("/stores/reviews")}
+          onPress={() => router.push({
+            pathname: '/stores/reviews',
+            params: { storeItem: JSON.stringify(parsedStoreItem) }
+          })}
           className="w-10 h-10 rounded-full bg-white/20 items-center justify-center"
         >
           <AntDesign name="comment" size={22} color="white" />
-          {cartItems.length > 0 && (
+          {parsedStoreItem.total_reviews && (
             <View className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full items-center justify-center">
               <Text className="text-white text-xs font-bold">
-                {cartItems.length}
+                {parsedStoreItem.total_reviews}
               </Text>
             </View>
           )}
